@@ -1,12 +1,9 @@
 import React from "react";
-import Test from "./Components/Test";
-import "./App.css";
+import { Container } from "react-bootstrap";
+import AdminCoaches from "./Components/AdminCoaches/AdminCoaches";
+
 function App() {
-  return (
-    <div className="App">
-      <Test />
-    </div>
-  );
+  return <AdminCoaches />;
 }
 
 export default App;

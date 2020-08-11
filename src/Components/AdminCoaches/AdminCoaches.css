@@ -1,0 +1,113 @@
+#containerAdminCoaches {
+  background: #f9f9f9;
+}
+#blackDiv {
+  background-color: black;
+  height: 100vh;
+}
+
+#coachesText {
+  /* inter/h2 */
+
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 42px;
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+  color: #000000;
+  margin-top: 4vh;
+}
+
+#marginColAdminCoaches {
+  margin-inline-start: 3vw;
+  margin-inline-end: 3vw;
+}
+
+#searchCoachesRow {
+  margin-top: 5vh;
+}
+#addNewButton {
+  height: 100%;
+  width: 100%;
+  background: #1a1a1a;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 14px;
+
+  text-transform: uppercase;
+
+  color: #44dabd;
+}
+
+#coachesDetailsBar {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  justify-content: center;
+}
+#coachesDetailsBar:hover {
+  text-decoration: underline solid;
+}
+#coachesDetailsInfo {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  color: #000000;
+  justify-content: center;
+}
+
+.modalText {
+  font-family: Inter;
+  font-style: normal;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+#cancelModalButton {
+  background: #f5f5f7;
+  border-radius: 8px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+}
+#deleteModalButton {
+  background: #f5f5f7;
+  border-radius: 8px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #44dabd;
+}
+#addModalButton {
+    background: #1a1a1a;
+    border-radius: 8px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #44dabd;
+  }
+  
