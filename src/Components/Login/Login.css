@@ -1,0 +1,150 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+#MainContent{
+
+    height: 100vh;
+    width: 100%;
+    background: #F9F9F9;
+ 
+}
+#LeftSideLogin{
+/* gray 01 */
+
+margin-top: 30%;
+margin-left: 25%;
+margin-right: 20%;
+margin-bottom: 25%;
+
+
+}
+#RightSideLogin{
+
+
+background-image: url("./login.jpg");
+height: 100vh; 
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+
+
+
+
+}
+.WelcomeDesign{
+    /* welcome */
+/* inter/subtitle */
+
+font-family: Inter;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 14px;
+/* identical to box height, or 117% */
+
+letter-spacing: 0.06em;
+text-transform: uppercase;
+
+color: #000000;
+}
+.LoginMessage{
+    /* login to your account */
+
+    margin-bottom: 25%;
+/* inter/h2 */
+
+font-family: Inter;
+font-style: normal;
+font-weight: normal;
+font-size: 36px;
+line-height: 42px;
+/* or 117% */
+text-transform: capitalize;
+color: #000000;
+}
+.EmailPasswordDesign{
+    /* Email adress */
+/* inter/label */
+
+font-family: Inter;
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 16px;
+/* identical to box height, or 114% */
+margin: 0px;
+text-transform: capitalize;
+
+color: #000000;
+
+}
+.InputText{
+    /* Input Placeholder */
+
+width: 200px;
+margin-bottom: 10px;
+/* inter/paragraph */
+
+font-family: Inter;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 24px;
+border: 1px solid #aaa;
+border-radius: 3px;
+/* identical to box height, or 171% */
+
+display: flex;
+align-items: center;
+
+/* gray 03 */
+
+color: #8E9296;
+}
+.visibilityPassword{
+    margin: 0 10px;
+    color:  #aaa;
+
+}
+#LoginButton{
+    /* square_main-button */
+/* inter/button */
+
+font-family: Inter;
+font-style: normal;
+font-weight: bold;
+font-size: 12px;
+line-height: 14px;
+/* identical to box height, or 117% */
+
+letter-spacing: 0.06em;
+text-transform: uppercase;
+
+/* Accent */
+
+color: #44DABD;
+
+/* Inside Auto Layout */
+
+flex: none;
+order: 0;
+align-self: center;
+
+/* Auto Layout */
+
+/* dark-gray */
+
+background: #1A1A1A;
+border-radius: 8px;
+width: 200px;
+
+
+}
+.Red{
+    color: red;
+    font-family: Inter;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 24px;
+}
+
+
