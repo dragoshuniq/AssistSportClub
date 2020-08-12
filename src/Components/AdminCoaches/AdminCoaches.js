@@ -68,6 +68,12 @@ class AdminCoaches extends React.Component {
         }
       );
   }
+  addCoachHandler = (coach) => {
+    const localArray = this.state.data;
+    localArray.push(coach);
+    this.setState({ data: localArray });
+    console.log(coach.name);
+  };
 
   searchHandler = (event) => {
     let value = event.target.value;
@@ -182,7 +188,7 @@ class AdminCoaches extends React.Component {
                       color="black"
                       onClick={() => {
                         //this.deleteCoach(value.id);
-                        this.setState({ deleteModalShow: true })
+                        this.setState({ deleteModalShow: true });
                       }}
                     />
                   </Col>
@@ -292,12 +298,13 @@ class AdminCoaches extends React.Component {
           <AddCoachModal
             show={this.state.addModalShow}
             onHide={() => this.setState({ addModalShow: false })}
+            addCoachHandler={this.addCoachHandler}
           />
         </Row>
         <Row>
           <DeleteCoachModal
             show={this.state.deleteModalShow}
-            onHide={() => this.setState({ addModalShow: false })}
+            onHide={() => this.setState({ deleteModalShow: false })}
             delete={this.deleteCoach}
           />
         </Row>
