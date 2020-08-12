@@ -3,13 +3,17 @@ import EditCoachModal from "./EditCoachModal";
 import DeleteCoachModal from "./DeleteCoachModal";
 import AddCoachModal from "./AddCoachModal";
 import AddedConfirmModal from "./AddedConfirmModal";
-import Pagination from "./Pagination";
+
+import axios from "axios";
+import ReactPaginate from "react-paginate";
+
 import { Container, Row, Col, Button } from "react-bootstrap";
 import {
   Input,
   Checkbox,
   Button as SemanticButton,
   Icon,
+  Pagination,
 } from "semantic-ui-react";
 import "./AdminCoaches.css";
 class AdminCoaches extends React.Component {
@@ -49,17 +53,49 @@ class AdminCoaches extends React.Component {
       addedCoach: {},
       currentPage: 1,
       postsPerPage: 7,
+      offset: 0,
+      pageCount: 0,
+      totalPosts: -1,
     };
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
-  //indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
-  //indexOfFirstPost = this.state.indexOfLastPost - this.state.postsPerPage;
-  //currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
   componentDidMount() {
-    this.fetchDataFromServer();
+    this.receivedData();
   }
+  handlePageClick = (e, { activePage }) => {
+    const selectedPage = activePage;
+    console.log("e.target.value",activePage)
 
-  fetchDataFromServer() {
+    const offset = selectedPage * this.state.postsPerPage;
+
+    this.setState(
+      {
+        currentPage: selectedPage,
+        offset: offset,
+      },
+      () => {
+        this.receivedData();
+      }
+    );
+  };
+  receivedData() {
+    axios
+      .get(`https://next.json-generator.com/api/json/get/Nklk-DiWY`)
+      .then((res) => {
+        const data = res.data;
+        console.log(data.length)
+        this.setState({ totalPosts: Math.ceil(data.length / 7) });
+        const slice = data.slice(
+          this.state.offset,
+          this.state.offset + this.state.postsPerPage
+        );
+
+        this.setState({ useArray: slice });
+        this.setState({ data: slice });
+      });
+  }
+  /* fetchDataFromServer() {
     fetch("https://next.json-generator.com/api/json/get/Nklk-DiWY")
       .then((res) => res.json())
       .then(
@@ -77,7 +113,7 @@ class AdminCoaches extends React.Component {
           });
         }
       );
-  }
+  }*/
   addCoachHandler = (coach) => {
     debugger;
     const localArray = this.state.data;
@@ -236,21 +272,12 @@ class AdminCoaches extends React.Component {
       </Row>
     );
   };
-  paginate = (pageNumber) => {
-    this.setState({ currentPage: pageNumber });
-  };
 
   render() {
-    const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
-    const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
-    const currentPosts = this.state.data.slice(
-      indexOfFirstPost,
-      indexOfLastPost
-    );
     // Change page
     let dynamicRender = (
       <div>
-        {currentPosts.map((value, index) => {
+        {this.state.useArray.map((value, index) => {
           // console.log('coach', value)
           return <div>{this.PostComponent(value)}</div>;
         })}
@@ -342,9 +369,15 @@ class AdminCoaches extends React.Component {
             {/** DETAILS INFO  DYNAMIC*/}
             <Row>
               <Col>{dynamicRender}</Col>
-              <Pagination />
+              {/* <Col> {this.state.postData} </Col> */}
             </Row>
-            <Row></Row>
+            <Row style={{justifyContent:'center',alignItems:"center", marginTop:"5vh"}}>
+              <Pagination
+                defaultActivePage={1}
+                totalPages={this.state.totalPosts}
+                onPageChange={this.handlePageClick}
+              />
+            </Row>
           </Col>
         </Row>
         <Row>
