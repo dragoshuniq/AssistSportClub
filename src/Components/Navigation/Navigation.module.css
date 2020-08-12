@@ -1,0 +1,91 @@
+.nav{
+    background-color: black;
+    height: 100vh;
+    padding: 20px;
+
+}
+
+.space{
+    align-content: center;
+}
+
+.NavTop{
+    text-align: center;
+}
+
+.NavTopImg {
+    height: 100px;
+    width: 100px;
+    /* border-radius: 50%; */
+}
+.NavTopP1 {
+    color: white;
+    font-size: 30px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+
+.NavTopP2 {
+    margin-top: 0px;
+    color: #A9A9A9;
+}
+
+
+.NavMid{
+    margin-top: 50px;
+    background-color: black;
+    height: auto;
+}
+
+ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+ 
+}
+li{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    color: #A9A9A9;
+    cursor: pointer;
+}
+li:hover{
+    background-color: white;
+    color: black;
+    text-decoration: none;
+}
+
+small{
+    margin-left: 25px;
+    font-size: 16px;
+}
+
+.NavBot{
+    color: #A9A9A9;
+    cursor: pointer;
+    margin-top: 100px;
+} 
+.NavBotLogout{
+    color: white;
+}
+
+.NavLink{
+    text-decoration: 'none';
+    transition:  0.5s;
+    color: #A9A9A9;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    margin-top: 10px;
+}
+
+.NavLink:hover,
+.NavLink:active,
+.NavLink:active{
+    background-color: white;
+    color: black;
+    text-decoration: none;
+}
