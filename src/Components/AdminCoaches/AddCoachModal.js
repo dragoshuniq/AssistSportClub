@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Modal, Button as RButton } from "react-bootstrap";
-import "./AdminCoaches.css";
+import { Formik } from "formik";
 
+import "./AdminCoaches.css";
 import {
   InputGroup,
   FormControl,
@@ -37,11 +38,15 @@ function AddCoachModal(props) {
     train.email = value;
     setCoach(train);
   }
-  function onChangeClub(value) {
+  function onChangeClub(val) {
     const train = coach;
-    train.club = value;
+    train.clubs = val;
     setCoach(train);
-    console.log(value);
+  }
+  function greeting() {
+    props.addCoachHandler(coach);
+    // todo: need onHide() ?
+    props.onHide();
   }
   return (
     <Modal
@@ -78,17 +83,14 @@ function AddCoachModal(props) {
               onChange={(event) => onChangeEmail(event.target.value)}
             />
           </Form.Field>
-          <Form.Field
-            control={Select}
-            options={clubOptions}
-            label={{
-              children: "Club Assign",
-            }}
-            placeholder="Club Assign"
-            search
-            searchInput={{ id: "form-select-control-clubs" }}
-            onChange={(event) => onChangeClub(event)}
-          />
+          <Form.Field>
+            <label>Club Assign</label>
+            <Select
+              placeholder="Club Assign"
+              options={clubOptions}
+              onChange={(e, { value }) => onChangeClub(value)}
+            />
+          </Form.Field>
         </Form>
       </Modal.Body>
       <Modal.Footer>
@@ -98,7 +100,7 @@ function AddCoachModal(props) {
         <RButton
           id="addModalButton"
           onClick={() => {
-            props.addCoachHandler(coach);
+           greeting();
           }}
         >
           ADD NEW

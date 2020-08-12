@@ -4,6 +4,9 @@ import DeleteCoachModal from "./DeleteCoachModal";
 import AddCoachModal from "./AddCoachModal";
 import AddedConfirmModal from "./AddedConfirmModal";
 import Pagination from "./Pagination";
+import axios from "axios";
+import ReactPaginate from "react-paginate";
+
 import { Container, Row, Col, Button } from "react-bootstrap";
 import {
   Input,
@@ -49,17 +52,55 @@ class AdminCoaches extends React.Component {
       addedCoach: {},
       currentPage: 1,
       postsPerPage: 7,
+      offset: 0,
     };
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
   //indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
   //indexOfFirstPost = this.state.indexOfLastPost - this.state.postsPerPage;
   //currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
   componentDidMount() {
-    this.fetchDataFromServer();
+    this.receivedData();
   }
+  handlePageClick = (e) => {
+    const selectedPage = e.selected;
+    const offset = selectedPage * this.state.postsPerPage;
 
-  fetchDataFromServer() {
+    this.setState(
+      {
+        currentPage: selectedPage,
+        offset: offset,
+      },
+      () => {
+        this.receivedData();
+      }
+    );
+  };
+  receivedData() {
+    axios
+      .get(`https://next.json-generator.com/api/json/get/Nklk-DiWY`)
+      .then((res) => {
+        const data = res.data;
+        const slice = data.slice(
+          this.state.offset,
+          this.state.offset + this.state.postsPerPage
+        );
+        this.setState({ useArray: slice });
+        const postData = slice.map((pd) => (
+          <React.Fragment>
+            <div>{this.PostComponent(pd)}</div>
+          </React.Fragment>
+        ));
+
+        this.setState({
+          pageCount: Math.ceil(data.length / this.state.perPage),
+
+          postData,
+        });
+      });
+  }
+  /* fetchDataFromServer() {
     fetch("https://next.json-generator.com/api/json/get/Nklk-DiWY")
       .then((res) => res.json())
       .then(
@@ -77,7 +118,7 @@ class AdminCoaches extends React.Component {
           });
         }
       );
-  }
+  }*/
   addCoachHandler = (coach) => {
     debugger;
     const localArray = this.state.data;
@@ -341,8 +382,20 @@ class AdminCoaches extends React.Component {
 
             {/** DETAILS INFO  DYNAMIC*/}
             <Row>
-              <Col>{dynamicRender}</Col>
-              <Pagination />
+              {/* <Col>{dynamicRender}</Col> */}
+              <Col> {this.state.postData} </Col>
+              <Row> <ReactPaginate
+                    previousLabel={"prev"}
+                    nextLabel={"next"}
+                    breakLabel={"..."}
+                    breakClassName={"break-me"}
+                    pageCount={this.state.pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={this.handlePageClick}
+                    containerClassName={"pagination"}
+                    subContainerClassName={"pages pagination"}
+                    activeClassName={"active"}/></Row>
             </Row>
             <Row></Row>
           </Col>
