@@ -3,7 +3,7 @@ import EditCoachModal from "./EditCoachModal";
 import DeleteCoachModal from "./DeleteCoachModal";
 import AddCoachModal from "./AddCoachModal";
 import AddedConfirmModal from "./AddedConfirmModal";
-
+import Pagination from "./Pagination";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 
@@ -13,7 +13,6 @@ import {
   Checkbox,
   Button as SemanticButton,
   Icon,
-  Pagination,
 } from "semantic-ui-react";
 import "./AdminCoaches.css";
 class AdminCoaches extends React.Component {
@@ -54,19 +53,18 @@ class AdminCoaches extends React.Component {
       currentPage: 1,
       postsPerPage: 7,
       offset: 0,
-      pageCount: 0,
-      totalPosts: -1,
     };
     this.handlePageClick = this.handlePageClick.bind(this);
   }
+  //indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
+  //indexOfFirstPost = this.state.indexOfLastPost - this.state.postsPerPage;
+  //currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
   componentDidMount() {
     this.receivedData();
   }
-  handlePageClick = (e, { activePage }) => {
-    const selectedPage = activePage;
-    console.log("e.target.value", activePage);
-
+  handlePageClick = (e) => {
+    const selectedPage = e.selected;
     const offset = selectedPage * this.state.postsPerPage;
 
     this.setState(
@@ -84,15 +82,22 @@ class AdminCoaches extends React.Component {
       .get(`https://next.json-generator.com/api/json/get/Nklk-DiWY`)
       .then((res) => {
         const data = res.data;
-        console.log(data.length);
-        this.setState({ totalPosts: Math.ceil(data.length / 7) });
         const slice = data.slice(
           this.state.offset,
           this.state.offset + this.state.postsPerPage
         );
-
         this.setState({ useArray: slice });
-        this.setState({ data: slice });
+        const postData = slice.map((pd) => (
+          <React.Fragment>
+            <div>{this.PostComponent(pd)}</div>
+          </React.Fragment>
+        ));
+
+        this.setState({
+          pageCount: Math.ceil(data.length / this.state.perPage),
+
+          postData,
+        });
       });
   }
   /* fetchDataFromServer() {
@@ -215,11 +220,6 @@ class AdminCoaches extends React.Component {
       console.log(error);
     }
   }
-
-  deleteCoachFromEdit(coach) {
-    this.setState({ coachToDelete: coach });
-    this.setState({ deleteModalShow: true });
-  }
   PostComponent = (value) => {
     return (
       <Row
@@ -277,12 +277,21 @@ class AdminCoaches extends React.Component {
       </Row>
     );
   };
+  paginate = (pageNumber) => {
+    this.setState({ currentPage: pageNumber });
+  };
 
   render() {
+    const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
+    const currentPosts = this.state.data.slice(
+      indexOfFirstPost,
+      indexOfLastPost
+    );
     // Change page
     let dynamicRender = (
       <div>
-        {this.state.useArray.map((value, index) => {
+        {currentPosts.map((value, index) => {
           // console.log('coach', value)
           return <div>{this.PostComponent(value)}</div>;
         })}
@@ -292,7 +301,7 @@ class AdminCoaches extends React.Component {
     return (
       <Container fluid id="containerAdminCoaches">
         <Row>
-          {/* <Col xl={2} lg={2} md={2} sm={2} xs={2} id="blackDiv"></Col> */}
+          <Col xl={2} lg={2} md={2} sm={2} xs={2} id="blackDiv"></Col>
           <Col id="marginColAdminCoaches">
             <Row>
               <Col>
@@ -373,23 +382,22 @@ class AdminCoaches extends React.Component {
 
             {/** DETAILS INFO  DYNAMIC*/}
             <Row>
-              <Col>{dynamicRender}</Col>
-              {/* <Col> {this.state.postData} </Col> */}
+              {/* <Col>{dynamicRender}</Col> */}
+              <Col> {this.state.postData} </Col>
+              <Row> <ReactPaginate
+                    previousLabel={"prev"}
+                    nextLabel={"next"}
+                    breakLabel={"..."}
+                    breakClassName={"break-me"}
+                    pageCount={this.state.pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={this.handlePageClick}
+                    containerClassName={"pagination"}
+                    subContainerClassName={"pages pagination"}
+                    activeClassName={"active"}/></Row>
             </Row>
-            <Row
-              id="pagination"
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "5vh",
-              }}
-            >
-              <Pagination
-                defaultActivePage={1}
-                totalPages={this.state.totalPosts}
-                onPageChange={this.handlePageClick}
-              />
-            </Row>
+            <Row></Row>
           </Col>
         </Row>
         <Row>
@@ -399,7 +407,6 @@ class AdminCoaches extends React.Component {
               onHide={() => this.setState({ editModalShow: false })}
               coach={this.state.coachToEdit}
               edit={this.editCoachHandler}
-              delete={(coach) => this.deleteCoachFromEdit(coach)}
             />
           )}
         </Row>
