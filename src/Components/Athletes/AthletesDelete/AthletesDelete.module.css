@@ -1,0 +1,15 @@
+#BtnClose {
+    background: #FFFFFF;
+    border: 1px solid #8E9296;
+    color: #1A1A1A;
+    border: none;
+    background: #F5F5F7;
+    border-radius: 8px;
+}
+
+#BtnDelete {
+    color: #44DABD;
+    background: #1A1A1A;
+    border-radius: 8px;
+    border: none;
+}

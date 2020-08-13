@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import classes from './Navigation.module.css';
+import classes2 from './Navigation2.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoffee, faFlag, faTrophy, faRunning, faFutbol, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { Container, Row, Col, Image, Navbar, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
@@ -66,7 +67,7 @@ class Navigation extends Component {
 
                         </Col>
                         <Col 
-                        id={classes.colRight}
+                        id={classes2.colRight}
                         // style={{ margin: '0px', padding: '0px', overflow: 'auto', height: '100vh'}}
                         >
                             <Switch 
