@@ -65,7 +65,7 @@ class AdminCoaches extends React.Component {
   }
   handlePageClick = (e, { activePage }) => {
     const selectedPage = activePage;
-    console.log("e.target.value",activePage)
+    console.log("e.target.value", activePage);
 
     const offset = selectedPage * this.state.postsPerPage;
 
@@ -84,7 +84,7 @@ class AdminCoaches extends React.Component {
       .get(`https://next.json-generator.com/api/json/get/Nklk-DiWY`)
       .then((res) => {
         const data = res.data;
-        console.log(data.length)
+        console.log(data.length);
         this.setState({ totalPosts: Math.ceil(data.length / 7) });
         const slice = data.slice(
           this.state.offset,
@@ -214,6 +214,11 @@ class AdminCoaches extends React.Component {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  deleteCoachFromEdit(coach) {
+    this.setState({ coachToDelete: coach });
+    this.setState({ deleteModalShow: true });
   }
   PostComponent = (value) => {
     return (
@@ -371,7 +376,14 @@ class AdminCoaches extends React.Component {
               <Col>{dynamicRender}</Col>
               {/* <Col> {this.state.postData} </Col> */}
             </Row>
-            <Row style={{justifyContent:'center',alignItems:"center", marginTop:"5vh"}}>
+            <Row
+              id="pagination"
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "5vh",
+              }}
+            >
               <Pagination
                 defaultActivePage={1}
                 totalPages={this.state.totalPosts}
@@ -387,6 +399,7 @@ class AdminCoaches extends React.Component {
               onHide={() => this.setState({ editModalShow: false })}
               coach={this.state.coachToEdit}
               edit={this.editCoachHandler}
+              delete={(coach) => this.deleteCoachFromEdit(coach)}
             />
           )}
         </Row>

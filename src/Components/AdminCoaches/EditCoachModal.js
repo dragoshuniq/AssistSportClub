@@ -83,7 +83,7 @@ class EditCoachModal extends React.Component {
             <Form.Field>
               <label>Email Adress</label>
               <input
-                placeholder="Last Name"
+                placeholder="Email Name"
                 value={this.state.coach.email}
                 onChange={(event) => this.onChangeEmail(event.target.value)}
               />
@@ -105,7 +105,10 @@ class EditCoachModal extends React.Component {
           <RButton
             id="deleteModalButton"
             variant="Link"
-            onClick={this.props.onHide}
+            onClick={() => {
+              this.props.delete(this.props.coach);
+              this.props.onHide();
+            }}
           >
             Delete
           </RButton>

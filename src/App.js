@@ -1,13 +1,7 @@
 import React from "react";
-import { Container } from "react-bootstrap";
-import AdminCoaches from "./Components/AdminCoaches/AdminCoaches";
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-import Login from './Components/Login/Login';
-
+import Main from "./Components/Main";
+import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
-  return <AdminCoaches />;
+  return <Main />;
 }
-
 export default App;
