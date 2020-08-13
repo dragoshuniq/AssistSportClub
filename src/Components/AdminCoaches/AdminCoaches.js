@@ -50,7 +50,7 @@ class AdminCoaches extends React.Component {
   }
 
   fetchDataFromServer() {
-    fetch("https://next.json-generator.com/api/json/get/Nklk-DiWY   ")
+    fetch("https://next.json-generator.com/api/json/get/Nklk-DiWY")
       .then((res) => res.json())
       .then(
         (result) => {
@@ -202,7 +202,7 @@ class AdminCoaches extends React.Component {
     return (
       <Container fluid id="containerAdminCoaches">
         <Row>
-          <Col xl={2} lg={2} md={2} sm={2} xs={2} id="blackDiv"></Col>
+          {/* <Col xl={2} lg={2} md={2} sm={2} xs={2} id="blackDiv"></Col> */}
           <Col id="marginColAdminCoaches">
             <Row>
               <Col>

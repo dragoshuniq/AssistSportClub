@@ -1,15 +1,24 @@
-.nav{
-    background-color: black;
-    height: 100vh;
-    padding: 20px;
-
+#heingLong1 {
+    height: 100%;
+    /* background-color: red; */
 }
 
-.space{
+#heingLong2 {
+    height: 100%;
+    /* background-color: yellow; */
+}
+
+#nav {
+    background-color: black;
+    /* height: 100%; */
+    padding: 20px;
+}
+
+.space {
     align-content: center;
 }
 
-.NavTop{
+.NavTop {
     text-align: center;
 }
 
@@ -18,6 +27,7 @@
     width: 100px;
     /* border-radius: 50%; */
 }
+
 .NavTopP1 {
     color: white;
     font-size: 30px;
@@ -30,20 +40,19 @@
     color: #A9A9A9;
 }
 
-
-.NavMid{
-    margin-top: 50px;
+.NavMid {
+    /* margin-top: 50px; */
     background-color: black;
     height: auto;
 }
 
-ul{
+ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
- 
 }
-li{
+
+li {
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 20px;
@@ -51,29 +60,31 @@ li{
     color: #A9A9A9;
     cursor: pointer;
 }
-li:hover{
+
+li:hover {
     background-color: white;
     color: black;
     text-decoration: none;
 }
 
-small{
+small {
     margin-left: 25px;
     font-size: 16px;
 }
 
-.NavBot{
+.NavBot {
     color: #A9A9A9;
     cursor: pointer;
-    margin-top: 100px;
-} 
-.NavBotLogout{
+    /* margin-top: 100px; */
+}
+
+.NavBotLogout {
     color: white;
 }
 
-.NavLink{
+.NavLink {
     text-decoration: 'none';
-    transition:  0.5s;
+    transition: 0.5s;
     color: #A9A9A9;
     padding: 20px;
     border-radius: 10px;
@@ -82,10 +93,43 @@ small{
     margin-top: 10px;
 }
 
-.NavLink:hover,
-.NavLink:active,
-.NavLink:active{
+.NavLink:hover, .NavLink:active, .NavLink:active {
     background-color: white;
     color: black;
     text-decoration: none;
+}
+
+#flexDiv {
+    display: flex;
+    height: 100%;
+    /* background-color: red; */
+    flex-direction: column;
+    /* align-items: flex-end; */
+    justify-content: space-between;
+}
+
+#testrow {
+    /* background-color: green; */
+    height: 100%;
+}
+
+#colRight {
+    margin: 0px;
+    padding: 0px;
+    overflow: scroll;
+    background-color: #f9f9f9;
+    height: 100vh;
+}
+
+#switchRight {
+    margin: '0px';
+    padding: '0px';
+    overflow: 'auto';
+}
+
+@media only screen and (max-width: 992px) {
+    #colRight {
+        overflow: visible;
+        height: 100%;
+    }
 }
