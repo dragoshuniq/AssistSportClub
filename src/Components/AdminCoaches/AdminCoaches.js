@@ -292,7 +292,7 @@ class AdminCoaches extends React.Component {
     return (
       <Container fluid id="containerAdminCoaches">
         <Row>
-          <Col xl={2} lg={2} md={2} sm={2} xs={2} id="blackDiv"></Col>
+          {/* <Col xl={2} lg={2} md={2} sm={2} xs={2} id="blackDiv"></Col> */}
           <Col id="marginColAdminCoaches">
             <Row>
               <Col>

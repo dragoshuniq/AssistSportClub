@@ -1,6 +1,6 @@
 .back{
-    background-color: #f0f5f5;
-    height: 100vh;
+    /* background-color: red; */
+    /* height: 100%; */
     padding: 30px 20px;
 
 }
@@ -8,14 +8,14 @@
 .Input{
     background-color: red;
 }
-.Button{
+#Button{
     background-color: black;
     color: #00cc99;
     float: right;
     width: 200px;
     border: black;
 }
-.Button:hover{
+#Button:hover{
     background-color: #1a1a1a;
     color: white;
 }
@@ -23,13 +23,31 @@
 /* cart */
 .cart{
     background-color: white;
-    margin: 20px;
+    margin: 20px 50px;
     padding: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 10px;
+    /* width: 500px; */
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+    /* flex-direction: column; */
 }
 .cartImg{
     height: 60px;
     width: 60px;
     /* border-radius: 50%; */
+}
+
+
+.test{
+    background-color: red;
+    /* display: grid; */
+	/* grid-gap: 10px; */
+	/* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
+}
+
+@media only screen and (max-width: 992px) {
+    #Button {
+        width: 100%;
+    }
 }

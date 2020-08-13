@@ -1,0 +1,30 @@
+.test {
+    background-color: red;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+#BtnDelete {
+    background: #FFFFFF;
+    border: 1px solid #8E9296;
+    color: #44DABD;
+    border: none;
+    float: left;
+}
+
+#BtnClose {
+    background: #FFFFFF;
+    border: 1px solid #8E9296;
+    color: #1A1A1A;
+    border: none;
+    background: #F5F5F7;
+    border-radius: 8px;
+}
+
+#BtnSave {
+    color: #44DABD;
+    background: #1A1A1A;
+    border-radius: 8px;
+    border: none;
+}
