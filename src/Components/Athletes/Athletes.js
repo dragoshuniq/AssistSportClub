@@ -57,7 +57,6 @@ class Athletes extends Component {
         this.setState({
             searchAthletsIndexOnClick: 
                 event.target.value
-            
         })
     }
 
