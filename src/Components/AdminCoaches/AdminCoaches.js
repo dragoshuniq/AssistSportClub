@@ -21,7 +21,7 @@ class AdminCoaches extends React.Component {
     super(props);
     this.state = {
       isLoaded: false,
-      selectedAll: false,
+      selectedElements: [],
       searchValue: "",
       useArray: [],
       data: [
@@ -85,14 +85,22 @@ class AdminCoaches extends React.Component {
       .then((res) => {
         const data = res.data;
         console.log(data.length);
-        this.setState({ totalPosts: Math.ceil(data.length / 7) });
+        //this.setState({ totalPosts: Math.ceil(data.length / 7) });
         const slice = data.slice(
           this.state.offset,
           this.state.offset + this.state.postsPerPage
         );
-
-        this.setState({ useArray: slice });
-        this.setState({ data: slice });
+        const arrOfSelected = [];
+        slice.map((res) => {
+          const obj = { id: res.id, selected: false };
+          arrOfSelected.push(obj);
+        });
+        this.setState({
+          totalPosts: Math.ceil(data.length / 7),
+          useArray: slice,
+          data: slice,
+        });
+        //  this.setState({ selectedElements: slice.length });
       });
   }
   /* fetchDataFromServer() {
@@ -217,8 +225,21 @@ class AdminCoaches extends React.Component {
   }
 
   deleteCoachFromEdit(coach) {
-    this.setState({ coachToDelete: coach });
-    this.setState({ deleteModalShow: true });
+    this.setState({ coachToDelete: coach, deleteModalShow: true });
+  }
+
+  onCheckedHandler(id) {
+    const aux = this.state.selectedElements;
+    const arrToState = [];
+    aux.map((res) => {
+      const val = res;
+      if (res.id === id) {
+        val.value = true;
+      }
+      arrToState.push(val);
+    });
+    this.setState({ selectedElements: arrToState });
+    console.log(this.state.selectedElements);
   }
   PostComponent = (value) => {
     return (
@@ -233,7 +254,7 @@ class AdminCoaches extends React.Component {
         key={value.id}
       >
         <Col xl={1} lg={1} md={1} sm={1} xs={1}>
-          <Checkbox checked={this.state.selectedAll} />
+          <Checkbox checked={() => this.onCheckedHandler(value.id)} />
         </Col>
         <Col xl={2} lg={2} md={2} sm={2} xs={2}>
           <h1 id="coachesDetailsInfo">{value.name}</h1>
