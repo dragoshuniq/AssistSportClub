@@ -11,16 +11,33 @@ import {
   Image,
 } from "semantic-ui-react";
 import "./AdminClubs.css";
-
+import AddClubModal from "./AddClubModal";
+import AddedConfirmModal from "./AddedConfirmModal";
 class AdminClubs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
       useArray: [],
+      addModalShow: false,
+      confirmModalShow: false,
     };
   }
-
+  receivedData() {
+    axios
+      .get(`https://next.json-generator.com/api/json/get/E1lwlJmAWY`)
+      .then((res) => {
+        const data = res.data;
+        this.setState({
+          useArray: data,
+          data: data,
+          searchValue: "",
+        });
+      });
+  }
+  componentDidMount() {
+    this.receivedData();
+  }
   searchHandler = (event) => {
     let value = event.target.value;
     this.setState({ searchValue: value });
@@ -28,7 +45,7 @@ class AdminClubs extends React.Component {
       const clubUpper = value.toUpperCase();
       const searchArray = [];
       this.state.data.map((res) => {
-        if (res.clubs.toUpperCase().includes(clubUpper)) {
+        if (res.name.toUpperCase().includes(clubUpper)) {
           searchArray.push(res);
         }
       });
@@ -37,13 +54,55 @@ class AdminClubs extends React.Component {
       this.setState({ useArray: this.state.data });
     }
   };
+  PostClub = (club) => {
+    return (
+      <Col xl={3} lg={3} md={6} sm={12} xs={12} style={{ marginTop: "5vh" }}>
+        <div id="clubCard">
+          <div>
+            <h1 id="clubCardTitle"> {club.name}</h1>
+          </div>
+          <Divider clearing />
+          <h1 id="membersText">MEMBERS</h1>
+          <Row
+            style={{
+              flexDirection: "row",
+              marginLeft: "5%",
+              alignItems: "center",
+            }}
+          >
+            <Image src={club.src} size="mini" circular id="imageCircIcons" />
+            <Image src={club.src} size="mini" circular id="imageCircIcons" />
+            <Image src={club.src} size="mini" circular id="imageCircIcons" />
+            <Image src={club.src} size="mini" circular id="imageCircIcons" />
 
+            <p id="clubsMembersText">+20</p>
+          </Row>
+          <div style={{ marginTop: "1vh" }}>
+            <h1 id="membersText">Coach</h1>
+            <h1 id="coachText">{club.name}</h1>
+          </div>
+        </div>
+      </Col>
+    );
+  };
+  addClubHandler = (club) => {
+    const localArray = this.state.data;
+    localArray.push(club);
+    this.setState({ data: localArray });
+    this.setState({ addedCoach: club, confirmModalShow: true });
+  };
   render() {
+    let dynamicRender = (
+      <div id="dynamicRender">
+        {this.state.useArray.map((value, index) => {
+          return <div>{this.PostClub(value)}</div>;
+        })}
+      </div>
+    );
     return (
       <Container fluid id="containerAdminCoaches">
         <Row>
-          <Col xl={2} lg={2} md={2} sm={6} xs={6} id="blackDiv"></Col>
-          <Col xl={10} lg={10} md={10} sm={6} xs={6}>
+          <Col xl={12} lg={12} md={12} sm={6} xs={6}>
             <Row style={{ marginRight: "5vh", marginLeft: "5vh" }}>
               <Col>
                 <h1 id="coachesText">Clubs</h1>
@@ -75,68 +134,30 @@ class AdminClubs extends React.Component {
             </Row>
             {/** DETAILS PART */}
             <Row
+              id="rowDynamic"
               style={{
                 marginTop: "5vh",
-                marginRight: "5vh",
-                marginLeft: "5vh",
+                marginRight: "4vh",
+                marginLeft: "4vh",
               }}
             >
-              <Col
-                xl={3}
-                lg={3}
-                md={6}
-                sm={12}
-                xs={12}
-                style={{ marginTop: "5vh" }}
-              >
-                <div id="clubCard">
-                  <div>
-                    <h1 id="clubCardTitle"> dada</h1>
-                  </div>
-                  <Divider clearing />
-                  <h1 id="membersText">MEMBERS</h1>
-                  <Row
-                    style={{
-                      flexDirection: "row",
-                      marginLeft: "5%",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Image
-                      src="https://react.semantic-ui.com/images/wireframe/square-image.png"
-                      size="mini"
-                      circular
-                      id="imageCircIcons"
-                    />
-                    <Image
-                      src="https://react.semantic-ui.com/images/wireframe/square-image.png"
-                      size="mini"
-                      circular
-                      id="imageCircIcons"
-                    />
-                    <Image
-                      src="https://react.semantic-ui.com/images/wireframe/square-image.png"
-                      size="mini"
-                      circular
-                      id="imageCircIcons"
-                    />
-                    <Image
-                      src="https://react.semantic-ui.com/images/wireframe/square-image.png"
-                      size="mini"
-                      circular
-                      id="imageCircIcons"
-                    />
-                    <p id="clubsMembersText">+20</p>
-                  </Row>
-                  <div style={{ marginTop: "1vh" }}>
-                    <h1 id="membersText">Coach</h1>
-                    <h1 id="coachText">Name</h1>
-                  </div>
-                </div>
-              </Col>
+              {dynamicRender}
             </Row>
             <Row style={{ marginTop: "3vh" }}></Row>
           </Col>
+          {this.state.addModalShow && (
+            <AddClubModal
+              show={this.state.addModalShow}
+              onHide={() => this.setState({ addModalShow: false })}
+            />
+          )}
+          {this.state.confirmModalShow && (
+            <AddedConfirmModal
+              addClubHandler={(val) => this.addClubHandler(val)}
+              show={this.state.addModalShow}
+              onHide={() => this.setState({ confirmModalShow: false })}
+            />
+          )}
         </Row>
       </Container>
     );

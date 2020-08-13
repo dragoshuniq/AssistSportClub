@@ -21,7 +21,8 @@ class AdminCoaches extends React.Component {
     super(props);
     this.state = {
       isLoaded: false,
-      selectedAll: false,
+      selectedElements: [],
+      selectAllElements: false,
       searchValue: "",
       useArray: [],
       data: [
@@ -84,15 +85,21 @@ class AdminCoaches extends React.Component {
       .get(`https://next.json-generator.com/api/json/get/Nklk-DiWY`)
       .then((res) => {
         const data = res.data;
-        console.log(data.length);
-        this.setState({ totalPosts: Math.ceil(data.length / 7) });
+        //this.setState({ totalPosts: Math.ceil(data.length / 7) });
         const slice = data.slice(
           this.state.offset,
           this.state.offset + this.state.postsPerPage
         );
-
-        this.setState({ useArray: slice });
-        this.setState({ data: slice });
+        const myMap = new Map();
+        slice.map((res) => {
+          myMap.set(res.id, false);
+        });
+        this.setState({
+          totalPosts: Math.ceil(data.length / 7),
+          useArray: slice,
+          data: slice,
+          selectedElements: myMap,
+        });
       });
   }
   /* fetchDataFromServer() {
@@ -217,8 +224,43 @@ class AdminCoaches extends React.Component {
   }
 
   deleteCoachFromEdit(coach) {
-    this.setState({ coachToDelete: coach });
-    this.setState({ deleteModalShow: true });
+    this.setState({ coachToDelete: coach, deleteModalShow: true });
+  }
+
+  onCheckedHandler(id) {
+    const aux = this.state.selectedElements;
+    if (aux.get(id)) {
+      aux.set(id, !aux.get(id));
+      this.setState({ selectedElements: aux, selectAllElements: false });
+    } else if (!aux.get(id)) {
+      aux.set(id, !aux.get(id));
+      this.setState({ selectedElements: aux, selectAllElements: false });
+    }
+    this.verifySelectedAll();
+    console.log(this.state.selectedElements);
+  }
+  verifySelectedAll() {
+    const aux = this.state.selectedElements;
+    let count = 0;
+    for (let [key, value] of aux) {
+      if (value) {
+        count++;
+      }
+    }
+    if (count === this.state.selectedElements.size) {
+      this.setState({ selectAllElements: true });
+    }
+  }
+  selectAll() {
+    const aux = this.state.selectedElements;
+
+    for (let [key, value] of aux) {
+      aux.set(key, !this.state.selectAllElements);
+    }
+    this.setState({
+      selectedElements: aux,
+      selectAllElements: !this.state.selectAllElements,
+    });
   }
   PostComponent = (value) => {
     return (
@@ -233,7 +275,10 @@ class AdminCoaches extends React.Component {
         key={value.id}
       >
         <Col xl={1} lg={1} md={1} sm={1} xs={1}>
-          <Checkbox checked={this.state.selectedAll} />
+          <Checkbox
+            onChange={() => this.onCheckedHandler(value.id)}
+            checked={this.state.selectedElements.get(value.id)}
+          />
         </Col>
         <Col xl={2} lg={2} md={2} sm={2} xs={2}>
           <h1 id="coachesDetailsInfo">{value.name}</h1>
@@ -334,9 +379,8 @@ class AdminCoaches extends React.Component {
                 >
                   <Col xl={1} lg={1} md={1} sm={1} xs={1}>
                     <Checkbox
-                      onClick={() =>
-                        this.setState({ selectedAll: !this.state.selectedAll })
-                      }
+                      onClick={() => this.selectAll()}
+                      checked={this.state.selectAllElements}
                     />
                   </Col>
                   <Col xl={2} lg={2} md={2} sm={2} xs={2}>
