@@ -25,8 +25,8 @@ function DeleteCoachModal(props) {
       </Modal.Header>
       <Modal.Body>
         <p>
-          Are you sure you want to delete {props.name} coach? If you delete
-          coach’s account, all data associated with this profile will
+          Are you sure you want to delete {props.coach.name} coach? If you
+          delete coach’s account, all data associated with this profile will
           permanently deleted.
         </p>
       </Modal.Body>
@@ -36,7 +36,11 @@ function DeleteCoachModal(props) {
         </RButton>
         <RButton
           id="addModalButton"
-          onClick={() => props.delete(2)}
+          onClick={() => {
+            props.delete(props.coach.id);
+            props.onHide();
+            console.log(props.coach.id);
+          }}
         >
           Delete
         </RButton>
