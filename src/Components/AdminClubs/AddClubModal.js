@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button as RButton } from "react-bootstrap";
 import { Formik } from "formik";
-import "./AdminCoaches.css";
+import "./AdminClubs.css";
 import {
   InputGroup,
   FormControl,
@@ -10,43 +10,31 @@ import {
   Checkbox,
   Select,
 } from "semantic-ui-react";
-function AddCoachModal(props) {
+function AddClubModal(props) {
   const clubOptions = [
-    { key: "swim", text: "Swim", value: "swim" },
-    { key: "run", text: "Run", value: "run" },
-    { key: "box", text: "Box", value: "box" },
+    { key: "Ionel", text: "Ionel", value: "Ionel" },
+    { key: "Denis", text: "Denis", value: "Denis" },
+    { key: "Vasile", text: "Vasile", value: "Vasile" },
   ];
-  const [coach, setCoach] = useState({
+  const [club, setClub] = useState({
     id: Math.random() * 1000,
     name: "noName",
     email: "",
     clubs: "",
   });
   function onChangeFirstName(value) {
-    const train = coach;
+    const train = club;
     train.name = value;
-    setCoach(train);
+    setClub(train);
   }
   function onChangeLastName(value) {
-    const train = coach;
+    const train = club;
     train.name = value;
-    setCoach(train);
+    setClub(train);
+
   }
-  function onChangeEmail(value) {
-    const train = coach;
-    train.email = value;
-    setCoach(train);
-  }
-  function onChangeClub(val) {
-    const train = coach;
-    train.clubs = val;
-    setCoach(train);
-  }
-  function greeting() {
-    props.addCoachHandler(coach);
-    // todo: need onHide() ?
-    props.onHide();
-  }
+
+
   return (
     <Modal
       {...props}
@@ -56,7 +44,7 @@ function AddCoachModal(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          <h1 id="coachesText"> Add coach </h1>
+          <h1 id="coachesText"> Add Club </h1>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -82,26 +70,13 @@ function AddCoachModal(props) {
                 onChange={(event) => onChangeFirstName(event.target.value)}
               />
             </Form.Field>
-            <Form.Field>
-              <label>Last Name</label>
-              <input
-                placeholder="Last Name"
-                onChange={(event) => onChangeLastName(event.target.value)}
-              />
-            </Form.Field>
-            <Form.Field>
-              <label>Email Adress</label>
-              <input
-                placeholder="Last Name"
-                onChange={(event) => onChangeEmail(event.target.value)}
-              />
-            </Form.Field>
+
             <Form.Field>
               <label>Club Assign</label>
               <Select
                 placeholder="Club Assign"
                 options={clubOptions}
-                onChange={(e, { value }) => onChangeClub(value)}
+               // onChange={(e, { value }) => onChangeClub(value)}
               />
             </Form.Field>
           </Form>
@@ -114,7 +89,8 @@ function AddCoachModal(props) {
         <RButton
           id="addModalButton"
           onClick={() => {
-            greeting();
+            props.addClubHandler(props.club);
+            props.onHide();
           }}
         >
           ADD NEW
@@ -124,4 +100,4 @@ function AddCoachModal(props) {
   );
 }
 
-export default AddCoachModal;
+export default AddClubModal;
