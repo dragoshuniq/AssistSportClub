@@ -1,0 +1,84 @@
+#containerEvenst{
+    background: #f9f9f9;
+    height: 100%;
+}
+#TimeEventsOngoing{
+  
+   margin: 0px 3px;
+
+   background: #1a1a1a;
+   font-family: Inter;
+   font-style: normal;
+   font-size: 12px;
+   line-height: 14px;
+ 
+   text-transform: uppercase;
+ 
+   color: #FFFFFF;
+}
+#TimeEventsFuture{
+    margin: 0px 3px;
+
+    background:white;
+    font-family: Inter;
+    font-style: normal;
+    font-size: 12px;
+    line-height: 14px;
+  
+    text-transform: uppercase;
+  
+    color: #8E9296;
+    border-color: #8E9296;
+}
+#TimeEventsPast{
+    margin: 0px 3px;
+
+    background:white;
+    font-family: Inter;
+    font-style: normal;
+    font-size: 12px;
+    line-height: 14px;
+  
+    text-transform: uppercase;
+  
+    color: #8E9296;
+    border-color: #8E9296;
+}
+#marginColEvent{
+    margin-inline-start: 3vw;
+    margin-inline-end: 3vw;
+}
+#eventText{
+     /* inter/h2 */
+
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 42px;
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+  color: #000000;
+  margin-top: 4vh;
+}
+#searchEventRow{
+    margin-top: 5vh;
+}
+#sarchEventInput{
+
+}
+#addNewButton{
+    height: 100%;
+    width: 100%;
+    background: #1a1a1a;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+  
+    text-transform: uppercase;
+  
+    color: #44dabd;
+}
