@@ -7,7 +7,7 @@ import { Container, Row, Col, Image, Navbar, Nav, NavDropdown, Form, FormControl
 
 import { Route, NavLink, Switch } from 'react-router-dom';
 import AdminCoaches from '../AdminCoaches/AdminCoaches';
-import Clubs from '../Clubs/Clubs';
+import AdminClubs from '../AdminClubs/AdminClubs';
 import Events from '../Events/Events';
 import Athletes from '../Athletes/Athletes';
 
@@ -50,7 +50,7 @@ class Navigation extends Component {
                                         <NavLink className={classes.NavLink} activeClassName='active' activeStyle={styleActive} to='/Events' exact>
                                             <FontAwesomeIcon icon={faFlag} /><small>Events</small>
                                         </NavLink>
-                                        <NavLink className={classes.NavLink} activeClassName='active' activeStyle={styleActive} to='/Clubs' exact>
+                                        <NavLink className={classes.NavLink} activeClassName='active' activeStyle={styleActive} to='/AdminClubs' exact>
                                             <FontAwesomeIcon icon={faTrophy} /><small>Clubs</small>
                                         </NavLink>
                                         <NavLink className={classes.NavLink} activeClassName='active' activeStyle={styleActive} to='/Athletes' >
@@ -75,7 +75,7 @@ class Navigation extends Component {
                                 {/* <Route exact path="/" component={AdminCoaches} /> */}
                                 <Route exact path="/AdminCoaches" component={AdminCoaches} />
                                 <Route path="/Events" component={Events} />
-                                <Route path="/Clubs" component={Clubs} />
+                                <Route path="/AdminClubs" component={AdminClubs} />
                                 <Route path="/Athletes" component={Athletes} />
                             </Switch>
                         </Col>
