@@ -10,9 +10,11 @@ import {
   Pagination,
   Image,
 } from "semantic-ui-react";
+import { Route, NavLink, Switch } from "react-router-dom";
 import "./AdminClubs.css";
 import AddClubModal from "./AddClubModal";
 import AddedConfirmModal from "./AddedConfirmModal";
+import AdminClubDetails from "./AdminClubDetails";
 class AdminClubs extends React.Component {
   constructor(props) {
     super(props);
@@ -21,6 +23,7 @@ class AdminClubs extends React.Component {
       useArray: [],
       addModalShow: false,
       confirmModalShow: false,
+      addedClub: {},
     };
   }
   receivedData() {
@@ -56,40 +59,46 @@ class AdminClubs extends React.Component {
   };
   PostClub = (club) => {
     return (
-      <Col xl={3} lg={3} md={6} sm={12} xs={12} style={{ marginTop: "5vh" }}>
-        <div id="clubCard">
-          <div>
-            <h1 id="clubCardTitle"> {club.name}</h1>
-          </div>
-          <Divider clearing />
-          <h1 id="membersText">MEMBERS</h1>
-          <Row
-            style={{
-              flexDirection: "row",
-              marginLeft: "5%",
-              alignItems: "center",
-            }}
-          >
-            <Image src={club.src} size="mini" circular id="imageCircIcons" />
-            <Image src={club.src} size="mini" circular id="imageCircIcons" />
-            <Image src={club.src} size="mini" circular id="imageCircIcons" />
-            <Image src={club.src} size="mini" circular id="imageCircIcons" />
+      <NavLink exact to="/AdminClubDetails">
+        
+        <Col xl={3} lg={3} md={6} sm={12} xs={12} style={{ marginTop: "5vh" }}>
+          <div id="clubCard">
+            <div>
+              <h1 id="clubCardTitle"> {club.name}</h1>
+            </div>
+            <Divider clearing />
+            <h1 id="membersText">MEMBERS</h1>
+            <Row
+              style={{
+                flexDirection: "row",
+                marginLeft: "5%",
+                alignItems: "center",
+              }}
+            >
+              <Image src={club.src} size="mini" circular id="imageCircIcons" />
+              <Image src={club.src} size="mini" circular id="imageCircIcons" />
+              <Image src={club.src} size="mini" circular id="imageCircIcons" />
+              <Image src={club.src} size="mini" circular id="imageCircIcons" />
 
-            <p id="clubsMembersText">+20</p>
-          </Row>
-          <div style={{ marginTop: "1vh" }}>
-            <h1 id="membersText">Coach</h1>
-            <h1 id="coachText">{club.name}</h1>
+              <p id="clubsMembersText">+20</p>
+            </Row>
+            <div style={{ marginTop: "1vh" }}>
+              <h1 id="membersText">Coach</h1>
+              <h1 id="coachText">{club.name}</h1>
+            </div>
           </div>
-        </div>
-      </Col>
+        </Col>
+      </NavLink>
     );
   };
   addClubHandler = (club) => {
     const localArray = this.state.data;
     localArray.push(club);
-    this.setState({ data: localArray });
-    this.setState({ addedCoach: club, confirmModalShow: true });
+    this.setState({
+      data: localArray,
+      addedClub: club,
+      confirmModalShow: true,
+    });
   };
   render() {
     let dynamicRender = (
@@ -101,8 +110,9 @@ class AdminClubs extends React.Component {
     );
     return (
       <Container fluid id="containerAdminCoaches">
+        
         <Row>
-          <Col xl={12} lg={12} md={12} sm={6} xs={6}>
+          <Col xl={12} lg={12} md={12} sm={12} xs={12}>
             <Row style={{ marginRight: "5vh", marginLeft: "5vh" }}>
               <Col>
                 <h1 id="coachesText">Clubs</h1>
@@ -147,18 +157,20 @@ class AdminClubs extends React.Component {
           </Col>
           {this.state.addModalShow && (
             <AddClubModal
+              addClubHandler={(val) => this.addClubHandler(val)}
               show={this.state.addModalShow}
               onHide={() => this.setState({ addModalShow: false })}
             />
           )}
           {this.state.confirmModalShow && (
             <AddedConfirmModal
-              addClubHandler={(val) => this.addClubHandler(val)}
-              show={this.state.addModalShow}
+              show={this.state.confirmModalShow}
               onHide={() => this.setState({ confirmModalShow: false })}
+              club={this.state.addedClub}
             />
           )}
         </Row>
+       
       </Container>
     );
   }

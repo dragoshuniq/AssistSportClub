@@ -22,18 +22,11 @@ function AddClubModal(props) {
     email: "",
     clubs: "",
   });
-  function onChangeFirstName(value) {
+  function onChangeClubName(value) {
     const train = club;
     train.name = value;
     setClub(train);
   }
-  function onChangeLastName(value) {
-    const train = club;
-    train.name = value;
-    setClub(train);
-
-  }
-
 
   return (
     <Modal
@@ -48,39 +41,24 @@ function AddClubModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Formik
-          initialValues={{ email: "", password: "" }}
-          validate={(values) => {
-            const errors = {};
-            if (!values.email) {
-              errors.email = "Required";
-            } else if (
-              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-            ) {
-              errors.email = "Invalid email address";
-            }
-            return errors;
-          }}
-        >
-          <Form>
-            <Form.Field>
-              <label>First Name</label>
-              <input
-                placeholder="First Name"
-                onChange={(event) => onChangeFirstName(event.target.value)}
-              />
-            </Form.Field>
+        <Form>
+          <Form.Field>
+            <label>Club's Name</label>
+            <input
+              placeholder="Club"
+              onChange={(event) => onChangeClubName(event.target.value)}
+            />
+          </Form.Field>
 
-            <Form.Field>
-              <label>Club Assign</label>
-              <Select
-                placeholder="Club Assign"
-                options={clubOptions}
-               // onChange={(e, { value }) => onChangeClub(value)}
-              />
-            </Form.Field>
-          </Form>
-        </Formik>
+          <Form.Field>
+            <label>Assign a coach</label>
+            <Select
+              placeholder="Club Assign"
+              options={clubOptions}
+              // onChange={(e, { value }) => onChangeClub(value)}
+            />
+          </Form.Field>
+        </Form>
       </Modal.Body>
       <Modal.Footer>
         <RButton id="canceModalButton" variant="light" onClick={props.onHide}>
@@ -89,7 +67,7 @@ function AddClubModal(props) {
         <RButton
           id="addModalButton"
           onClick={() => {
-            props.addClubHandler(props.club);
+            props.addClubHandler(club);
             props.onHide();
           }}
         >
