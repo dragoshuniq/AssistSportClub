@@ -24,7 +24,7 @@ const event= (props)=>{
 
 );
     return (
-        <div id="Event">
+        <div id="Event" /*className={props.id}*/>
         <img className="ImageCard"  src={ `${props.event_cover}` } alt='No image'/>
         <Card style={{ width: '63%',  height: '100%' }} id="contentCard" >
         <Card.Body id="marginLeft">
