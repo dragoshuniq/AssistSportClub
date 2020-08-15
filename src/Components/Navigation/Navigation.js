@@ -33,7 +33,7 @@ class Navigation extends Component {
             <>
                 <Container fluid id={classes.heingLong1}>
                     <Row id={classes.heingLong2}>
-          
+
                         <Col id={classes.nav} lg={this.state.showAllNavigation === true ? '2' : '0'} >
 
 
@@ -109,9 +109,14 @@ class Navigation extends Component {
                                     <div className={classes.NavBot}>
                                         <NavLink to='/Login'
                                             className={classes.NavBotLogout}
-                                            onClick={ () => this.setState({ logout: true }) }
+                                            onClick={
+                                                () => {
+                                                    this.setState({ logout: true });
+                                                    this.props.setToggle(!this.state.logout);
+                                                }
+                                            }
                                         >
-                                            {console.log(this.state.logout)}
+                                            {console.log("logout = ",this.state.logout)}
                                             <FontAwesomeIcon icon={faSignOutAlt} />
                                             {
                                                 this.state.showAllNavigation === true ?
@@ -123,7 +128,7 @@ class Navigation extends Component {
                                 </Col>
                             </Row>
                         </Col>
-            
+
 
                         <Col id={classes.colRight}>
                             <Switch>
@@ -132,7 +137,7 @@ class Navigation extends Component {
                                 <Route path="/Events" component={Events} />
                                 <Route path="/Clubs" component={Clubs} />
                                 <Route path="/Athletes" component={Athletes} />
-                                <Route path="/Login" component={Login} />
+                                {/* <Route path="/Login" component={Login} /> */}
                             </Switch>
                         </Col>
                     </Row>

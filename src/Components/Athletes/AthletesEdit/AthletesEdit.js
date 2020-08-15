@@ -32,6 +32,11 @@ class AthletesEdit extends Component {
         train.name = value.target.value;
         this.setState({ atlet: train })
     }
+    changeGender(value) {
+        const train = this.state.atlet;
+        train.gender = value.target.value;
+        this.setState({ atlet: train })
+    }
     changeEmail(value) {
         const train = this.state.atlet;
         train.email = value.target.value;
@@ -144,7 +149,7 @@ class AthletesEdit extends Component {
                                 <Form.Label>Gender</Form.Label>
                                 <Form.Control type="gender" placeholder="Enter Gender"
                                     value={this.state.atlet.gender}
-                                    onChange={(e) => this.changePrimarySport(e)}
+                                    onChange={(e) => this.changeGender(e)}
                                 // onChange={this.props.changed}
                                 />
                             </Form.Group>

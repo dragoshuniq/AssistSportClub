@@ -19,6 +19,7 @@ class Athletes extends Component {
         this.state = {
             // imagine: require('../../poze/img1.jpg'),
             listaAtleti: [],
+            listaAtleti2: [],
 
             editModalShow: false,
             addModalShow: false,
@@ -73,7 +74,8 @@ class Athletes extends Component {
                 (result) => {
 
                     this.setState({
-                        listaAtleti: result
+                        listaAtleti: result,
+                        listaAtleti2: result
                     });
 
                     this.setState({ totalPosts: Math.ceil(result.length / 6) });
@@ -121,7 +123,6 @@ class Athletes extends Component {
             } else arr.push(res);
         });
         this.setState({ arr });
-
     }
 
     // add
@@ -152,7 +153,7 @@ class Athletes extends Component {
     }
 
     render() {
-        const numarAtleti = this.state.listaAtleti.length;
+        const numarAtleti = this.state.listaAtleti2.length;
 
         console.log('numar atleti', numarAtleti)
         // filtrare search and put in a variable 
