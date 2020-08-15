@@ -12,6 +12,8 @@
     background-color: black;
     /* height: 100%; */
     padding: 20px;
+    /* display: flex; */
+    width: 100px;
 }
 
 .space {
@@ -78,9 +80,9 @@ small {
     /* margin-top: 100px; */
 }
 
-.NavBotLogout {
+/* .NavBotLogout {
     color: white;
-}
+} */
 
 .NavLink {
     text-decoration: 'none';
@@ -94,6 +96,23 @@ small {
 }
 
 .NavLink:hover, .NavLink:active, .NavLink:active {
+    background-color: white;
+    color: black;
+    text-decoration: none;
+}
+
+.NavBotLogout {
+    text-decoration: 'none';
+    transition: 0.5s;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    margin-top: 10px;
+}
+
+.NavBotLogout:hover, .NavBotLogout:active, .NavBotLogout:active {
     background-color: white;
     color: black;
     text-decoration: none;
@@ -132,4 +151,25 @@ small {
         overflow: visible;
         height: 100%;
     }
+}
+
+@media only screen and (max-width: 992px) {
+    #colRight {
+        overflow: visible;
+        height: 100%;
+    }
+}
+
+#toogleBtn{
+    color: white;
+    background-color: black;
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+    border: black;
+}
+#toogleBtn:hover{
+    color: black;
+    background-color: white;
+  
 }

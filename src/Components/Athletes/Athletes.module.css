@@ -1,27 +1,29 @@
-.back{
-    /* background-color: red; */
-    /* height: 100%; */
+.back {
+    /* background-color: green; */
+    min-height: 100%;
     padding: 30px 20px;
-
 }
 
-.Input{
+.Input {
     background-color: red;
 }
-#Button{
+
+#Button {
     background-color: black;
     color: #00cc99;
     float: right;
     width: 200px;
     border: black;
 }
-#Button:hover{
+
+#Button:hover {
     background-color: #1a1a1a;
     color: white;
 }
 
 /* cart */
-.cart{
+
+.cart {
     background-color: white;
     margin: 20px 50px;
     padding: 20px;
@@ -32,22 +34,51 @@
     /* flex-wrap: wrap; */
     /* flex-direction: column; */
 }
-.cartImg{
+
+.cartImg {
     height: 60px;
     width: 60px;
     /* border-radius: 50%; */
 }
 
-
-.test{
-    background-color: red;
+.test {
+    /* background-color: red; */
+    /* margin-top: 0px; */
+    margin-bottom: 0px;
+    /* height: 100%; */
+    /* display: block; */
+    /* position: fixed; */
+    /* bottom: 30px; */
+    /* left: 10px;  */
+    /* margin-top: auto; */
     /* display: grid; */
-	/* grid-gap: 10px; */
-	/* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
+    /* grid-gap: 10px; */
+    /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
+}
+
+.noMargin {
+    margin-bottom: 0px;
 }
 
 @media only screen and (max-width: 992px) {
     #Button {
         width: 100%;
     }
+}
+
+.Name {
+    font-size: 23px;
+    margin-bottom: 0px;
+}
+.Gender_Years{
+    margin-top: 0px;
+}
+.marginBotRow{
+    margin-bottom: 15px;
+}
+
+.primary_sport, .secondary_sport {
+    color: grey;
+    margin-bottom: 0px;
+
 }

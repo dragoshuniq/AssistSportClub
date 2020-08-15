@@ -79,7 +79,7 @@ import './Login.css';
             </span>
             </Row>
             <Row>
-                <Button id="LoginButton" type="submit" disabled={isSubmitting}>
+                <Button id="LoginButton" type="submit" disabled={isSubmitting} onClick={ () => this.props.ChangeLogin() }>
                 LOGIN
             </Button></Row>
             </Form>

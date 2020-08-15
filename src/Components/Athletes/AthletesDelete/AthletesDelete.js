@@ -2,7 +2,9 @@ import React from 'react';
 import { Container, Row, Col, Image, Navbar, Nav, NavDropdown, Form, FormControl, InputGroup, Button, Modal } from 'react-bootstrap';
 import classes from './AthletesDelete.module.css';
 
-function AthletesEdit(props) {
+function AthletesDelete(props) {
+
+
 
     return (
         <Modal  {...props} aria-labelledby="contained-modal-title-vcenter">
@@ -13,21 +15,28 @@ function AthletesEdit(props) {
             </Modal.Header>
             <Modal.Body className="show-grid">
 
-        
+
                 <p>
-                    Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                    dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                    consectetur ac, vestibulum at eros.
+                    Are you sure you want to delete athlete “Wade Steward”?
+                    If you delete this athlete, all data associated with
+                    him will be permanently deleted.
                 </p>
 
             </Modal.Body>
             <Modal.Footer>
                 <Button onClick={props.onHide} id={classes.BtnClose}>Close</Button>
-                <Button onClick={props.onHide} id={classes.BtnDelete}>Delete</Button>
+                <Button
+                    onClick={
+                        () => {
+                            props.delete(props.idAtletStergere);
+                            props.onHide();
+                        }
+                    }
+                    id={classes.BtnDelete}>Delete</Button>
             </Modal.Footer>
         </Modal>
     );
 
 }
 
-export default AthletesEdit;
+export default AthletesDelete;
