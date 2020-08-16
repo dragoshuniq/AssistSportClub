@@ -16,6 +16,7 @@ import {
   Pagination,
 } from "semantic-ui-react";
 import "./AdminCoaches.css";
+import DeleteMultipleModal from "./DeleteMultipleModal";
 class AdminCoaches extends React.Component {
   constructor(props) {
     super(props);
@@ -48,6 +49,7 @@ class AdminCoaches extends React.Component {
       editModalShow: false,
       addModalShow: false,
       deleteModalShow: false,
+      deleteMultipleShow: false,
       confirmModalShow: false,
       coachToDelete: {},
       coachToEdit: {},
@@ -57,6 +59,7 @@ class AdminCoaches extends React.Component {
       offset: 0,
       pageCount: 0,
       totalPosts: -1,
+      deleteMultiple: false,
     };
     this.handlePageClick = this.handlePageClick.bind(this);
   }
@@ -68,7 +71,7 @@ class AdminCoaches extends React.Component {
     const selectedPage = activePage;
     console.log("e.target.value", activePage);
 
-    const offset = selectedPage * this.state.postsPerPage;
+    const offset = (selectedPage - 1) * this.state.postsPerPage;
 
     this.setState(
       {
@@ -95,10 +98,12 @@ class AdminCoaches extends React.Component {
           myMap.set(res.id, false);
         });
         this.setState({
-          totalPosts: Math.ceil(data.length / 7),
+          totalPosts: Math.ceil(data.length / this.state.postsPerPage),
           useArray: slice,
           data: slice,
           selectedElements: myMap,
+          selectAllElements: false,
+          deleteMultiple: false,
         });
       });
   }
@@ -121,20 +126,32 @@ class AdminCoaches extends React.Component {
         }
       );
   }*/
+
+  deleteMultipleHandler = () => {
+    var localData = this.state.useArray;
+    for (let [key, value] of this.state.selectedElements) {
+      if (value) {
+        localData = localData.filter((item) => item.id !== key);
+        console.log([key, value]);
+      }
+    }
+    this.setState({
+      useArray: localData,
+      deleteMultiple: false,
+      selectAllElements: false,
+    });
+  };
   addCoachHandler = (coach) => {
-    debugger;
     const localArray = this.state.data;
     localArray.push(coach);
     this.setState({ data: localArray });
     this.setState({ addedCoach: coach, confirmModalShow: true });
-    console.log(coach.name);
   };
   editCoachHandler = (coach) => {
     const arr = [];
     this.state.data.map((res) => {
       if (res.id === coach.id) {
-        const thisCoach = res;
-        arr.push(thisCoach);
+        arr.push(coach);
       } else arr.push(res);
     });
     this.setState({ data: arr });
@@ -164,14 +181,6 @@ class AdminCoaches extends React.Component {
     }
   };
   sortBy = (type) => {
-    /*  const types = {
-      name: "name",
-      members: "mail",
-      clubs: "clubs",
-    };
-    
-  */
-
     this.setState({ useArray: this.state.data });
     var items = this.state.data;
     if (type === "name") {
@@ -250,6 +259,11 @@ class AdminCoaches extends React.Component {
     if (count === this.state.selectedElements.size) {
       this.setState({ selectAllElements: true });
     }
+    if (count > 1) {
+      this.setState({ deleteMultiple: true });
+    } else {
+      this.setState({ deleteMultiple: false });
+    }
   }
   selectAll() {
     const aux = this.state.selectedElements;
@@ -260,6 +274,7 @@ class AdminCoaches extends React.Component {
     this.setState({
       selectedElements: aux,
       selectAllElements: !this.state.selectAllElements,
+      deleteMultiple: this.state.selectAllElements ? false : true,
     });
   }
   PostComponent = (value) => {
@@ -336,30 +351,43 @@ class AdminCoaches extends React.Component {
 
     return (
       <Container fluid id="containerAdminCoaches">
-        <Row>
-          {/* <Col xl={2} lg={2} md={2} sm={2} xs={2} id="blackDiv"></Col> */}
-          <Col id="marginColAdminCoaches">
+        <Row style={{ marginRight: "5vh", marginLeft: "5vh" }}>
+          <Col>
             <Row>
-              <Col>
-                <h1 id="coachesText"> Coaches </h1>
-              </Col>
+              <h1 id="coachesText"> Coaches </h1>
             </Row>
             <Row id="searchCoachesRow">
-              <Col xl={4} lg={4} md={4} sm={12} xs={12}>
-                <div>
-                  <Input
-                    fluid
-                    icon="search"
-                    iconPosition="left"
-                    placeholder="Search coaches..."
-                    id="sarchCoachesInput"
-                    onChange={this.searchHandler}
-                  />
-                </div>
+              <Col
+                xl={4}
+                lg={4}
+                md={4}
+                sm={12}
+                xs={12}
+                style={{ right: "16px" }}
+              >
+                <Input
+                  fluid
+                  icon="search"
+                  iconPosition="left"
+                  placeholder="Search coaches..."
+                  id="searchClubs"
+                  onChange={this.searchHandler}
+                />
               </Col>
-              <Col md={{ span: 2, offset: 6 }}>
+              <Col md={{ span: 2, offset: 4 }}>
+                {this.state.deleteMultiple && (
+                  <Button
+                    id="addNewButtonClub"
+                    style={{ color: "red" }}
+                    onClick={() => this.setState({ deleteMultipleShow: true })}
+                  >
+                    DELETE SELECTED
+                  </Button>
+                )}
+              </Col>
+              <Col md={2}>
                 <Button
-                  id="addNewButton"
+                  id="addNewButtonClub"
                   onClick={() => this.setState({ addModalShow: true })}
                 >
                   ADD NEW
@@ -463,6 +491,15 @@ class AdminCoaches extends React.Component {
               onHide={() => this.setState({ deleteModalShow: false })}
               delete={(id) => this.deleteCoach(id)}
               coach={this.state.coachToDelete}
+            />
+          )}
+        </Row>
+        <Row>
+          {this.state.deleteMultipleShow && (
+            <DeleteMultipleModal
+              show={this.state.deleteMultipleShow}
+              onHide={() => this.setState({ deleteMultipleShow: false })}
+              delete={this.deleteMultipleHandler}
             />
           )}
         </Row>
