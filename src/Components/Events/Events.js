@@ -12,6 +12,7 @@ import './Events.css';
 import Event from './Event/Event';
 import { getCurrentDate } from '../Utils/Utils'
 import ReactPagination from "react-js-pagination";
+import EventPage from './EventPage/EventPage';
 
 class Events extends Component {
   constructor(props) {
@@ -185,6 +186,9 @@ class Events extends Component {
 
     return (
       <Container id="containerEvenst" fluid >
+        <Row>
+          <EventPage/>
+        </Row>
         <Row>
           <Col id="marginColEvent">
             <Row>

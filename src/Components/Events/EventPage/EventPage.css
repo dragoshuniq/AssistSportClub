@@ -1,0 +1,185 @@
+#mainContent{
+    background-color: goldenrod;
+    height: 100%;
+    padding-right: 15vh;
+    padding-left: 15vh;
+
+}
+#marginLeft{
+   
+}
+
+#routeEvent{
+    margin-top: 2vh;
+    font-family: Inter;
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 16px;
+/* identical to box height, or 114% */
+
+display: flex;
+align-items: center;
+text-transform: capitalize;
+
+margin-bottom: 5vh;
+
+/* gray 03 */
+
+color: #8E9296;
+
+}
+#eventName{
+    color: #000000;
+}
+#eventTitle{
+   /* inter/h3 */
+
+font-family: Inter;
+font-style: normal;
+font-weight: normal;
+font-size: 24px;
+line-height: 32px;
+/* identical to box height, or 133% */
+align-items: center;
+color: #000000; 
+}
+#eventLocation{
+    /* inter/paragraph */
+
+font-family: Inter;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 24px;
+/* identical to box height, or 171% */
+
+
+align-items: center;
+
+color: #000000;
+}
+
+#editEvent{
+    height: 100%;
+    width: 100%;
+    background: #1a1a1a;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+  
+    text-transform: uppercase;
+  
+    color: #44dabd;
+}
+#comparePerformance{
+    height: 100%;
+    width: 100%;
+    background: #1a1a1a;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    text-transform: uppercase;
+    color: #44dabd;
+}
+.marginTime{
+    margin-left: 10px;
+}
+#eventHead{
+    margin-bottom: 20px;
+}
+
+#eventImage{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: 10px 10px 12px -8px rgba(0,0,0,0.59);
+}
+#imageContent{
+    width: 80%;
+    height: 60%;
+    margin-bottom: 20px;
+}
+#firstPharagraph{
+    font-family: Inter;
+font-style: normal;
+font-weight: normal;
+font-size: 24px;
+line-height: 32px;
+/* or 133% */
+
+align-items: center;
+
+color: #000000;
+margin-bottom: 20px;
+}
+#secondPharagraph{
+    font-family: Inter;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 24px;
+/* or 171% */
+
+
+color: #000000;
+
+}
+#textContent{
+    box-shadow: 10px 10px 12px -8px rgba(0,0,0,0.59);
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+}
+
+#participantsHead{
+
+    margin-top: 13px;
+}
+#participantsTitle{
+    /* inter/h3 */
+
+font-family: Inter;
+font-style: normal;
+font-weight: normal;
+font-size: 24px;
+line-height: 32px;
+/* identical to box height, or 133% */
+
+align-items: center;
+
+color: #000000;
+}
+#participantsCompare{
+   /* inter/paragraph */
+
+font-family: Inter;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 24px;
+/* identical to box height, or 171% */
+align-items: center;
+/* dark-gray */
+color: #1A1A1A;
+}
+#matricsCompared{
+    font-family: Inter;
+font-style: normal;
+font-weight: normal;
+font-size: 18px;
+line-height: 43px;
+/* identical to box height, or 239% */
+align-items: center;
+color: #000000;
+}
+#matricsComparedAvSpeed, #matricsComparedCalories, #matricsComparedDistance, #matricsComparedHeart{
+    background-color: white;
+    border-radius:5px;
+    margin: 5px;
+    box-shadow: 10px 10px 12px -8px rgba(0,0,0,0.59);
+}
