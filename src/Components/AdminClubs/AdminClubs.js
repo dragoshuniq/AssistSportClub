@@ -84,7 +84,7 @@ class AdminClubs extends React.Component {
             </Row>
             <div style={{ marginTop: "1vh" }}>
               <h1 id="membersText">Coach</h1>
-              <h1 id="coachText">{club.name}</h1>
+              <h1 id="coachText">{club.owner}</h1>
             </div>
           </div>
         </Col>
@@ -92,6 +92,7 @@ class AdminClubs extends React.Component {
     );
   };
   addClubHandler = (club) => {
+    console.log(club)
     const localArray = this.state.data;
     localArray.push(club);
     this.setState({

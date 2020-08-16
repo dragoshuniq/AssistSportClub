@@ -190,16 +190,67 @@
   align-self: flex-start;
   margin: 0px 0px;
 }
-#primarySport
+#primarySport {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 14px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8e9296;
+}
+
+#assignACoach {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  text-transform: capitalize;
+  color: #000000;
+}
+#inviteMembers {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #000000;
+  text-decoration: underline ;
+  text-decoration-color: #8e9296;
+
+}
+
+#optionalLabel {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  color: #8e9296;
+}
+
+#modalLabel {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  text-transform: capitalize;
+  color: #000000;
+}
+label
 {
-font-family: Inter;
-font-style: normal;
-font-weight: normal;
-font-size: 12px;
-line-height: 14px;
-display: flex;
-align-items: center;
-letter-spacing: 0.06em;
-text-transform: uppercase;
-color: #8E9296;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  text-transform: capitalize;
+  color: #000000; 
+}
+#labelAddAnother
+{
+  background-color: transparent;
 }

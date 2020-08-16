@@ -13,22 +13,27 @@ import {
 import "./AdminClubs.css";
 import AddClubModal from "./AddClubModal";
 import AddedConfirmModal from "./AddedConfirmModal";
-
+import EditClubModal from "./EditClubModal";
 class AdminClubDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      thisClub: {
+        name: "Club Name",
+        coach: "Coach name",
+      },
       data: [],
       useArray: [],
       addModalShow: false,
       confirmModalShow: false,
+      editModalShow: false,
       addedClub: {},
       currentPage: 1,
       postsPerPage: 9,
       offset: 0,
       pageCount: 0,
       totalMembers: 0,
-      totalPosts: 0,  
+      totalPosts: 0,
     };
     this.handlePageClick = this.handlePageClick.bind(this);
   }
@@ -37,15 +42,10 @@ class AdminClubDetails extends React.Component {
       .get(`https://next.json-generator.com/api/json/get/EJeP7rkft`)
       .then((res) => {
         const data = res.data;
-        console.log("data", res.data);
-
         const slice = data.slice(
           this.state.offset,
           this.state.offset + this.state.postsPerPage
         );
-        console.log("offset", this.state.offset);
-        console.log("slice", slice);
-
         this.setState({
           totalMembers: res.data.length,
           totalPosts: Math.ceil(data.length / this.state.postsPerPage),
@@ -60,9 +60,9 @@ class AdminClubDetails extends React.Component {
 
   handlePageClick = (e, { activePage }) => {
     const selectedPage = activePage;
-    console.log("e.target.value", activePage);
+    //console.log("e.target.value", activePage);
 
-    const offset = (selectedPage-1) * this.state.postsPerPage;
+    const offset = (selectedPage - 1) * this.state.postsPerPage;
 
     this.setState(
       {
@@ -173,11 +173,15 @@ class AdminClubDetails extends React.Component {
                 <Row>
                   <Col xl={2} lg={2} md={2} sm={2} xs={2}>
                     <h1 style={{ fontSize: "2vw" }} id="coachesText">
-                      Club Name
+                      {this.state.thisClub.name}
                     </h1>
                   </Col>
                   <Col id="alignPencil">
-                    <Icon name="pencil alternate" size="large" />
+                    <Icon
+                      name="pencil alternate"
+                      size="large"
+                      onClick={() => this.setState({ editModalShow: true })}
+                    />
                   </Col>
                 </Row>
 
@@ -186,7 +190,7 @@ class AdminClubDetails extends React.Component {
                     Coach
                   </h1>
                   <h1 id="membersText" style={{ color: "black" }}>
-                    Coach name
+                    {this.state.thisClub.coach}
                   </h1>
                 </div>
               </Col>
@@ -258,6 +262,18 @@ class AdminClubDetails extends React.Component {
               show={this.state.confirmModalShow}
               onHide={() => this.setState({ confirmModalShow: false })}
               club={this.state.addedClub}
+            />
+          )}
+          {this.state.editModalShow && (
+            <EditClubModal
+              show={this.state.editModalShow}
+              onHide={() => this.setState({ editModalShow: false })}
+              club={this.state.thisClub}
+              coach={{
+                key: this.state.thisClub.coach,
+                text: this.state.thisClub.coach,
+                value: this.state.thisClub.coach,
+              }}
             />
           )}
         </Row>

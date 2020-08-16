@@ -28,7 +28,6 @@ import AdminCoaches from "../AdminCoaches/AdminCoaches";
 import AdminClubs from "../AdminClubs/AdminClubs";
 import Events from "../Events/Events";
 import Athletes from "../Athletes/Athletes";
-import AdminClubsDetails from "../AdminClubs/AdminClubDetails";
 import AdminClubDetails from "../AdminClubs/AdminClubDetails";
 
 class Navigation extends Component {

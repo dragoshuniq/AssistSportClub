@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import { Modal, Button as RButton } from "react-bootstrap";
-import { Formik } from "formik";
+import { Formik, Field, ErrorMessage, Form } from "formik";
+import * as Yup from "yup";
+import { Row, Col } from "react-bootstrap";
+
 import "./AdminCoaches.css";
-import {
-  InputGroup,
-  FormControl,
-  Form,
-  Button,
-  Checkbox,
-  Select,
-} from "semantic-ui-react";
+import { Select, Divider, Button } from "semantic-ui-react";
 function AddCoachModal(props) {
   const clubOptions = [
     { key: "swim", text: "Swim", value: "swim" },
@@ -22,35 +18,33 @@ function AddCoachModal(props) {
     email: "",
     clubs: "",
   });
-  function onChangeFirstName(value) {
-    const train = coach;
-    train.name = value;
-    setCoach(train);
-  }
-  function onChangeLastName(value) {
-    const train = coach;
-    train.name = value;
-    setCoach(train);
-  }
-  function onChangeEmail(value) {
-    const train = coach;
-    train.email = value;
-    setCoach(train);
-  }
+  // function onChangeFirstName(e) {
+  //   const value = e.target.value;
+  //   const train = coach;
+  //   train.name = value;
+  //   setCoach(train);
+  // }
+  // function onChangeLastName(value) {
+  //   const train = coach;
+  //   train.name = value;
+  //   setCoach(train);
+  // }
+  // function onChangeEmail(value) {
+  //   const train = coach;
+  //   train.email = value;
+  //   setCoach(train);
+  // }
   function onChangeClub(val) {
     const train = coach;
     train.clubs = val;
     setCoach(train);
   }
-  function greeting() {
-    props.addCoachHandler(coach);
-    // todo: need onHide() ?
-    props.onHide();
-  }
+
   return (
     <Modal
+      blurring
       {...props}
-      size="lg"
+      size="tinny"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
@@ -60,66 +54,110 @@ function AddCoachModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {/* FORMIK */}
         <Formik
-          initialValues={{ email: "", password: "" }}
-          validate={(values) => {
-            const errors = {};
-            if (!values.email) {
-              errors.email = "Required";
-            } else if (
-              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-            ) {
-              errors.email = "Invalid email address";
-            }
-            return errors;
+          initialValues={{
+            firstName: "",
+            lastName: "",
+            email: "",
           }}
-        >
-          <Form>
-            <Form.Field>
-              <label>First Name</label>
-              <input
-                placeholder="First Name"
-                onChange={(event) => onChangeFirstName(event.target.value)}
-              />
-            </Form.Field>
-            <Form.Field>
-              <label>Last Name</label>
-              <input
-                placeholder="Last Name"
-                onChange={(event) => onChangeLastName(event.target.value)}
-              />
-            </Form.Field>
-            <Form.Field>
-              <label>Email Adress</label>
-              <input
-                placeholder="Last Name"
-                onChange={(event) => onChangeEmail(event.target.value)}
-              />
-            </Form.Field>
-            <Form.Field>
-              <label>Club Assign</label>
-              <Select
-                placeholder="Club Assign"
-                options={clubOptions}
-                onChange={(e, { value }) => onChangeClub(value)}
-              />
-            </Form.Field>
-          </Form>
-        </Formik>
+          validationSchema={Yup.object().shape({
+            firstName: Yup.string().required("First Name is required"),
+            lastName: Yup.string().required("Last Name is required"),
+            email: Yup.string()
+              .email("Email is invalid")
+              .required("Email is required"),
+          })}
+          onSubmit={(fields) => {
+            const trainer = coach;
+            trainer.name = fields.firstName + " " + fields.lastName;
+            trainer.email = fields.email;
+            setCoach(trainer);
+            props.addCoachHandler(coach);
+            props.onHide();
+          }}
+          render={({ errors, status, touched }) => (
+            <Form>
+              <div className="form-group">
+                <label htmlFor="firstName">First Name</label>
+                <Field
+                  placeholder="First Name"
+                  id="field"
+                  name="firstName"
+                  type="text"
+                  className={
+                    "form-control" +
+                    (errors.firstName && touched.firstName ? " is-invalid" : "")
+                  }
+                />
+                <ErrorMessage
+                  name="firstName"
+                  component="div"
+                  className="invalid-feedback"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="lastName">Last Name</label>
+                <Field
+                  placeholder="Last Name"
+                  id="field"
+                  name="lastName"
+                  type="text"
+                  className={
+                    "form-control" +
+                    (errors.lastName && touched.lastName ? " is-invalid" : "")
+                  }
+                />
+                <ErrorMessage
+                  name="lastName"
+                  component="div"
+                  className="invalid-feedback"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <Field
+                  id="field"
+                  placeholder="Email Adress"
+                  name="email"
+                  type="text"
+                  className={
+                    "form-control" +
+                    (errors.email && touched.email ? " is-invalid" : "")
+                  }
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="invalid-feedback"
+                />
+              </div>
+              <div className="form-group">
+                <label id="modalLabel">Club Assign</label>
+                <Select
+                  fluid
+                  id="field"
+                  placeholder="Club Assign"
+                  options={clubOptions}
+                  onChange={(e, { value }) => onChangeClub(value)}
+                />
+              </div>
+              <Divider />
+              <div className="form-group">
+                <Button.Group fluid>
+                  <Button id="canceModalButton" onClick={props.onHide}>
+                    Cancel
+                  </Button>
+                  <Button.Or />
+                  <Button id="addModalButton" type="submit">
+                    ADD NEW
+                  </Button>
+                </Button.Group>
+              </div>
+            </Form>
+          )}
+        />
       </Modal.Body>
-      <Modal.Footer>
-        <RButton id="canceModalButton" variant="light" onClick={props.onHide}>
-          Cancel
-        </RButton>
-        <RButton
-          id="addModalButton"
-          onClick={() => {
-            greeting();
-          }}
-        >
-          ADD NEW
-        </RButton>
-      </Modal.Footer>
     </Modal>
   );
 }
