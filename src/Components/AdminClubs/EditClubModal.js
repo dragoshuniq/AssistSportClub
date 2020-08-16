@@ -13,11 +13,11 @@ import {
   Icon,
 } from "semantic-ui-react";
 
-class AddClubModal extends React.Component {
+class EditClubModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      members:[],
+      members: [],
       isInvite: false,
       trainOptions: [
         { key: "Ionel", text: "Ionel", value: "Ionel" },
@@ -38,7 +38,7 @@ class AddClubModal extends React.Component {
     train.name = value;
     this.setState({ club: train });
   }
-  onChangeCoach(value) {
+  onChangeClubCoach(value) {
     const train = this.state.club;
     train.owner = value;
     this.setState({ club: train });
@@ -73,6 +73,13 @@ class AddClubModal extends React.Component {
       </Form.Field>
     );
   };
+
+  componentWillMount() {
+    this.setState({ club: this.props.club });
+    this.setState({
+      trainOptions: [this.props.coach, ...this.state.trainOptions],
+    });
+  }
   render() {
     return (
       <Modal
@@ -83,7 +90,7 @@ class AddClubModal extends React.Component {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            <h1 id="coachesText"> Add Club </h1>
+            <h1 id="coachesText"> Edit Club </h1>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -92,6 +99,7 @@ class AddClubModal extends React.Component {
               <label id="assignACoach">Club's Name</label>
               <input
                 placeholder="Club"
+                value={this.state.club.name}
                 onChange={(event) => this.onChangeClubName(event.target.value)}
               />
             </Form.Field>
@@ -101,7 +109,8 @@ class AddClubModal extends React.Component {
               <Select
                 placeholder="Club Assign"
                 options={this.state.trainOptions}
-                onChange={(e, { value }) => this.onChangeCoach(value)}
+                onChange={(e, { value }) => this.onChangeClubCoach(value)}
+                defaultValue={this.state.trainOptions[0].value}
               />
             </Form.Field>
             <div style={{ flexDirection: "row" }}>
@@ -143,4 +152,4 @@ class AddClubModal extends React.Component {
   }
 }
 
-export default AddClubModal;
+export default EditClubModal;

@@ -10,11 +10,11 @@ import {
   Checkbox,
   Select,
 } from "semantic-ui-react";
-function DeleteCoachModal(props) {
+function DeleteMultipleModal(props) {
   return (
     <Modal
       {...props}
-      size="tinny"
+      size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
@@ -25,7 +25,7 @@ function DeleteCoachModal(props) {
       </Modal.Header>
       <Modal.Body>
         <p>
-          Are you sure you want to delete {props.coach.name} coach? If you
+          Are you sure you want to delete all these coaches?  If you
           delete coach’s account, all data associated with this profile will
           permanently deleted.
         </p>
@@ -37,9 +37,8 @@ function DeleteCoachModal(props) {
         <RButton
           id="addModalButton"
           onClick={() => {
-            props.delete(props.coach.id);
+            props.delete();
             props.onHide();
-            console.log(props.coach.id);
           }}
         >
           Delete
@@ -49,4 +48,4 @@ function DeleteCoachModal(props) {
   );
 }
 
-export default DeleteCoachModal;
+export default DeleteMultipleModal;
