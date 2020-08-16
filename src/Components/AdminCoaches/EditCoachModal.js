@@ -1,33 +1,29 @@
 import React, { useState } from "react";
 import { Modal, Button as RButton } from "react-bootstrap";
-import { Formik, Field, ErrorMessage, Form } from "formik";
-import * as Yup from "yup";
-import { Row, Col } from "react-bootstrap";
-
 import "./AdminCoaches.css";
-import { Select, Divider, Button } from "semantic-ui-react";
+
+import {
+  InputGroup,
+  FormControl,
+  Form,
+  Button,
+  Checkbox,
+  Select,
+} from "semantic-ui-react";
+
 class EditCoachModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       coach: this.props.coach,
-      clubOptions: [
-        { key: "swim", text: "Swim", value: "swim" },
-        { key: "run", text: "Run", value: "run" },
-        { key: "box", text: "Box", value: "box" },
-      ],
-      localCoach: this.props.coach.clubs,
     };
   }
-  componentWillMount() {
-    //this.setState({ club: this.props.club });
-    const club = this.props.coach.clubs;
-    const clubOpt = { key: club, text: club, value: club };
-    this.setState({
-      clubOptions: [clubOpt, ...this.state.clubOptions],
-      localCoach: this.props.coach.clubs,
-    });
-  }
+
+  clubOptions = [
+    { key: "swim", text: "Swim", value: "swim" },
+    { key: "run", text: "Run", value: "run" },
+    { key: "box", text: "Box", value: "box" },
+  ];
 
   onChangeFirstName(value) {
     const train = this.state.coach;
@@ -39,143 +35,100 @@ class EditCoachModal extends React.Component {
     train.name = value;
     this.setState({ coach: train });
   }
-  onChangeClub(val) {
-    this.setState({ localCoach: val });
+  onChangeEmail(value) {
+    const train = this.state.coach;
+    train.email = value;
+    this.setState({ coach: train });
   }
+  onChangeClub(val) {
+    const train = this.state.coach;
+    train.clubs = val;
+    this.setState({ coach: train });
+    console.log(val);
+  }
+
   render() {
     return (
       <Modal
-        blurring
         {...this.props}
-        size="tinny"
+        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            <h1 id="coachesText"> Edit coach </h1>
+            <h1 id="coachesText"> Edit Coach </h1>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {/* FORMIK */}
-          <Formik
-            initialValues={{
-              firstName: this.state.coach.name,
-              lastName: this.state.coach.name,
-              email: this.state.coach.email,
-              clubs: this.state.coach.clubs,
+          <Form>
+            <Form.Field>
+              <label>First Name</label>
+              <input
+                placeholder="First Name"
+                value={this.state.coach.name}
+                onChange={(event) => this.onChangeFirstName(event.target.value)}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Last Name</label>
+              <input
+                placeholder="Last Name"
+                value={this.state.coach.name}
+                onChange={(event) => {
+                  this.onChangeLastName(event.target.value);
+                }}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Email Adress</label>
+              <input
+                placeholder="Email Name"
+                value={this.state.coach.email}
+                onChange={(event) => this.onChangeEmail(event.target.value)}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Club Assign</label>
+              <Select
+                placeholder="Club Assign"
+                options={this.clubOptions}
+                value={this.clubOptions.filter(
+                  ({ value }) => value === this.state.coach.clubs
+                )}
+                onChange={(e, { value }) => this.onChangeClub(value)}
+              />
+            </Form.Field>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <RButton
+            id="deleteModalButton"
+            variant="Link"
+            onClick={() => {
+              this.props.delete(this.props.coach);
+              this.props.onHide();
             }}
-            validationSchema={Yup.object().shape({
-              firstName: Yup.string().required("First Name is required"),
-              lastName: Yup.string().required("Last Name is required"),
-              email: Yup.string()
-                .email("Email is invalid")
-                .required("Email is required"),
-            })}
-            onSubmit={(fields) => {
-              const trainer = this.state.coach;
-              trainer.name = fields.firstName + " " + fields.lastName;
-              trainer.email = fields.email;
-              trainer.clubs = this.state.localCoach;
-              this.setState({ coach: trainer });
+          >
+            Delete
+          </RButton>
+          <RButton
+            id="canceModalButton"
+            variant="light"
+            onClick={this.props.onHide}
+          >
+            Cancel
+          </RButton>
+          <RButton
+            id="addModalButton"
+            onClick={() => {
               this.props.edit(this.state.coach);
               this.props.onHide();
             }}
-            render={({ errors, status, touched }) => (
-              <Form>
-                <div className="form-group">
-                  <label htmlFor="firstName">First Name</label>
-                  <Field
-                    placeholder="First Name"
-                    id="field"
-                    name="firstName"
-                    type="text"
-                    className={
-                      "form-control" +
-                      (errors.firstName && touched.firstName
-                        ? " is-invalid"
-                        : "")
-                    }
-                  />
-                  <ErrorMessage
-                    name="firstName"
-                    component="div"
-                    className="invalid-feedback"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="lastName">Last Name</label>
-                  <Field
-                    placeholder="Last Name"
-                    id="field"
-                    name="lastName"
-                    type="text"
-                    className={
-                      "form-control" +
-                      (errors.lastName && touched.lastName ? " is-invalid" : "")
-                    }
-                  />
-                  <ErrorMessage
-                    name="lastName"
-                    component="div"
-                    className="invalid-feedback"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <Field
-                    id="field"
-                    placeholder="Email Adress"
-                    name="email"
-                    type="text"
-                    className={
-                      "form-control" +
-                      (errors.email && touched.email ? " is-invalid" : "")
-                    }
-                  />
-                  <ErrorMessage
-                    name="email"
-                    component="div"
-                    className="invalid-feedback"
-                  />
-                </div>
-                <div className="form-group">
-                  <label id="modalLabel">Club Assign</label>
-                  <Select
-                    fluid
-                    id="field"
-                    placeholder="Club Assign"
-                    options={this.state.clubOptions}
-                    onChange={(e, { value }) => this.onChangeClub(value)}
-                    defaultValue={this.state.clubOptions[0].value}
-                  />
-                </div>
-                <Divider />
-                <div className="form-group">
-                  <Button.Group fluid>
-                    <Button
-                      id="deleteModalButton"
-                      onClick={() => {
-                        this.props.delete(this.props.coach);
-                        this.props.onHide();
-                      }}
-                    >
-                      Delete
-                    </Button>
-                    <Button.Or />
-                    <Button id="canceModalButton" onClick={this.props.onHide}>
-                      Cancel
-                    </Button>
-                    <Button.Or />
-                    <Button id="addModalButton" type="submit">
-                      SAVE
-                    </Button>
-                  </Button.Group>
-                </div>
-              </Form>
-            )}
-          />
-        </Modal.Body>
+          >
+            SAVE
+          </RButton>
+        </Modal.Footer>
       </Modal>
     );
   }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 
 import { Container,Row,Col, Button, Image } from 'react-bootstrap';
 import './Login.css';

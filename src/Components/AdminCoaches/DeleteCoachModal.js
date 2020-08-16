@@ -14,7 +14,7 @@ function DeleteCoachModal(props) {
   return (
     <Modal
       {...props}
-      size="tinny"
+      size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
