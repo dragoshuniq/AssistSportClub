@@ -28,7 +28,7 @@ class Navigation extends Component {
 
     state = {
         imagine: require('../../poze/img1.jpg'),
-        showAllNavigation: false,
+        showAllNavigation: true,
         logout: false
     }
 

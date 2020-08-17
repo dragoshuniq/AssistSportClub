@@ -7,7 +7,8 @@ class AthletesEdit extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            atlet: this.props.atlet
+            atlet: this.props.atlet,
+            atletCopie: {}
         };
     }
 
@@ -26,16 +27,20 @@ class AthletesEdit extends Component {
 
     }
 
-
+    changeFile(value) {
+        const train = this.state.atlet;
+        train.file = URL.createObjectURL(value.target.files[0]);
+        this.setState({ atletCopie: train })
+    }
     changeName(value) {
         const train = this.state.atlet;
         train.name = value.target.value;
-        this.setState({ atlet: train })
+        this.setState({ atletCopie: train })
     }
     changeGender(value) {
         const train = this.state.atlet;
         train.gender = value.target.value;
-        this.setState({ atlet: train })
+        this.setState({ atletCopie: train })
     }
     changeEmail(value) {
         const train = this.state.atlet;
@@ -216,7 +221,7 @@ class AthletesEdit extends Component {
                                     // isValid
                                     name="file"
                                     type="file"
-                                    onChange={this.HandlerEventADD_FILE}
+                                    onChange={(e) => this.changeFile(e)}
                                 />
                                 <Form.File.Label data-browse="Button text">
                                     Custom file input

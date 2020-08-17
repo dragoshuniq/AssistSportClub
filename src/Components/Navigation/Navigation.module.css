@@ -13,7 +13,7 @@
     /* height: 100%; */
     padding: 20px;
     /* display: flex; */
-    width: 100px;
+    /* width: 100px; */
 }
 
 .space {
@@ -158,6 +158,9 @@ small {
         overflow: visible;
         height: 100%;
     }
+    #toogleBtn{
+        visibility: hidden;
+    }
 }
 
 #toogleBtn{
@@ -171,5 +174,4 @@ small {
 #toogleBtn:hover{
     color: black;
     background-color: white;
-  
 }
