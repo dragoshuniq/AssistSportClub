@@ -43,7 +43,7 @@ class Athletes extends Component {
         const selectedPage = activePage;
         console.log("e.target.value", activePage);
 
-        const offset = selectedPage * this.state.postsPerPage;
+        const offset = (selectedPage -1) * this.state.postsPerPage;
 
         this.setState(
             {
@@ -140,7 +140,9 @@ class Athletes extends Component {
     onDeleteAtleti = (idAtlet) => {
         const listaAtletiStersi = this.state.listaAtleti.filter((el, index) => {
             return (
-                (index + 1) !== idAtlet
+                // (index + 1) !== idAtlet
+                el.id !== idAtlet
+
             );
         })
         { console.log('lista alteti', listaAtletiStersi) }
