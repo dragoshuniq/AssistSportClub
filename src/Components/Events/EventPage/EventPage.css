@@ -1,6 +1,6 @@
 #mainContent{
-    background-color: goldenrod;
-    height: 100%;
+    background: #F9F9F9;
+    height: 100vh;
     padding-right: 15vh;
     padding-left: 15vh;
 
@@ -182,4 +182,10 @@ color: #000000;
     border-radius:5px;
     margin: 5px;
     box-shadow: 10px 10px 12px -8px rgba(0,0,0,0.59);
+}
+/* #comparePerformanceArea{
+    visibility: visible;
+} */
+#selectMatrics{
+    margin-top: 20px;
 }

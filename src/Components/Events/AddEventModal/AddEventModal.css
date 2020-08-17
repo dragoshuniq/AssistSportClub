@@ -1,0 +1,46 @@
+#modalBodyContent{
+    margin: 3vh;
+    alignItems: center;
+    justifyContent: center;
+}
+.eventMaxWidth{
+    width: 100%;
+    border-radius:5px;
+    height: 30px;
+}
+.typeText{
+    /* inter/label */
+font-family: Inter;
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 16px;
+/* identical to box height, or 114% */
+
+text-transform: capitalize;
+
+color: #000000;
+}
+#addEventHead{
+    /* inter/h2 */
+
+font-family: Inter;
+font-style: normal;
+font-weight: normal;
+font-size: 36px;
+line-height: 42px;
+/* identical to box height, or 117% */
+
+text-transform: capitalize;
+
+color: #000000;
+
+}
+#textAreaheight{
+    height: 100px;
+    width: 100%;
+    border-radius:5px;
+}
+.marginButtomEvent{
+    margin-bottom: 10px;
+}
