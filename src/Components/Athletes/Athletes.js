@@ -43,7 +43,7 @@ class Athletes extends Component {
         const selectedPage = activePage;
         console.log("e.target.value", activePage);
 
-        const offset = selectedPage * this.state.postsPerPage;
+        const offset = (selectedPage - 1) * this.state.postsPerPage;
 
         this.setState(
             {
@@ -132,7 +132,8 @@ class Athletes extends Component {
             listaAtleti: [
                 ...this.state.listaAtleti,
                 atlet
-            ]
+            ],
+            addedMesageModalShow: true
         })
     }
 
@@ -140,7 +141,7 @@ class Athletes extends Component {
     onDeleteAtleti = (idAtlet) => {
         const listaAtletiStersi = this.state.listaAtleti.filter((el, index) => {
             return (
-                (index + 1) !== idAtlet
+                el.id !== idAtlet
             );
         })
         { console.log('lista alteti', listaAtletiStersi) }
@@ -208,9 +209,11 @@ class Athletes extends Component {
                 <Row>
                     {filteredAthlets.map((el, index) => {
                         return (
-                            <Col key={index} md={3}
+                            <Col md={3}
+                                key={index}
                                 className={classes.cart}
-                                onClick={() => this.setState({ editModalShow: true, searchAthletsIndexOnClick: el })}>
+                                onClick={() => this.setState({ editModalShow: true, searchAthletsIndexOnClick: el })}
+                            >
                                 <Row className={classes.marginBotRow}>
                                     <Col md='3'>
                                         <Image className={classes.cartImg} src={el.file} roundedCircle />
@@ -233,7 +236,7 @@ class Athletes extends Component {
                             </Col>
 
                         );
-                    })}                   
+                    })}
 
                 </Row>
                 {/* END map */}
@@ -243,7 +246,7 @@ class Athletes extends Component {
 
                     {this.state.editModalShow && (
                         <AthletesEdit
-                    
+
                             atlet={this.state.searchAthletsIndexOnClick}
                             changeAtlet={(e) => this.changeAtlet(e)}
                             show={this.state.editModalShow}
@@ -257,13 +260,18 @@ class Athletes extends Component {
                         onAdd={this.onAddAtleti}
                         show={this.state.addModalShow}
                         onHide={() => this.setState({ addModalShow: false })}
+                    // onHideAdded={() => this.setState({ addModalShow: false, addedMesageModalShow: true })}
                     />
                     <AthletesDelete
                         idAtletStergere={this.state.searchAthletsIndexOnClick.id}
                         delete={this.onDeleteAtleti}
                         show={this.state.deleteModalShow}
-                        onHide={() => this.setState({ deleteModalShow: false })} />
-                    <AthletesAddedMesage show={this.state.addedMesageModalShow} onHide={() => this.setState({ addedMesageModalShow: false })} />
+                        onHide={() => this.setState({ deleteModalShow: false })}
+                    />
+                    <AthletesAddedMesage
+                        show={this.state.addedMesageModalShow}
+                        onHide={() => this.setState({ addedMesageModalShow: false })}
+                    />
 
                 </Row>
                 <Row>

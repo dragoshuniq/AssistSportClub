@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Image, Navbar, Nav, NavDropdown, Form, FormControl, InputGroup, Button, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Image, Navbar, Nav, NavDropdown, FormControl, InputGroup, Button, Modal, Form } from 'react-bootstrap';
 import classes from './AthletesAdd.module.css';
+
+// import * as Yup from "yup";
+// import { Formik, Field, ErrorMessage, Form } from "formik";
 
 class AthletesAdd extends Component {
 
@@ -17,13 +20,16 @@ class AthletesAdd extends Component {
             password: '',
             club_name: '',
             file: ''
-        }
+        },
+        toggleValid: false
     }
 
     HandlerEventADD = (event) => {
 
         const value = event.target.value;
         const name = event.target.name;
+
+
 
         this.setState({
             ...this.state,
@@ -51,14 +57,19 @@ class AthletesAdd extends Component {
     }
 
     incrementID = () => {
-         
         this.setState({
             ...this.state,
             details: {
                 ...this.state.details,
-                id: this.props.countAtleti+1
+                id: this.props.countAtleti + 1
             }
         })
+    }
+
+    onSubmit = () => {
+        this.props.onAdd(this.state.details);
+        this.incrementID();
+        this.props.onHide();
     }
 
 
@@ -73,7 +84,11 @@ class AthletesAdd extends Component {
                 </Modal.Header>
                 <Modal.Body className="show-grid">
 
-                    <Form>
+                    {/* <Formik
+
+                        render={({ errors, status, touched }) => ( */}
+
+                    <Form onSubmit={() => this.onSubmit()}>
 
                         <Form.Row>
                             <Form.Group as={Col} controlId="formGridEmail">
@@ -85,6 +100,8 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridName">
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control
+                                    // isValid
+                                    required
                                     name="name"
                                     type="text"
                                     value={this.state.details.name}
@@ -95,6 +112,8 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridEmailAdress">
                                 <Form.Label>Email Adress</Form.Label>
                                 <Form.Control
+                                    // isValid
+                                    // required
                                     name="email"
                                     type="email"
                                     value={this.state.details.email}
@@ -108,6 +127,7 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridPrimarySports">
                                 <Form.Label>Primary Sports</Form.Label>
                                 <Form.Control
+                                    // required
                                     name="primary_sports"
                                     type="text"
                                     value={this.state.details.primary_sports}
@@ -118,6 +138,7 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridSecondarySports">
                                 <Form.Label>Secondary Sports</Form.Label>
                                 <Form.Control
+                                    // required
                                     name="secondary_sports"
                                     type="text"
                                     value={this.state.details.secondary_sports}
@@ -136,6 +157,7 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridGender">
                                 <Form.Label>Gender</Form.Label>
                                 <Form.Control
+                                    // required
                                     name="gender"
                                     type="text"
                                     value={this.state.details.gender}
@@ -146,6 +168,7 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridAge">
                                 <Form.Label>Age</Form.Label>
                                 <Form.Control
+                                    // required
                                     name="age"
                                     type="text"
                                     value={this.state.details.age}
@@ -158,6 +181,7 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridHeight">
                                 <Form.Label>Height</Form.Label>
                                 <Form.Control
+                                    // required
                                     name="height"
                                     type="text"
                                     value={this.state.details.height}
@@ -168,6 +192,8 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridPassword">
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control
+                                    // isInvalid
+                                    // required
                                     name="password"
                                     type="text"
                                     value={this.state.details.password}
@@ -178,9 +204,9 @@ class AthletesAdd extends Component {
 
 
                         {/* <Form.Group controlId="formGridAddress1">
-                        <Form.Label>Address</Form.Label>
-                        <Form.Control placeholder="1234 Main St" />
-                        </Form.Group> */}
+                                <Form.Label>Address</Form.Label>
+                                <Form.Control placeholder="1234 Main St" />
+                                </Form.Group> */}
 
                         <Form.Group as={Col} controlId="formGridAssignToClub">
                             <Form.Label>Assign To a Club</Form.Label>
@@ -196,37 +222,56 @@ class AthletesAdd extends Component {
                             <Form.Label>Avatar Image</Form.Label>
                             <Form.File id="formcheck-api-custom" custom>
                                 <Form.File.Input
-                                // isValid 
-                                name="file"
-                                type="file"
-                                onChange={this.HandlerEventADD_FILE}
+                                    // isValid 
+                                    // required
+                                    name="file"
+                                    type="file"
+                                    onChange={this.HandlerEventADD_FILE}
                                 />
                                 <Form.File.Label data-browse="Button text">
                                     Custom file input
-                        </Form.File.Label>
+                                        </Form.File.Label>
                                 {/* <Form.Control.Feedback type="valid">You did it!</Form.Control.Feedback> */}
                             </Form.File>
                         </Form.Group>
 
 
-
+                        <Button onClick={this.props.onHide} id={classes.BtnClose}>
+                            Close
+                        </Button>
+                        <Button
+                            type='submit'
+                            // onClick={() => {
+                            //     // this.props.onHideAdded();
+                            //     this.props.onAdd(this.state.details);
+                            //     this.incrementID();
+                            //     this.props.onHide();
+                            // }
+                            // }
+                            id={classes.BtnSave}>
+                            Save
+                        </Button>
 
                     </Form>
+                    {/* )}
+                    /> */}
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={this.props.onHide} id={classes.BtnClose}>Close</Button>
+                    {/* <Button onClick={this.props.onHide} id={classes.BtnClose}>
+                        Close
+                    </Button>
                     <Button
                         onClick={() => {
+                            // this.props.onHideAdded();
                             this.props.onAdd(this.state.details);
                             this.incrementID();
                             this.props.onHide();
-                            
-                            }
+                        }
                         }
                         id={classes.BtnSave}>
                         Save
-                        </Button>
+                        </Button> */}
                 </Modal.Footer>
             </Modal>
         );
