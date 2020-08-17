@@ -1,13 +1,9 @@
 import React from "react";
 import { Modal, Button as RButton } from "react-bootstrap";
-import { Formik } from "formik";
 import "./AdminClubs.css";
 import {
-  InputGroup,
-  FormControl,
   Form,
   Button,
-  Checkbox,
   Divider,
   Select,
   Label,
@@ -94,7 +90,7 @@ class EditClubModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={() => this.onSubmit()}>
+          <Form onSubmit={() => this.props.onHide()}>
             <Form.Field>
               <label id="assignACoach">Club's Name</label>
               <input
@@ -137,7 +133,8 @@ class EditClubModal extends React.Component {
                 <Button
                   id="deleteModalButton"
                   onClick={() => {
-                    this.props.onHide();
+                  this.props.onHide();
+                  this.props.onDelete();
                   }}
                 >
                   Delete
@@ -153,7 +150,7 @@ class EditClubModal extends React.Component {
               </Button.Group>
             </div>
           </Form>
-        
+         
         </Modal.Body>
       </Modal>
     );
