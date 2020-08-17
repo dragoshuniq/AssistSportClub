@@ -10,7 +10,9 @@ import {
   Pagination,
   Image,
 } from "semantic-ui-react";
+import AthletesAdd from "../Athletes/AthletesAdd/AthletesAdd";
 import "./AdminClubs.css";
+import { NavLink } from "react-router-dom";
 import AddClubModal from "./AddClubModal";
 import AddedConfirmModal from "./AddedConfirmModal";
 import EditClubModal from "./EditClubModal";
@@ -34,6 +36,7 @@ class AdminClubDetails extends React.Component {
       pageCount: 0,
       totalMembers: 0,
       totalPosts: 0,
+      addAthletesShow: false,
     };
     this.handlePageClick = this.handlePageClick.bind(this);
   }
@@ -92,59 +95,61 @@ class AdminClubDetails extends React.Component {
   };
   PostMembers = (member) => {
     return (
-      <Col xl={4} lg={4} md={6} sm={6} xs={6} style={{ marginTop: "5vh" }}>
-        <div id="memberClubCard">
-          <Row>
-            <Col xl={3} lg={3} md={3} sm={3} xs={3}>
-              <Image
-                src="https://react.semantic-ui.com/images/wireframe/square-image.png"
-                size="medium"
-                circular
-              />
-            </Col>
-            <Col>
-              <Row>
-                <h2 id="memberName">
-                  {member.firstName} {member.lastName}
-                </h2>
-              </Row>
-              <Row>
-                <h4 id="memberAgeGender">
-                  {member.gender}•{member.age}
-                </h4>
-              </Row>
-            </Col>
-          </Row>
+      <NavLink to="/AdminClubDetails">
+        <Col xl={4} lg={4} md={6} sm={6} xs={6} style={{ marginTop: "5vh" }}>
+          <div id="memberClubCard">
+            <Row>
+              <Col xl={3} lg={3} md={3} sm={3} xs={3}>
+                <Image
+                  src="https://react.semantic-ui.com/images/wireframe/square-image.png"
+                  size="medium"
+                  circular
+                />
+              </Col>
+              <Col>
+                <Row>
+                  <h2 id="memberName">
+                    {member.firstName} {member.lastName}
+                  </h2>
+                </Row>
+                <Row>
+                  <h4 id="memberAgeGender">
+                    {member.gender}•{member.age}
+                  </h4>
+                </Row>
+              </Col>
+            </Row>
 
-          <Row style={{ marginTop: "4vh" }}>
-            <Col>
-              <Row>
-                <Col>
-                  <h1 id="primarySport"> primary sport </h1>
-                </Col>
-              </Row>
+            <Row style={{ marginTop: "4vh" }}>
+              <Col>
+                <Row>
+                  <Col>
+                    <h1 id="primarySport"> primary sport </h1>
+                  </Col>
+                </Row>
 
-              <Row>
-                <Col>
+                <Row>
+                  <Col>
+                    <h1 id="primarySport" style={{ color: "black" }}>
+                      Sport
+                    </h1>
+                  </Col>
+                </Row>
+              </Col>
+              <Col>
+                <Row>
+                  <h1 id="primarySport">secondary sport</h1>
+                </Row>
+                <Row>
                   <h1 id="primarySport" style={{ color: "black" }}>
-                    Sport
+                    Sport2
                   </h1>
-                </Col>
-              </Row>
-            </Col>
-            <Col>
-              <Row>
-                <h1 id="primarySport">secondary sport</h1>
-              </Row>
-              <Row>
-                <h1 id="primarySport" style={{ color: "black" }}>
-                  Sport2
-                </h1>
-              </Row>
-            </Col>
-          </Row>
-        </div>
-      </Col>
+                </Row>
+              </Col>
+            </Row>
+          </div>
+        </Col>
+      </NavLink>
     );
   };
   addClubHandler = (member) => {
@@ -199,7 +204,7 @@ class AdminClubDetails extends React.Component {
               <Col xl={2} lg={2} md={2} sm={2} xs={2}>
                 <Button
                   id="membersButton"
-                  onClick={() => this.setState({ addModalShow: true })}
+                  onClick={() => console.log("members")}
                 >
                   Memembers({this.state.totalMembers})
                 </Button>
@@ -207,7 +212,7 @@ class AdminClubDetails extends React.Component {
               <Col xl={2} lg={2} md={2} sm={2} xs={2}>
                 <Button
                   id="requestMembersButton"
-                  onClick={() => this.setState({ addModalShow: true })}
+                  onClick={() => console.log("request")}
                 >
                   Requests
                 </Button>
@@ -227,7 +232,7 @@ class AdminClubDetails extends React.Component {
               <Col md={{ span: 2, offset: 6 }}>
                 <Button
                   id="addNewButtonClub"
-                  onClick={() => this.setState({ addModalShow: true })}
+                  onClick={() => this.setState({ addAthletesShow: true })}
                 >
                   ADD NEW
                 </Button>
@@ -274,6 +279,12 @@ class AdminClubDetails extends React.Component {
                 text: this.state.thisClub.coach,
                 value: this.state.thisClub.coach,
               }}
+            />
+          )}
+          {this.state.addAthletesShow && (
+            <AthletesAdd
+              show={this.state.addAthletesShow}
+              onHide={() => this.setState({ addAthletesShow: false })}
             />
           )}
         </Row>

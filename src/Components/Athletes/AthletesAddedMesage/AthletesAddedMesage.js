@@ -23,10 +23,17 @@ function AthletesAddedMesage(props) {
             </Modal.Body>
             <Modal.Footer>
                 {/* <Button onClick={props.onHide} id={classes.BtnClose}>Close</Button> */}
-                <Button 
-                onClick={props.onHide} 
-                id={classes.BtnDelete}>
-                    Close</Button>
+                <Button
+                    onClick={props.onHide}
+                    id={classes.BtnDelete}
+                    onClick={
+                        () => {
+                            props.onHide();
+                        }
+                    }
+                >
+                    Close
+                    </Button>
             </Modal.Footer>
         </Modal>
     );
