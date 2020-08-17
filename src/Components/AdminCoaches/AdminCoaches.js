@@ -107,6 +107,7 @@ class AdminCoaches extends React.Component {
         });
       });
   }
+
   /* fetchDataFromServer() {
     fetch("https://next.json-generator.com/api/json/get/Nklk-DiWY")
       .then((res) => res.json())
@@ -289,6 +290,7 @@ class AdminCoaches extends React.Component {
         }}
         key={value.id}
       >
+        
         <Col xl={1} lg={1} md={1} sm={1} xs={1}>
           <Checkbox
             onChange={() => this.onCheckedHandler(value.id)}
@@ -511,6 +513,7 @@ class AdminCoaches extends React.Component {
               coach={this.state.addedCoach}
             />
           )}
+          {console.log(this.state.data)}
         </Row>
       </Container>
     );

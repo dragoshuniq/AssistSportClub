@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Image, Navbar, Nav, NavDropdown, Form, FormControl, InputGroup, Button, Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoffee, faFlag, faTrophy, faRunning, faFutbol, faSignOutAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Input, Checkbox, Button as SemanticButton, Icon, Pagination, } from "semantic-ui-react";
 
 import classes from './Athletes.module.css';
 import AthletesEdit from './AthletesEdit/AthletesEdit';
@@ -9,24 +10,51 @@ import AthletesAdd from './AthletesAdd/AthletesAdd';
 import AthletesDelete from './AthletesDelete/AthletesDelete';
 import AthletesAddedMesage from './AthletesAddedMesage/AthletesAddedMesage';
 
-
-
-
+import { Route, NavLink, Switch } from 'react-router-dom';
 
 class Athletes extends Component {
+    constructor(props) {
+        super(props);
 
+        this.state = {
+            // imagine: require('../../poze/img1.jpg'),
+            listaAtleti: [],
+            listaAtleti2: [],
 
+            editModalShow: false,
+            addModalShow: false,
+            deleteModalShow: false,
+            addedMesageModalShow: false,
+            search: '',
+            searchAthletsIndexOnClick: {},
+            copieAtlet: {},
+            currentPage: 1,
+            postsPerPage: 6,
+            offset: 0,
+            pageCount: 0,
+            totalPosts: -1
 
-    state = {
-        imagine: require('../../poze/img1.jpg'),
-        listaAtleti: [],
-        editModalShow: false,
-        addModalShow: false,
-        deleteModalShow: false,
-        addedMesageModalShow: false,
-        search: '',
-        searchAthletsIndexOnClick: {}
+        }
+        this.handlePageClick = this.handlePageClick.bind(this);
+
     }
+    // paginare
+    handlePageClick = (e, { activePage }) => {
+        const selectedPage = activePage;
+        console.log("e.target.value", activePage);
+
+        const offset = selectedPage * this.state.postsPerPage;
+
+        this.setState(
+            {
+                currentPage: selectedPage,
+                offset: offset,
+            },
+            () => {
+                this.fetchDataFromServer();
+            }
+        );
+    };
 
     // search
     updateSearch(event) {
@@ -44,26 +72,90 @@ class Athletes extends Component {
             .then((res) => res.json())
             .then(
                 (result) => {
+
                     this.setState({
-                        listaAtleti: result
+                        listaAtleti: result,
+                        listaAtleti2: result
                     });
+
+                    this.setState({ totalPosts: Math.ceil(result.length / 6) });
+
+                    const slice = result.slice(
+                        this.state.offset,
+                        this.state.offset + this.state.postsPerPage
+                    );
+
+                    this.setState({ listaAtleti: slice });
+                    this.setState({ result: slice });
+
                     // console.log(result);
                 }
             );
     }
 
+    nameChangeHandlerName = (event) => {
+        this.setState({
+            ...this.state.listaAtleti,
+            searchAthletsIndexOnClick: {
+                name: event.target.value
+            }
+        })
+
+    }
 
     nameChangeHandler = (event) => {
         this.setState({
-            searchAthletsIndexOnClick: 
-                event.target.value
+            ...this.state.listaAtleti,
+            searchAthletsIndexOnClick: {
+                name: event.target.value,
+                email: event.target.value
+            }
         })
     }
 
+    // edit
+    changeAtlet(atlet) {
+        const arr = [];
+        this.state.listaAtleti.map((res) => {
+            if (res.id === atlet.id) {
+                const atl = res;
+                arr.push(atl);
+            } else arr.push(res);
+        });
+        this.setState({ arr });
+    }
 
+    // add
+    onAddAtleti = (atlet) => {
+        this.setState({
+            ...this.state,
+            listaAtleti: [
+                ...this.state.listaAtleti,
+                atlet
+            ]
+        })
+    }
+
+    // delete
+    onDeleteAtleti = (idAtlet) => {
+        const listaAtletiStersi = this.state.listaAtleti.filter((el, index) => {
+            return (
+                (index + 1) !== idAtlet
+            );
+        })
+        { console.log('lista alteti', listaAtletiStersi) }
+
+        this.setState({
+            ...this.state,
+            listaAtleti: listaAtletiStersi
+        })
+
+    }
 
     render() {
+        const numarAtleti = this.state.listaAtleti2.length;
 
+        console.log('numar atleti', numarAtleti)
         // filtrare search and put in a variable 
         let filteredAthlets = this.state.listaAtleti.filter(
             (el) => {
@@ -116,43 +208,74 @@ class Athletes extends Component {
                 <Row>
                     {filteredAthlets.map((el, index) => {
                         return (
-                            <Col key={index} md={3} className={classes.cart} onClick={() => this.setState({ editModalShow: true, searchAthletsIndexOnClick: el })}>
-                                <Row>
+                            <Col key={index} md={3}
+                                className={classes.cart}
+                                onClick={() => this.setState({ editModalShow: true, searchAthletsIndexOnClick: el })}>
+                                <Row className={classes.marginBotRow}>
                                     <Col md='3'>
-                                        <Image className={classes.cartImg} src={this.state.imagine} roundedCircle />
-
+                                        <Image className={classes.cartImg} src={el.file} roundedCircle />
                                     </Col>
                                     <Col>
-                                        <p>{el.name}</p>
-                                        <p>Male  {el.id} YEARS</p>
+                                        <p className={classes.Name}>{el.name}</p>
+                                        <p className={classes.Gender_Years}>{el.gender} - {el.age} YEARS</p>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col md='6'>
-                                        <p>Primari sport</p>
-                                        <p>Biking</p>
+                                        <p className={classes.primary_sport}>PRIMARY SPORTS</p>
+                                        <p className={classes.noMargin}>{el.primary_sports}</p>
                                     </Col>
                                     <Col md='6'>
-                                        <p>Secontary sport</p>
-                                        <p>Running</p>
+                                        <p className={classes.secondary_sport}>SECONDARY SPORTS</p>
+                                        <p className={classes.noMargin}>{el.secondary_sports}</p>
                                     </Col>
                                 </Row>
                             </Col>
 
                         );
-                    })}
+                    })}                   
+
                 </Row>
                 {/* END map */}
 
                 {/* all modal */}
-                <Row>
-                    <AthletesEdit changed={this.nameChangeHandler} atlet={this.state.searchAthletsIndexOnClick} show={this.state.editModalShow} onHide={() => this.setState({ editModalShow: false })} />
-                    <AthletesAdd show={this.state.addModalShow} onHide={() => this.setState({ addModalShow: false })} />
-                    <AthletesDelete show={this.state.deleteModalShow} onHide={() => this.setState({ deleteModalShow: false })} />
+                <Row className={classes.test}>
+
+                    {this.state.editModalShow && (
+                        <AthletesEdit
+                    
+                            atlet={this.state.searchAthletsIndexOnClick}
+                            changeAtlet={(e) => this.changeAtlet(e)}
+                            show={this.state.editModalShow}
+                            onHide={() => this.setState({ editModalShow: false })}
+                            onHideDelete={() => this.setState({ editModalShow: false, deleteModalShow: true })}
+                        />
+                    )}
+                    {console.log(this.state.searchAthletsIndexOnClick)}
+                    <AthletesAdd
+                        countAtleti={numarAtleti}
+                        onAdd={this.onAddAtleti}
+                        show={this.state.addModalShow}
+                        onHide={() => this.setState({ addModalShow: false })}
+                    />
+                    <AthletesDelete
+                        idAtletStergere={this.state.searchAthletsIndexOnClick.id}
+                        delete={this.onDeleteAtleti}
+                        show={this.state.deleteModalShow}
+                        onHide={() => this.setState({ deleteModalShow: false })} />
                     <AthletesAddedMesage show={this.state.addedMesageModalShow} onHide={() => this.setState({ addedMesageModalShow: false })} />
+
+                </Row>
+                <Row>
+                    <Col>
+                        <Pagination
+                            defaultActivePage={1}
+                            totalPages={this.state.totalPosts}
+                            onPageChange={this.handlePageClick}
+                        />
+                    </Col>
                 </Row>
                 {/* END modal */}
-                {/* {console.log(this.state.searchAthletsIndexOnClick)} */}
 
             </Container>
         );
