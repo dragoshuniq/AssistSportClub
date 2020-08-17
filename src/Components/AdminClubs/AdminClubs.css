@@ -219,9 +219,9 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #000000;
-  text-decoration: underline ;
+  text-decoration: underline;
   text-decoration-color: #8e9296;
-
+  cursor: pointer;
 }
 
 #optionalLabel {
@@ -240,17 +240,20 @@
   text-transform: capitalize;
   color: #000000;
 }
-label
-{
+label {
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
   line-height: 16px;
   text-transform: capitalize;
-  color: #000000; 
+  color: #000000;
 }
-#labelAddAnother
-{
+#labelAddAnother {
   background-color: transparent;
+  cursor: pointer;
+}
+
+#borderModal {
+  border-radius: 80px;
 }

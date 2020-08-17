@@ -17,18 +17,18 @@ import Login from '../Login/Login';
 
 
 
-
 import AdminClubs from "../AdminClubs/AdminClubs";
 
-
 import AdminClubDetails from "../AdminClubs/AdminClubDetails";
+
+
 
 class Navigation extends Component {
  
 
     state = {
         imagine: require('../../poze/img1.jpg'),
-        showAllNavigation: false,
+        showAllNavigation: true,
         logout: false
     }
 
@@ -148,6 +148,8 @@ class Navigation extends Component {
                                 {/* <Route path="/Events" component={Events} /> */}
                                 <Route path="/AdminClubs" component={AdminClubs} />
                                 <Route path="/Athletes" component={Athletes} />
+                                <Route path="/AdminClubDetails" component={AdminClubDetails} />
+                                
                                 {/* <Route path="/Login" component={Login} /> */}
                             </Switch>
                         </Col>

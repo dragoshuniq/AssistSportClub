@@ -59,7 +59,7 @@ class AdminClubs extends React.Component {
   };
   PostClub = (club) => {
     return (
-      <NavLink exact to="/AdminClubDetails">
+      <NavLink to="/AdminClubDetails">
         
         <Col xl={3} lg={3} md={6} sm={12} xs={12} style={{ marginTop: "5vh" }}>
           <div id="clubCard">
@@ -125,18 +125,20 @@ class AdminClubs extends React.Component {
             >
               <Col xl={4} lg={4} md={4} sm={12} xs={12}>
                 <div>
-                  <Input
-                    fluid
-                    icon="search"
-                    iconPosition="left"
-                    placeholder="Search clubs..."
-                    onChange={this.searchHandler}
-                  />
+                <Input
+                  fluid
+                  icon="search"
+                  iconPosition="left"
+                  placeholder="Search clubs..."
+                  id="searchClubs"
+                  onChange={this.searchHandler}
+                />
                 </div>
               </Col>
               <Col md={{ span: 2, offset: 6 }}>
                 <Button
-                  id="addNewButton"
+                                    id="addNewButtonClub"
+
                   onClick={() => this.setState({ addModalShow: true })}
                 >
                   ADD NEW
@@ -158,7 +160,7 @@ class AdminClubs extends React.Component {
           </Col>
           {this.state.addModalShow && (
             <AddClubModal
-              addClubHandler={(val) => this.addClubHandler(val)}
+              addClubHandler={(club)=>this.addClubHandler(club)}
               show={this.state.addModalShow}
               onHide={() => this.setState({ addModalShow: false })}
             />
