@@ -8,10 +8,10 @@ import { Container, Row, Col, Image, Navbar, Nav, NavDropdown, Form, FormControl
 import { Route, NavLink, Switch } from 'react-router-dom';
 import AdminCoaches from '../AdminCoaches/AdminCoaches';
 // import Clubs from '../Clubs/Clubs';
-// import Events from '../Events/Events';
+ import Events from '../Events/Events';
 import Athletes from '../Athletes/Athletes';
 import Login from '../Login/Login';
-
+import EventPage from '../Events/EventPage/EventPage';
 
 
 
@@ -20,8 +20,9 @@ import Login from '../Login/Login';
 
 import AdminClubs from "../AdminClubs/AdminClubs";
 
-
 import AdminClubDetails from "../AdminClubs/AdminClubDetails";
+
+
 
 class Navigation extends Component {
  
@@ -145,9 +146,12 @@ class Navigation extends Component {
                             <Switch>
                                 <Route exact path="/" component={AdminCoaches} />
                                 <Route exact path="/AdminCoaches" component={AdminCoaches} />
-                                {/* <Route path="/Events" component={Events} /> */}
+                                <Route path="/Events" component={Events} />
+                                <Route path="/EventPage" component={EventPage} />
                                 <Route path="/AdminClubs" component={AdminClubs} />
                                 <Route path="/Athletes" component={Athletes} />
+                                <Route path="/AdminClubDetails" component={AdminClubDetails} />
+                                
                                 {/* <Route path="/Login" component={Login} /> */}
                             </Switch>
                         </Col>

@@ -13,6 +13,8 @@ import Event from './Event/Event';
 import { getCurrentDate } from '../Utils/Utils'
 import ReactPagination from "react-js-pagination";
 
+import { Route, NavLink, Switch } from 'react-router-dom';
+
 class Events extends Component {
   constructor(props) {
     super(props);
@@ -138,6 +140,7 @@ class Events extends Component {
     return (
       <Col>
 
+      <NavLink to='/EventPage'>
         <Event
           name={event.name}
           description={event.description}
@@ -148,6 +151,7 @@ class Events extends Component {
           key={event.id}
 
         />
+        </NavLink>
 
       </Col>);
   };

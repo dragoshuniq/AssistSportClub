@@ -8,11 +8,11 @@ import {
   Form,
   Button,
   Checkbox,
+  Divider,
   Select,
   Label,
   Icon,
 } from "semantic-ui-react";
-
 class EditClubModal extends React.Component {
   constructor(props) {
     super(props);
@@ -84,7 +84,7 @@ class EditClubModal extends React.Component {
     return (
       <Modal
         {...this.props}
-        size="lg"
+        size="tinny"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
@@ -94,10 +94,12 @@ class EditClubModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form onSubmit={() => this.onSubmit()}>
             <Form.Field>
               <label id="assignACoach">Club's Name</label>
               <input
+                id="field"
+                required
                 placeholder="Club"
                 value={this.state.club.name}
                 onChange={(event) => this.onChangeClubName(event.target.value)}
@@ -107,10 +109,11 @@ class EditClubModal extends React.Component {
             <Form.Field>
               <label id="assignACoach">Assign a coach</label>
               <Select
-                placeholder="Club Assign"
+                id="field"
+                placeholder="Coach Assign"
                 options={this.state.trainOptions}
-                onChange={(e, { value }) => this.onChangeClubCoach(value)}
                 defaultValue={this.state.trainOptions[0].value}
+                onChange={(e, { value }) => this.onChangeClubCoach(value)}
               />
             </Form.Field>
             <div style={{ flexDirection: "row" }}>
@@ -127,26 +130,31 @@ class EditClubModal extends React.Component {
               this.state.members.map((item) => <this.InviteInput />)}
 
             {this.state.isInvite && <this.AddAnother />}
+
+            <Divider />
+            <div className="form-group">
+              <Button.Group fluid>
+                <Button
+                  id="deleteModalButton"
+                  onClick={() => {
+                    this.props.onHide();
+                  }}
+                >
+                  Delete
+                </Button>
+                <Button.Or />
+                <Button id="canceModalButton" onClick={this.props.onHide}>
+                  Cancel
+                </Button>
+                <Button.Or />
+                <Button id="addModalButton" type="submit">
+                  ADD NEW
+                </Button>
+              </Button.Group>
+            </div>
           </Form>
+        
         </Modal.Body>
-        <Modal.Footer>
-          <RButton
-            id="canceModalButton"
-            variant="light"
-            onClick={this.props.onHide}
-          >
-            Cancel
-          </RButton>
-          <RButton
-            id="addModalButton"
-            onClick={() => {
-              this.props.addClubHandler(this.state.club);
-              this.props.onHide();
-            }}
-          >
-            ADD NEW
-          </RButton>
-        </Modal.Footer>
       </Modal>
     );
   }

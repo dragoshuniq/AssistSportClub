@@ -1,0 +1,58 @@
+#mainContentParticipant{
+    
+    box-shadow: 10px 10px 12px -8px rgba(0,0,0,0.59);
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    float:left;
+    margin-top:10px;
+}
+#profilePhoto{
+    height: 70px;
+    width: 70px;
+    border-radius:50px;
+    box-shadow: 10px 10px 12px -8px rgba(0,0,0,0.59);
+}
+#name{
+    /* inter/h3 */
+
+font-family: Inter;
+font-style: normal;
+font-weight: normal;
+font-size: 24px;
+line-height: 32px;
+/* or 133% */
+
+display: flex;
+align-items: center;
+
+color: #000000;
+
+
+/* Inside Auto Layout */
+
+flex: none;
+order: 0;
+align-self: flex-start;
+margin-top: 10px;
+}
+#generalDates{
+    /* inter/subtitle */
+font-family: Inter;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 14px;
+/* identical to box height, or 117% */
+
+display: flex;
+align-items: center;
+letter-spacing: 0.06em;
+text-transform: uppercase;
+
+color: #000000;
+
+
+/* Inside Auto Layout */
+margin-top:10px;
+}
