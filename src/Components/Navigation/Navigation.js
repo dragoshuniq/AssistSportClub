@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 import classes from './Navigation.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,13 +7,24 @@ import { Container, Row, Col, Image, Navbar, Nav, NavDropdown, Form, FormControl
 
 import { Route, NavLink, Switch } from 'react-router-dom';
 import AdminCoaches from '../AdminCoaches/AdminCoaches';
-import Clubs from '../Clubs/Clubs';
-import Events from '../Events/Events';
+// import Clubs from '../Clubs/Clubs';
+// import Events from '../Events/Events';
 import Athletes from '../Athletes/Athletes';
 import Login from '../Login/Login';
 
 
+
+
+
+
+
+import AdminClubs from "../AdminClubs/AdminClubs";
+
+
+import AdminClubDetails from "../AdminClubs/AdminClubDetails";
+
 class Navigation extends Component {
+ 
 
     state = {
         imagine: require('../../poze/img1.jpg'),
@@ -83,7 +94,7 @@ class Navigation extends Component {
                                             }
 
                                         </NavLink>
-                                        <NavLink className={classes.NavLink} activeClassName='active' activeStyle={styleActive} to='/Clubs' exact>
+                                        <NavLink className={classes.NavLink} activeClassName='active' activeStyle={styleActive} to='/AdminClubs' exact>
 
                                             <FontAwesomeIcon icon={faTrophy} />
                                             {
@@ -134,8 +145,8 @@ class Navigation extends Component {
                             <Switch>
                                 <Route exact path="/" component={AdminCoaches} />
                                 <Route exact path="/AdminCoaches" component={AdminCoaches} />
-                                <Route path="/Events" component={Events} />
-                                <Route path="/Clubs" component={Clubs} />
+                                {/* <Route path="/Events" component={Events} /> */}
+                                <Route path="/AdminClubs" component={AdminClubs} />
                                 <Route path="/Athletes" component={Athletes} />
                                 {/* <Route path="/Login" component={Login} /> */}
                             </Switch>
