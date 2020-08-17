@@ -10,6 +10,7 @@ import {
   Pagination,
   Image,
 } from "semantic-ui-react";
+import AthletesAdd from "../Athletes/AthletesAdd/AthletesAdd";
 import "./AdminClubs.css";
 import { NavLink } from "react-router-dom";
 import AddClubModal from "./AddClubModal";
@@ -35,6 +36,7 @@ class AdminClubDetails extends React.Component {
       pageCount: 0,
       totalMembers: 0,
       totalPosts: 0,
+      addAthletesShow: false,
     };
     this.handlePageClick = this.handlePageClick.bind(this);
   }
@@ -202,7 +204,7 @@ class AdminClubDetails extends React.Component {
               <Col xl={2} lg={2} md={2} sm={2} xs={2}>
                 <Button
                   id="membersButton"
-                  onClick={() => this.setState({ addModalShow: true })}
+                  onClick={() => console.log("members")}
                 >
                   Memembers({this.state.totalMembers})
                 </Button>
@@ -230,7 +232,7 @@ class AdminClubDetails extends React.Component {
               <Col md={{ span: 2, offset: 6 }}>
                 <Button
                   id="addNewButtonClub"
-                  onClick={() => this.setState({ addModalShow: true })}
+                  onClick={() => this.setState({ addAthletesShow: true })}
                 >
                   ADD NEW
                 </Button>
@@ -277,6 +279,12 @@ class AdminClubDetails extends React.Component {
                 text: this.state.thisClub.coach,
                 value: this.state.thisClub.coach,
               }}
+            />
+          )}
+          {this.state.addAthletesShow && (
+            <AthletesAdd
+              show={this.state.addAthletesShow}
+              onHide={() => this.setState({ addAthletesShow: false })}
             />
           )}
         </Row>

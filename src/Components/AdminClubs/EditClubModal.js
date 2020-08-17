@@ -17,7 +17,6 @@ class EditClubModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      
       members: [],
       isInvite: false,
       trainOptions: [
@@ -95,7 +94,7 @@ class EditClubModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Form onSubmit={()=> this.onSubmit()}>
+          <Form onSubmit={() => this.onSubmit()}>
             <Form.Field>
               <label id="assignACoach">Club's Name</label>
               <input
@@ -135,6 +134,15 @@ class EditClubModal extends React.Component {
             <Divider />
             <div className="form-group">
               <Button.Group fluid>
+                <Button
+                  id="deleteModalButton"
+                  onClick={() => {
+                    this.props.onHide();
+                  }}
+                >
+                  Delete
+                </Button>
+                <Button.Or />
                 <Button id="canceModalButton" onClick={this.props.onHide}>
                   Cancel
                 </Button>
@@ -145,6 +153,7 @@ class EditClubModal extends React.Component {
               </Button.Group>
             </div>
           </Form>
+        
         </Modal.Body>
       </Modal>
     );
