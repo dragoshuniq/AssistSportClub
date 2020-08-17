@@ -14,6 +14,7 @@ import { getCurrentDate } from '../Utils/Utils'
 import ReactPagination from "react-js-pagination";
 
 import { Route, NavLink, Switch } from 'react-router-dom';
+import AddEventModal from './AddEventModal/AddEventModal';
 
 class Events extends Component {
   constructor(props) {
@@ -37,7 +38,8 @@ class Events extends Component {
       offset: 0,
       pageCount: 0,
       totalPosts: -1,
-      useArray: []
+      useArray: [],
+      addEventShow: false 
     };
     this.handlePageClick = this.handlePageClick.bind(this);
   }
@@ -48,7 +50,7 @@ class Events extends Component {
     const selectedPage = activePage;
     console.log("e.target.value", activePage);
 
-    const offset = selectedPage * this.state.postsPerPage;
+    const offset = (selectedPage -1) * this.state.postsPerPage;
 
     this.setState(
       {
@@ -213,7 +215,7 @@ class Events extends Component {
               <Col md={{ span: 2, offset: 6 }}>
                 <Button
                   id="addNewButton"
-                  onClick={() => this.setState({ addModalShow: true })}
+                  onClick={() => this.setState({ addEventShow: true })}
                 >
                   ADD NEW
                     </Button>
@@ -259,6 +261,15 @@ class Events extends Component {
                 onPageChange={this.handlePageClick}
               />
             </Row>
+
+            <Row>
+          {this.state.addEventShow && (
+            <AddEventModal
+              show={this.state.addEventShow}
+              onHide={() => this.setState({ addEventShow: false })}
+            />
+          )}
+        </Row>
           </Col>
         </Row>
       </Container>

@@ -10,6 +10,7 @@ import {
   } from "semantic-ui-react";
 
 const participant=(props)=>{
+    console.log("proba", props.comparePerformance);
     return(
         <Container id="mainContentParticipant" fluid>
             <Row>
@@ -19,12 +20,17 @@ const participant=(props)=>{
                         <Image id="profilePhoto"
                       src={props.profile_photo} alt="No image"/>
                         </Col>
-                        <Col xl={1} lg={1} md={1} sm={1} xs={1}>
-                       <Checkbox>
+                        {
+                            props.comparePerformance?(
+                        <Col xl={1} lg={1} md={1} sm={1} xs={1}
+                        
+                        >
+                       <Checkbox >
 
                        </Checkbox>
-                        
-                        </Col>
+                        </Col>):null
+                       
+                            }
                      
                     </Row>
                     <Row id="name">{props.first_name} {props.last_name}</Row>
