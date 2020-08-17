@@ -18,11 +18,11 @@ import EventPage from '../Events/EventPage/EventPage';
 
 
 
-
 import AdminClubs from "../AdminClubs/AdminClubs";
 
-
 import AdminClubDetails from "../AdminClubs/AdminClubDetails";
+
+
 
 class Navigation extends Component {
  
@@ -150,6 +150,8 @@ class Navigation extends Component {
                                 <Route path="/EventPage" component={EventPage} />
                                 <Route path="/AdminClubs" component={AdminClubs} />
                                 <Route path="/Athletes" component={Athletes} />
+                                <Route path="/AdminClubDetails" component={AdminClubDetails} />
+                                
                                 {/* <Route path="/Login" component={Login} /> */}
                             </Switch>
                         </Col>

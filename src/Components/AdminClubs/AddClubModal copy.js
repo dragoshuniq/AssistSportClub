@@ -8,7 +8,6 @@ import {
   Form,
   Button,
   Checkbox,
-  Divider,
   Select,
   Label,
   Icon,
@@ -25,23 +24,14 @@ class AddClubModal extends React.Component {
         { key: "Denis", text: "Denis", value: "Denis" },
         { key: "Vasile", text: "Vasile", value: "Vasile" },
       ],
+
       club: {
         id: Math.random(),
         name: "noName",
         email: "",
-        owner: "",
+        owner: "Ionel",
       },
     };
-  }
-  onChangeEmail(id, value) {
-    const aux = this.state.mailMap;
-    aux.set(id, value);
-    this.setState({ mailMap: aux });
-  }
-  componentWillMount() {
-    const own = this.state.club;
-    own.owner = this.state.trainOptions[0].value;
-    this.setState();
   }
   onChangeClubName(value) {
     const train = this.state.club;
@@ -55,7 +45,6 @@ class AddClubModal extends React.Component {
   }
   inviteMembersHandler() {
     this.setState({
-      mailMap: new Map(),
       isInvite: !this.state.isInvite,
       members: [{ id: Math.random(), email: "First Email." }],
     });
@@ -77,31 +66,18 @@ class AddClubModal extends React.Component {
     );
   };
   InviteInput = () => {
-    var id = Math.random();
     return (
       <Form.Field>
         <label id="assignACoach">Email Adress</label>
-        <input
-          placeholder="Email Adress"
-          id="field"
-          type="email"
-          required
-          onChange={(e) => this.onChangeEmail(id, e.target.value)}
-        />
+        <input placeholder="Email Adress" />
       </Form.Field>
     );
   };
-  onSubmit() {
-    //console.log(this.state.mailMap);
-    //console.log(this.state.club);
-    this.props.addClubHandler(this.state.club);
-    this.props.onHide();
-  }
   render() {
     return (
       <Modal
         {...this.props}
-        size="tinny"
+        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
@@ -111,12 +87,10 @@ class AddClubModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Form onSubmit={()=> this.onSubmit()}>
+          <Form>
             <Form.Field>
               <label id="assignACoach">Club's Name</label>
               <input
-                id="field"
-                required
                 placeholder="Club"
                 onChange={(event) => this.onChangeClubName(event.target.value)}
               />
@@ -125,10 +99,8 @@ class AddClubModal extends React.Component {
             <Form.Field>
               <label id="assignACoach">Assign a coach</label>
               <Select
-                id="field"
-                placeholder="Coach Assign"
+                placeholder="Club Assign"
                 options={this.state.trainOptions}
-                defaultValue={this.state.trainOptions[0].value}
                 onChange={(e, { value }) => this.onChangeCoach(value)}
               />
             </Form.Field>
@@ -146,21 +118,26 @@ class AddClubModal extends React.Component {
               this.state.members.map((item) => <this.InviteInput />)}
 
             {this.state.isInvite && <this.AddAnother />}
-
-            <Divider />
-            <div className="form-group">
-              <Button.Group fluid>
-                <Button id="canceModalButton" onClick={this.props.onHide}>
-                  Cancel
-                </Button>
-                <Button.Or />
-                <Button id="addModalButton" type="submit">
-                  ADD NEW
-                </Button>
-              </Button.Group>
-            </div>
           </Form>
         </Modal.Body>
+        <Modal.Footer>
+          <RButton
+            id="canceModalButton"
+            variant="light"
+            onClick={this.props.onHide}
+          >
+            Cancel
+          </RButton>
+          <RButton
+            id="addModalButton"
+            onClick={() => {
+              this.props.addClubHandler(this.state.club);
+              this.props.onHide();
+            }}
+          >
+            ADD NEW
+          </RButton>
+        </Modal.Footer>
       </Modal>
     );
   }

@@ -15,7 +15,7 @@ function AddedConfirmModal(props) {
   return (
     <Modal
       {...props}
-      size="lg"
+      size="tinny"
       aria-labelledby="contained-modal-title-vcenter"
       centered
       closeButton
