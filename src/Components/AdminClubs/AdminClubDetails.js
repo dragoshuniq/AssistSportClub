@@ -1,21 +1,22 @@
 import React from "react";
 import axios from "axios";
+import DeleteClubModal from "./DeleteClubModal";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import {
   Input,
-  Checkbox,
   Button as SemanticButton,
   Icon,
-  Divider,
   Pagination,
   Image,
 } from "semantic-ui-react";
+import AthletProfile from "./AthletProfile";
 import AthletesAdd from "../Athletes/AthletesAdd/AthletesAdd";
 import "./AdminClubs.css";
 import { NavLink } from "react-router-dom";
 import AddClubModal from "./AddClubModal";
 import AddedConfirmModal from "./AddedConfirmModal";
 import EditClubModal from "./EditClubModal";
+import AthletesEdit from "../Athletes/AthletesEdit/AthletesEdit";
 class AdminClubDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -37,6 +38,10 @@ class AdminClubDetails extends React.Component {
       totalMembers: 0,
       totalPosts: 0,
       addAthletesShow: false,
+      deleteClubModalShow: false,
+      athletProfieShow: false,
+      athleteEditShow: false,
+      profile: {},
     };
     this.handlePageClick = this.handlePageClick.bind(this);
   }
@@ -81,10 +86,10 @@ class AdminClubDetails extends React.Component {
     let value = event.target.value;
     this.setState({ searchValue: value });
     if (value.length !== 0) {
-      const clubUpper = value.toUpperCase();
+      const ath = value.toUpperCase();
       const searchArray = [];
       this.state.data.map((res) => {
-        if (res.name.toUpperCase().includes(clubUpper)) {
+        if (res.name.toUpperCase().includes(ath)) {
           searchArray.push(res);
         }
       });
@@ -95,61 +100,70 @@ class AdminClubDetails extends React.Component {
   };
   PostMembers = (member) => {
     return (
-      <NavLink to="/AdminClubDetails">
-        <Col xl={4} lg={4} md={6} sm={6} xs={6} style={{ marginTop: "5vh" }}>
-          <div id="memberClubCard">
-            <Row>
-              <Col xl={3} lg={3} md={3} sm={3} xs={3}>
-                <Image
-                  src="https://react.semantic-ui.com/images/wireframe/square-image.png"
-                  size="medium"
-                  circular
-                />
-              </Col>
-              <Col>
-                <Row>
-                  <h2 id="memberName">
-                    {member.firstName} {member.lastName}
-                  </h2>
-                </Row>
-                <Row>
-                  <h4 id="memberAgeGender">
-                    {member.gender}•{member.age}
-                  </h4>
-                </Row>
-              </Col>
-            </Row>
+      <Col
+        xl={4}
+        lg={4}
+        md={6}
+        sm={6}
+        xs={6}
+        className="cursorPointer"
+        style={{ marginTop: "5vh" }}
+        onClick={() =>
+          this.setState({ profile: member, athletProfieShow: true })
+        }
+      >
+        <div id="memberClubCard">
+          <Row>
+            <Col xl={3} lg={3} md={3} sm={3} xs={3}>
+              <Image
+                src="https://react.semantic-ui.com/images/wireframe/square-image.png"
+                size="medium"
+                circular
+              />
+            </Col>
+            <Col>
+              <Row>
+                <h2 id="memberName">
+                  {member.firstName} {member.lastName}
+                </h2>
+              </Row>
+              <Row>
+                <h4 id="memberAgeGender">
+                  {member.gender}•{member.age}
+                </h4>
+              </Row>
+            </Col>
+          </Row>
 
-            <Row style={{ marginTop: "4vh" }}>
-              <Col>
-                <Row>
-                  <Col>
-                    <h1 id="primarySport"> primary sport </h1>
-                  </Col>
-                </Row>
+          <Row style={{ marginTop: "4vh" }}>
+            <Col>
+              <Row>
+                <Col>
+                  <h1 id="primarySport"> primary sport </h1>
+                </Col>
+              </Row>
 
-                <Row>
-                  <Col>
-                    <h1 id="primarySport" style={{ color: "black" }}>
-                      Sport
-                    </h1>
-                  </Col>
-                </Row>
-              </Col>
-              <Col>
-                <Row>
-                  <h1 id="primarySport">secondary sport</h1>
-                </Row>
-                <Row>
+              <Row>
+                <Col>
                   <h1 id="primarySport" style={{ color: "black" }}>
-                    Sport2
+                    Sport
                   </h1>
-                </Row>
-              </Col>
-            </Row>
-          </div>
-        </Col>
-      </NavLink>
+                </Col>
+              </Row>
+            </Col>
+            <Col>
+              <Row>
+                <h1 id="primarySport">secondary sport</h1>
+              </Row>
+              <Row>
+                <h1 id="primarySport" style={{ color: "black" }}>
+                  Sport2
+                </h1>
+              </Row>
+            </Col>
+          </Row>
+        </div>
+      </Col>
     );
   };
   addClubHandler = (member) => {
@@ -255,23 +269,11 @@ class AdminClubDetails extends React.Component {
               />
             </Row>
           </Col>
-          {this.state.addModalShow && (
-            <AddClubModal
-              addMemberHandler={(val) => this.addMemberHandler(val)}
-              show={this.state.addModalShow}
-              onHide={() => this.setState({ addModalShow: false })}
-            />
-          )}
-          {this.state.confirmModalShow && (
-            <AddedConfirmModal
-              show={this.state.confirmModalShow}
-              onHide={() => this.setState({ confirmModalShow: false })}
-              club={this.state.addedClub}
-            />
-          )}
+
           {this.state.editModalShow && (
             <EditClubModal
               show={this.state.editModalShow}
+              onDelete={() => this.setState({ deleteClubModalShow: true })}
               onHide={() => this.setState({ editModalShow: false })}
               club={this.state.thisClub}
               coach={{
@@ -285,6 +287,30 @@ class AdminClubDetails extends React.Component {
             <AthletesAdd
               show={this.state.addAthletesShow}
               onHide={() => this.setState({ addAthletesShow: false })}
+            />
+          )}
+          {this.state.deleteClubModalShow && (
+            <DeleteClubModal
+              club={this.state.thisClub}
+              show={this.state.deleteClubModalShow}
+              onHide={() => this.setState({ deleteClubModalShow: false })}
+            />
+          )}
+
+          {this.state.athletProfieShow && (
+            <AthletProfile
+              profile={this.state.profile}
+              club={this.state.thisClub}
+              show={this.state.athletProfieShow}
+              onHide={() => this.setState({ athletProfieShow: false })}
+              onEdit={() => this.setState({ athleteEditShow: true })}
+            />
+          )}
+          {this.state.athleteEditShow && (
+            <AthletesEdit
+              show={this.state.athleteEditShow}
+              onHide={() => this.setState({ athleteEditShow: false })}
+              atlet={this.state.profile}
             />
           )}
         </Row>

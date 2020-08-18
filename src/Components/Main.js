@@ -1,6 +1,6 @@
 import React, { useState, Component } from "react";
 import Navigation from './Navigation/Navigation';
-import Login from './Login/Login';
+import SignIn from './SignIn/SignIn';
 import { Route, NavLink, Switch } from 'react-router-dom';
 
 
@@ -33,7 +33,7 @@ class Main extends Component {
             <Navigation setToggle={this.setToggle} />
             :
             <Switch >
-              <Route path="/Login" component={Login} />
+              <Route path="/SignIn" component={SignIn} />
             </Switch>
         }
       </>

@@ -1,23 +1,41 @@
 import React, { Component } from "react";
 
-import classes from './Navigation.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoffee, faFlag, faTrophy, faRunning, faFutbol, faSignOutAlt, faAlignJustify } from '@fortawesome/free-solid-svg-icons';
-import { Container, Row, Col, Image, Navbar, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
+import classes from "./Navigation.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCoffee,
+  faFlag,
+  faTrophy,
+  faRunning,
+  faFutbol,
+  faSignOutAlt,
+  faAlignJustify,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  Container,
+  Row,
+  Col,
+  Image,
+  Navbar,
+  Nav,
+  NavDropdown,
+  Form,
+  FormControl,
+  Button,
+} from "react-bootstrap";
 
-import { Route, NavLink, Switch } from 'react-router-dom';
-import AdminCoaches from '../AdminCoaches/AdminCoaches';
+import { Route, NavLink, Switch } from "react-router-dom";
+import AdminCoaches from "../AdminCoaches/AdminCoaches";
 // import Clubs from '../Clubs/Clubs';
 import Events2 from '../Events2/Events';
 import Athletes from '../Athletes/Athletes';
 import Login from '../Login/Login';
 import EventsDetails from '../Events2/EventsDetails/EventsDetails';
+import SignIn from "../SignIn/SignIn";
 
 import AdminClubs from "../AdminClubs/AdminClubs";
 
 import AdminClubDetails from "../AdminClubs/AdminClubDetails";
-
-
 
 class Navigation extends Component {
  
@@ -114,7 +132,7 @@ class Navigation extends Component {
 
                                     </div>
                                     <div className={classes.NavBot}>
-                                        <NavLink to='/Login'
+                                        <NavLink to='/SignIn'
                                             className={classes.NavBotLogout}
                                             onClick={
                                                 () => {

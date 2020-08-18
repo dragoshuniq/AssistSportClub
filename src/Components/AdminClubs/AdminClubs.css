@@ -254,6 +254,54 @@ label {
   cursor: pointer;
 }
 
+.cursorPointer {
+  cursor: pointer;
+}
 #borderModal {
   border-radius: 80px;
+}
+.centerElements {
+  justify-content: center;
+  align-items: center;
+}
+
+#profileName {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 42px;
+  text-align: center;
+  text-transform: capitalize;
+  color: #000000;
+}
+
+#sportsTextProfile {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 32px;
+  display: flex;
+  align-items: center;
+  color: #000000;
+}
+#editProfileButton {
+  height: 46px;
+  left: 200px;
+  bottom: 40px;
+  background: #1a1a1a;
+  border-radius: 8px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #44dabd;
+  flex: none;
+  order: 0;
+  align-self: center;
+  margin: 0px 10px;
 }

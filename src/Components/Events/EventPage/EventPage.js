@@ -18,7 +18,9 @@ class EventPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            participants:[]
+            participants:[], 
+            comparePerformance: false,
+            editEventShow: false 
 
         };
     }
@@ -41,6 +43,7 @@ class EventPage extends Component {
          
     
             <Participant
+              comparePerformance={this.state.comparePerformance}
               first_name={event.first_name}
               last_name={event.last_name}
               gender={event.gender}
@@ -57,7 +60,7 @@ class EventPage extends Component {
 
     render() {
         const {
-            participants
+            participants, comparePerformance
           } = this.state;
         let dynamicRender = (
             <Row xs={2} md={4}>
@@ -109,20 +112,26 @@ class EventPage extends Component {
                         </Row>
                         <Row id="participantsHead">
                             <Col xl={4} lg={4} md={4} sm={12} xs={12}>
-                                <Row id="participantsTitle">Participants{}</Row>
+                                <Row id="participantsTitle">Participants(  { this.state.participants.length })</Row>
                                 <Row id="participantsCompare">
-                                    Select participants you want to compare
+                                {`${comparePerformance?'Select participants you want to compare':''}`} 
                             </Row>
                             </Col>
                             <Col md={{ span: 3, offset: 10 }}>
-                                <Button id="comparePerformance" >COMPARE PERFORMANCE</Button>
+                                <Button id="comparePerformance" 
+                                
+                                onClick={()=> {
+                                    this.setState({comparePerformance: !comparePerformance});
+                                    console.log('comparePerformance',comparePerformance);
+                                }}>{`${comparePerformance?'DONE':'COMPARE PERFORMANCE'}`}</Button>
+                               
                             </Col>
                         </Row>
                       
                             {dynamicRender}
-
-                       
-                        <Row>
+                        {/* Show when user press the button COMPARE perform */}
+                        <div id="comparePerformanceArea" style={{visibility: `${comparePerformance?'visible':'hidden'}` }}>
+                        <Row id="selectMatrics">
                             <Col>
                                 Select metrics you want to be compared
                             </Col>
@@ -189,6 +198,7 @@ class EventPage extends Component {
                             Graph
                             </Col>
                         </Row>
+                        </div>
                     </Col>
 
                 </Row>
