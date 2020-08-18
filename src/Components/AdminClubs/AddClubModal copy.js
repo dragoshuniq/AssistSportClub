@@ -1,6 +1,5 @@
 import React from "react";
 import { Modal, Button as RButton } from "react-bootstrap";
-import { Formik } from "formik";
 import "./AdminClubs.css";
 import {
   InputGroup,
