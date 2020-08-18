@@ -1,0 +1,12 @@
+.inputDate {
+  background: #ffffff;
+  border: 1px solid #8e9296;
+  box-sizing: border-box;
+  border-radius: 8px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+}
+.formMargin {
+  margin-top: 5vh;
+}

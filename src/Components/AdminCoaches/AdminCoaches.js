@@ -85,10 +85,9 @@ class AdminCoaches extends React.Component {
   };
   receivedData() {
     axios
-      .get(`https://next.json-generator.com/api/json/get/Nklk-DiWY`)
+      .get(`http://278ebb25ae31.ngrok.io/api/user/2`)
       .then((res) => {
         const data = res.data;
-        //this.setState({ totalPosts: Math.ceil(data.length / 7) });
         const slice = data.slice(
           this.state.offset,
           this.state.offset + this.state.postsPerPage

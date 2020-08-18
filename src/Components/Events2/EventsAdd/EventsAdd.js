@@ -1,7 +1,9 @@
 import React from "react";
 import { Modal, Button as RButton } from "react-bootstrap";
-import { Formik } from "formik";
-import "../AdminClubs.css";
+import DatePicker from "react-datepicker";
+import "react-dropzone-uploader/dist/styles.css";
+import Dropzone from "react-dropzone-uploader";
+import "./EventAdd.css";
 import {
   InputGroup,
   FormControl,
@@ -11,13 +13,18 @@ import {
   Divider,
   Select,
   Label,
+  TextArea,
   Icon,
 } from "semantic-ui-react";
-
-class AddClubModal extends React.Component {
+import { Row, Col } from "react-bootstrap";
+import "react-datepicker/dist/react-datepicker.css";
+import MapContainer from "./MapContainer";
+class EventAdd extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      date: new Date(),
+      time: new Date(),
       members: [],
       isInvite: false,
       trainOptions: [
@@ -31,7 +38,12 @@ class AddClubModal extends React.Component {
         email: "",
         owner: "",
       },
+      location: null,
     };
+  }
+  onClickCoord(coord) {
+    this.setState({ location: coord });
+    console.log(this.state.location);
   }
   onChangeEmail(id, value) {
     const aux = this.state.mailMap;
@@ -39,9 +51,7 @@ class AddClubModal extends React.Component {
     this.setState({ mailMap: aux });
   }
   componentWillMount() {
-    const own = this.state.club;
-    own.owner = this.state.trainOptions[0].value;
-    this.setState();
+    console.log(this.state.date);
   }
   onChangeClubName(value) {
     const train = this.state.club;
@@ -98,6 +108,10 @@ class AddClubModal extends React.Component {
     this.props.onHide();
   }
   render() {
+    const mapStyles = {
+      width: "100%",
+      height: "100%",
+    };
     return (
       <Modal
         {...this.props}
@@ -107,13 +121,13 @@ class AddClubModal extends React.Component {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            <h1 id="coachesText"> Add Club </h1>
+            <h1 id="coachesText"> Add Event </h1>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Form onSubmit={()=> this.onSubmit()}>
+          <Form onSubmit={() => this.onSubmit()}>
             <Form.Field>
-              <label id="assignACoach">Club's Name</label>
+              <label id="assignACoach">Name</label>
               <input
                 id="field"
                 required
@@ -121,17 +135,53 @@ class AddClubModal extends React.Component {
                 onChange={(event) => this.onChangeClubName(event.target.value)}
               />
             </Form.Field>
+            <Divider hidden />
+
+            <Row>
+              <Col>
+                <Form.Field>
+                  <label id="assignACoach">DatePicker </label>
+                  <DatePicker
+                    className="inputDate"
+                    dateFormat="MM/dd/yyyy"
+                    selected={this.state.date}
+                    onChange={(date) => this.setState({ date: date })}
+                  />
+                </Form.Field>
+              </Col>
+              <Col>
+                <Form.Field>
+                  <label id="assignACoach">Time</label>
+                  <DatePicker
+                    selected={this.state.time}
+                    onChange={(time) => this.setState({ time: time })}
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeIntervals={15}
+                    timeCaption="Time"
+                    dateFormat="hh:mm aa"
+                  />
+                </Form.Field>
+              </Col>
+            </Row>
+
+            <Divider hidden />
 
             <Form.Field>
-              <label id="assignACoach">Assign a coach</label>
-              <Select
-                id="field"
-                placeholder="Coach Assign"
-                options={this.state.trainOptions}
-                defaultValue={this.state.trainOptions[0].value}
-                onChange={(e, { value }) => this.onChangeCoach(value)}
-              />
+              <label id="assignACoach">Location</label>
+              <div style={{ justifyContent: "center", alignItems: "center" }}>
+                <MapContainer
+                  onClickCoord={(coord) => this.onClickCoord(coord)}
+                />
+              </div>
             </Form.Field>
+            <Divider hidden />
+
+            <Form.Field style={{ marginTop: "22vh" }}>
+              <label id="assignACoach">Details</label>
+              <TextArea placeholder="Details" id="field" />
+            </Form.Field>
+
             <div style={{ flexDirection: "row" }}>
               <label
                 id="inviteMembers"
@@ -146,7 +196,23 @@ class AddClubModal extends React.Component {
               this.state.members.map((item) => <this.InviteInput />)}
 
             {this.state.isInvite && <this.AddAnother />}
+            <Divider hidden />
 
+            <Form.Field>
+              <label id="assignACoach">Event Cover</label>
+              <Dropzone
+                //  getUploadParams={getUploadParams}
+                //onChangeStatus={handleChangeStatus}
+                //  onSubmit={handleSubmit}
+                multiple={false}
+                //inputContent="or drag&drop here"
+                accept="image/*"
+                maxFiles="1"
+                styles={{
+                  dropzone: { minHeight: 100, maxHeight: 150 },
+                }}
+              />
+            </Form.Field>
             <Divider />
             <div className="form-group">
               <Button.Group fluid>
@@ -166,4 +232,4 @@ class AddClubModal extends React.Component {
   }
 }
 
-export default AddClubModal;
+export default EventAdd;
