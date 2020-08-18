@@ -1,8 +1,8 @@
 import React from "react";
 import { Modal, Button as RButton } from "react-bootstrap";
 import DatePicker from "react-datepicker";
-import { Formik } from "formik";
-import TimePicker from "react-time-picker";
+import "react-dropzone-uploader/dist/styles.css";
+import Dropzone from "react-dropzone-uploader";
 import "./EventAdd.css";
 import {
   InputGroup,
@@ -13,11 +13,12 @@ import {
   Divider,
   Select,
   Label,
+  TextArea,
   Icon,
 } from "semantic-ui-react";
 import { Row, Col } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
-
+import MapContainer from "./MapContainer";
 class EventAdd extends React.Component {
   constructor(props) {
     super(props);
@@ -37,7 +38,12 @@ class EventAdd extends React.Component {
         email: "",
         owner: "",
       },
+      location: null,
     };
+  }
+  onClickCoord(coord) {
+    this.setState({ location: coord });
+    console.log(this.state.location);
   }
   onChangeEmail(id, value) {
     const aux = this.state.mailMap;
@@ -102,6 +108,10 @@ class EventAdd extends React.Component {
     this.props.onHide();
   }
   render() {
+    const mapStyles = {
+      width: "100%",
+      height: "100%",
+    };
     return (
       <Modal
         {...this.props}
@@ -125,6 +135,8 @@ class EventAdd extends React.Component {
                 onChange={(event) => this.onChangeClubName(event.target.value)}
               />
             </Form.Field>
+            <Divider hidden />
+
             <Row>
               <Col>
                 <Form.Field>
@@ -153,6 +165,23 @@ class EventAdd extends React.Component {
               </Col>
             </Row>
 
+            <Divider hidden />
+
+            <Form.Field>
+              <label id="assignACoach">Location</label>
+              <div style={{ justifyContent: "center", alignItems: "center" }}>
+                <MapContainer
+                  onClickCoord={(coord) => this.onClickCoord(coord)}
+                />
+              </div>
+            </Form.Field>
+            <Divider hidden />
+
+            <Form.Field style={{ marginTop: "22vh" }}>
+              <label id="assignACoach">Details</label>
+              <TextArea placeholder="Details" id="field" />
+            </Form.Field>
+
             <div style={{ flexDirection: "row" }}>
               <label
                 id="inviteMembers"
@@ -167,7 +196,23 @@ class EventAdd extends React.Component {
               this.state.members.map((item) => <this.InviteInput />)}
 
             {this.state.isInvite && <this.AddAnother />}
+            <Divider hidden />
 
+            <Form.Field>
+              <label id="assignACoach">Event Cover</label>
+              <Dropzone
+                //  getUploadParams={getUploadParams}
+                //onChangeStatus={handleChangeStatus}
+                //  onSubmit={handleSubmit}
+                multiple={false}
+                //inputContent="or drag&drop here"
+                accept="image/*"
+                maxFiles="1"
+                styles={{
+                  dropzone: { minHeight: 100, maxHeight: 150 },
+                }}
+              />
+            </Form.Field>
             <Divider />
             <div className="form-group">
               <Button.Group fluid>
