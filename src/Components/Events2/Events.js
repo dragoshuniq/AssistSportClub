@@ -236,12 +236,12 @@ class Events extends React.Component {
 
             {/** DETAILS PART */}
             <Row
-            className='test2'
+              className='rowRightEvent'
               id="rowDynamic"
               style={{
                 marginTop: "5vh",
-                marginRight: "4vh",
-                marginLeft: "4vh",
+                // marginRight: "8vh",
+                paddingLeft: "7vh",
               }}
             >
               {
@@ -250,32 +250,34 @@ class Events extends React.Component {
                 this.state.useArray.map((value, index) => {
                   return (
 
-                    <NavLink  className='test3' to="/EventsDetails">
-                      <Col className='test4' xl={3} lg={3} md={6} sm={12} xs={12} style={{ marginTop: "5vh" }}>
-                        {/* <div id="clubCard"> */}
+                    <NavLink className='navLinkCart' to="/EventsDetails">
+                      <Col className='cartCol' xl={3} lg={3} md={6} sm={12} xs={12} >
+                       
+                        <Row className='rowCart'>
 
-                        {/* <div>
-                        <h1 id="clubCardTitle"> {club.name}</h1>
-                        </div> */}
-
-                        {/* <Divider clearing /> */}
-                        {/* <h1 id="membersText">MEMBERS</h1> */}
-
-                        <Row className='test'>
-
-                          <Col>
-                            dsafdasf
+                          <Col className='cartLeft' md={5} >
+                            <Image src={value.src} className='imgLeftCart' />
                           </Col>
 
-                          <Col md='6'>
+                          <Col className='cartRight'>
 
-                            <Row
-                              style={{
-                                flexDirection: "row",
-                                marginLeft: "5%",
-                                alignItems: "center",
-                              }}
-                            >
+                            <Row id='rowRightCart'>
+
+                              <h3 className='marginLeft' >Running for Life</h3>
+                    
+                              <p>
+                                Ad enim sit commodo laborum mollit. Incididunt Lorem exercitation ad occaecat reprehenderit id.
+                              </p>
+
+                              <p className='participants'>
+                                participants
+                              </p>
+
+                              <small className='marginLeft'>20.06.2020</small>
+                              <small>20.06.2020</small>
+
+                              <p className='width'>Suceava Fortress, Main Enter</p>
+
                               <Image src={value.src} size="mini" circular id="imageCircIcons" />
                               <Image src={value.src} size="mini" circular id="imageCircIcons" />
                               <Image src={value.src} size="mini" circular id="imageCircIcons" />
@@ -286,15 +288,7 @@ class Events extends React.Component {
 
                           </Col>
 
-
                         </Row>
-
-                        {/* <div style={{ marginTop: "1vh" }}>
-                        <h1 id="membersText">Coach</h1>
-                        <h1 id="coachText">{club.owner}</h1>
-                        </div> */}
-
-                        {/* </div> */}
 
                       </Col>
                     </NavLink>
@@ -302,8 +296,6 @@ class Events extends React.Component {
 
                   )
                 }
-
-
                 )
 
               }

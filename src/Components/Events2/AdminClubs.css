@@ -61,12 +61,12 @@
   color: #000000;
   margin-top: 0vh;
 } */
-
+/* 
 #rowDynamic {
   padding: 0px;
   margin: 0px;
   width: 100%;
-}
+} */
 
 #dynamicRender {
   width: 100%;
@@ -287,22 +287,65 @@ label {
   margin-top: 20px ;
 }
 
-.test{
-  background-color: red;
-  width: 300px;
+
+.rowCart{
+  width: 550px;
   height: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
-.test2{
-  background-color: blue;
+.rowRightEvent{
+  display: flex;
+  justify-content: space-between;
 }
-.test3{
-  background-color: green;
-  border: black;
-  margin-top: 30px;
+.navLinkCart{
+  padding: 0px;
   margin-right: 30px;
   margin-bottom: 30px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  color: black;
 }
-.test4{
-  background-color: yellow;
-  border: black;
+.navLinkCart:hover{
+  color: black;
+}
+
+/* left card */
+.cartLeft{
+  background-color: red;
+  padding: 0px;
+  margin: 0px;
+}
+.imgLeftCart{
+  /* height: 100%; */
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+.cartRight{
+  padding: 20px;
+}
+.participants{
+  color: #8E9296;
+  display: block;
+  width: 100%;
+}
+.marginLeft{
+  margin-left: 0px;
+}
+#rowRightCart{
+  display: flex;
+  flex-direction: row;
+  margin-left: 5%;
+  margin-right: 5%;
+  align-items: center;
+} 
+.cartCol{
+  border-radius: 10px;
+}
+.width{
+  width: 100%;
 }

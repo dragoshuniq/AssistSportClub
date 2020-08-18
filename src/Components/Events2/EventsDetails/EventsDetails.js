@@ -11,15 +11,34 @@ import {
   Image,
 } from "semantic-ui-react";
 import AthletesAdd from "../../Athletes/AthletesAdd/AthletesAdd";
-import "../AdminClubs.css";
+import "./EventsDetails.css";
 import { NavLink } from "react-router-dom";
 import EventsAdd from "../EventsAdd/EventsAdd";
 import EventsAddedMessage from "../EventsAddedMessage/EventsAddedMessage";
 import EventsEdit from "../EventsEdit/EventsEdit";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCoffee,
+  faFlag,
+  faTrophy,
+  faRunning,
+  faFutbol,
+  faSignOutAlt,
+  faAlignJustify,
+  faMapMarkerAlt,
+  faClock,
+  faCalendarAlt
+} from "@fortawesome/free-solid-svg-icons";
+
 class AdminClubDetails extends React.Component {
+
   constructor(props) {
+
     super(props);
+
     this.state = {
+
       thisClub: {
         name: "Club Name",
         coach: "Coach name",
@@ -36,10 +55,14 @@ class AdminClubDetails extends React.Component {
       pageCount: 0,
       totalMembers: 0,
       totalPosts: 0,
-      addAthletesShow: false,
+      addAthletesShow: false
+
     };
+
     this.handlePageClick = this.handlePageClick.bind(this);
+
   }
+
   receivedData() {
     axios
       .get(`https://next.json-generator.com/api/json/get/EJeP7rkft`)
@@ -57,6 +80,7 @@ class AdminClubDetails extends React.Component {
         });
       });
   }
+
   componentDidMount() {
     this.receivedData();
   }
@@ -77,6 +101,7 @@ class AdminClubDetails extends React.Component {
       }
     );
   };
+
   searchHandler = (event) => {
     let value = event.target.value;
     this.setState({ searchValue: value });
@@ -93,65 +118,8 @@ class AdminClubDetails extends React.Component {
       this.setState({ useArray: this.state.data });
     }
   };
-  PostMembers = (member) => {
-    return (
-      <NavLink to="/AdminClubDetails">
-        <Col xl={4} lg={4} md={6} sm={6} xs={6} style={{ marginTop: "5vh" }}>
-          <div id="memberClubCard">
-            <Row>
-              <Col xl={3} lg={3} md={3} sm={3} xs={3}>
-                <Image
-                  src="https://react.semantic-ui.com/images/wireframe/square-image.png"
-                  size="medium"
-                  circular
-                />
-              </Col>
-              <Col>
-                <Row>
-                  <h2 id="memberName">
-                    {member.firstName} {member.lastName}
-                  </h2>
-                </Row>
-                <Row>
-                  <h4 id="memberAgeGender">
-                    {member.gender}•{member.age}
-                  </h4>
-                </Row>
-              </Col>
-            </Row>
 
-            <Row style={{ marginTop: "4vh" }}>
-              <Col>
-                <Row>
-                  <Col>
-                    <h1 id="primarySport"> primary sport </h1>
-                  </Col>
-                </Row>
 
-                <Row>
-                  <Col>
-                    <h1 id="primarySport" style={{ color: "black" }}>
-                      Sport
-                    </h1>
-                  </Col>
-                </Row>
-              </Col>
-              <Col>
-                <Row>
-                  <h1 id="primarySport">secondary sport</h1>
-                </Row>
-                <Row>
-                  <h1 id="primarySport" style={{ color: "black" }}>
-                    Sport2
-                  </h1>
-                </Row>
-              </Col>
-            </Row>
-          </div>
-        </Col>
-      </NavLink>
-    );
-  };
   addClubHandler = (member) => {
     const localArray = this.state.data;
     localArray.push(member);
@@ -161,107 +129,117 @@ class AdminClubDetails extends React.Component {
       confirmModalShow: true,
     });
   };
-  render() {
-    let dynamicRender = (
-      <div id="dynamicRender">
-        {this.state.useArray.map((value, index) => {
-          return <div>{this.PostMembers(value)}</div>;
-        })}
-      </div>
-    );
-    return (
-      <Container fluid id="containerAdminCoaches">
-        <Row style={{ marginRight: "5vh", marginLeft: "5vh" }}>
-          <Col>
-            <Row>
-              <Col>
-                <Row>
-                  <Col xl={2} lg={2} md={2} sm={2} xs={2}>
-                    <h1 style={{ fontSize: "2vw" }} id="coachesText">
-                      {this.state.thisClub.name}
-                    </h1>
-                  </Col>
-                  <Col id="alignPencil">
-                    <Icon
-                      name="pencil alternate"
-                      size="large"
-                      onClick={() => this.setState({ editModalShow: true })}
-                    />
-                  </Col>
-                </Row>
 
-                <div>
-                  <h1 style={{ marginTop: "1.3vh" }} id="membersText">
-                    Coach
-                  </h1>
-                  <h1 id="membersText" style={{ color: "black" }}>
-                    {this.state.thisClub.coach}
-                  </h1>
-                </div>
-              </Col>
-            </Row>
-            <Row style={{ marginTop: "7vh" }}>
-              <Col xl={2} lg={2} md={2} sm={2} xs={2}>
-                <Button
-                  id="membersButton"
-                  onClick={() => console.log("members")}
-                >
-                  Memembers({this.state.totalMembers})
+  render() {
+
+
+
+    return (
+      <Container id='container'>
+        <Row >
+
+          <Col md={12} className='topEvents'>
+            <p> <b><span className='spanEvent'>Events &#62;</span> Running For Life</b></p>
+          </Col>
+
+          <Col md={12} className='topEventsGroup'>
+            <div>
+              <p>Running for Life</p>
+              <p><span>  <FontAwesomeIcon icon={faCalendarAlt} /> 20.06.2020</span> | <FontAwesomeIcon icon={faClock} />  <span> 09:00 AM </span>  |  <span>  <FontAwesomeIcon icon={faMapMarkerAlt} /> Suceava Fortress, Main Enter</span></p>
+            </div>
+            <Button
+              id="addNewButtonClub"
+
+            // onClick={() => this.setState({ addModalShow: true })}
+            >
+              EDIT
                 </Button>
+
+          </Col>
+
+          <Col className='image' md={12}>
+            dsfasdf
+          </Col>
+
+          <Col className='contentEvent' md={12}>
+            <h3>
+              Est amet incididunt proident proident ipsum incididunt non sint cillum amet ullamco proident ut.
+            </h3>
+            <p>
+              Est amet incididunt proident proident ipsum incididunt non sint cillum amet ullamco proident ut.
+              Consectetur irure quis adipisicing occaecat eiusmod esse nostrud mollit et.
+              Excepteur anim aliquip consequat sint ad ut enim mollit. Amet esse adipisicing aute reprehenderit labore
+              enim exercitation. Dolor laboris irure exercitation elit. Labore labore pariatur deserunt Lorem veniam
+              Lorem incididunt labore sint. Ut laboris ex in nostrud irure fugiat duis nisi non deserunt et. Labore
+              sunt culpa cupidatat non irure duis ipsum nulla dolor in ipsum sint aliqua. Labore ipsum adipisicing id aliquip id qui duis.
+              Laborum ut consectetur esse aliquip anim consectetur dolore mollit anim quis consequat anim proident.
+            </p>
+
+          </Col>
+
+
+          <Col md={12}>
+            <Row>
+
+              <Col md={6}>
+                <p>
+                  Participants (76)
+                </p>
+                <p>
+                  Select participants you want to compare
+                </p>
               </Col>
-              <Col xl={2} lg={2} md={2} sm={2} xs={2}>
-                <Button
-                  id="requestMembersButton"
-                  onClick={() => console.log("request")}
-                >
-                  Requests
-                </Button>
-              </Col>
-            </Row>
-            <Row id="searchCoachesRow">
-              <Col xl={4} lg={4} md={4} sm={12} xs={12}>
-                <Input
-                  fluid
-                  icon="search"
-                  iconPosition="left"
-                  placeholder="Search clubs..."
-                  onChange={this.searchHandler}
-                  id="searchClubs"
-                />
-              </Col>
-              <Col md={{ span: 2, offset: 6 }}>
+
+              <Col md={6} className='doneBtnCol'>
+
                 <Button
                   id="addNewButtonClub"
-                  onClick={() => this.setState({ addAthletesShow: true })}
+                // onClick={() => this.setState({ addModalShow: true })}
                 >
-                  ADD NEW
+                  DONE
                 </Button>
+
               </Col>
-            </Row>
-            {/** DETAILS PART */}
-            <Row>{dynamicRender}</Row>
-            <Row
-              id="pagination"
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "5vh",
-              }}
-            >
-              <Pagination
-                defaultActivePage={1}
-                totalPages={this.state.totalPosts}
-                onPageChange={this.handlePageClick}
-              />
+
+              <Col className='listUsers'>
+                <div className='user'>
+                  sfadsafdasf
+                </div>
+                <div className='user'>
+                  sfadsafdasf
+                </div>
+                <div className='user'>
+                  sfadsafdasf
+                </div>
+                <div className='user'>
+                  sfadsafdasf
+                </div>
+                <div className='user'>
+                  sfadsafdasf
+                </div>
+                <div className='user'>
+                  sfadsafdasf
+                </div>
+              </Col>
+
             </Row>
           </Col>
-          {this.state.addModalShow && (
+
+          <Col >
+            <div>
+
+            </div>
+          </Col>
+
+
+          {/* {this.state.addModalShow && (
             <EventsAdd
               addMemberHandler={(val) => this.addMemberHandler(val)}
               show={this.state.addModalShow}
               onHide={() => this.setState({ addModalShow: false })}
             />
           )}
+
           {this.state.confirmModalShow && (
             <EventsAddedMessage
               show={this.state.confirmModalShow}
@@ -269,6 +247,7 @@ class AdminClubDetails extends React.Component {
               club={this.state.addedClub}
             />
           )}
+
           {this.state.editModalShow && (
             <EventsEdit
               show={this.state.editModalShow}
@@ -281,12 +260,14 @@ class AdminClubDetails extends React.Component {
               }}
             />
           )}
+
           {this.state.addAthletesShow && (
             <AthletesAdd
               show={this.state.addAthletesShow}
               onHide={() => this.setState({ addAthletesShow: false })}
             />
-          )}
+          )} */}
+
         </Row>
       </Container>
     );
