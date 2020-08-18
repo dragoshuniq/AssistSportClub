@@ -11,6 +11,8 @@ import {
 } from "semantic-ui-react";
 import { Formik, Field, ErrorMessage, Form } from "formik";
 import * as Yup from "yup";
+import ReactPaginate from "react-paginate";
+import axios from "axios";
 
 import { Container, Row, Col, Image } from "react-bootstrap";
 import logo from "./login.jpg";
@@ -25,6 +27,14 @@ class SignIn extends React.Component {
       },
       isPassword: true,
     };
+  }
+  signIn() {
+    // axios
+    // .post(`http://278ebb25ae31.ngrok.io/api/auth/login`)
+    // .then((res) => {
+    //  console.log(res);
+    //   });
+    // });
   }
   render() {
     return (
@@ -74,6 +84,20 @@ class SignIn extends React.Component {
                     user.email = fields.email;
                     user.password = fields.password;
                     this.setState({ user: user });
+
+                    console.log(this.state.user);
+                    axios
+                      .post(
+                        "http://278ebb25ae31.ngrok.io/api/auth/login",
+                       this.state.user,{
+                        headers: {  'Content-Type': 'application/json' }}
+                      )
+                      .then((response) => {
+                        console.log(response);
+                      })
+                      .catch(function (error) {
+                        console.log(error);
+                      });
                   }}
                   render={({ errors, status, touched }) => (
                     <Form>
@@ -116,7 +140,7 @@ class SignIn extends React.Component {
                             }
                           />
                           <Icon
-                            style={{ marginLeft: "3vh", alignItems:"center" }}
+                            style={{ marginLeft: "3vh", alignItems: "center" }}
                             name={this.state.isPassword ? "eye slash" : "eye"}
                             size="big"
                             onClick={() =>

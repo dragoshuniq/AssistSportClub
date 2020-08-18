@@ -28,7 +28,7 @@ class AdminClubs extends React.Component {
   }
   receivedData() {
     axios
-      .get(`https://next.json-generator.com/api/json/get/E1lwlJmAWY`)
+      .get(`http://278ebb25ae31.ngrok.io/api/club/2`)
       .then((res) => {
         const data = res.data;
         this.setState({
