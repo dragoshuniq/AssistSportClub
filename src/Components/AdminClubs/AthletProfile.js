@@ -69,8 +69,13 @@ function AthletProfile(props) {
 
           <Divider style={{ marginRight: "13vh", marginLeft: "13vh" }} />
 
-          <Row className="centerElements" style={{ marginTop:"5vh" }}>
-            <Button id="editProfileButton">EDIT PROFILE</Button>
+          <Row
+            className="centerElements"
+            style={{ marginTop: "5vh", marginBottom: "3vh" }}
+          >
+            <Button id="editProfileButton" onClick={() => props.onEdit()}>
+              EDIT PROFILE
+            </Button>
           </Row>
         </Container>
       </Modal.Body>

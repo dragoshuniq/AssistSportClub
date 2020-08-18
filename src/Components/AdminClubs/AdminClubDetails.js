@@ -16,6 +16,7 @@ import { NavLink } from "react-router-dom";
 import AddClubModal from "./AddClubModal";
 import AddedConfirmModal from "./AddedConfirmModal";
 import EditClubModal from "./EditClubModal";
+import AthletesEdit from "../Athletes/AthletesEdit/AthletesEdit";
 class AdminClubDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -39,6 +40,7 @@ class AdminClubDetails extends React.Component {
       addAthletesShow: false,
       deleteClubModalShow: false,
       athletProfieShow: false,
+      athleteEditShow: false,
       profile: {},
     };
     this.handlePageClick = this.handlePageClick.bind(this);
@@ -84,10 +86,10 @@ class AdminClubDetails extends React.Component {
     let value = event.target.value;
     this.setState({ searchValue: value });
     if (value.length !== 0) {
-      const clubUpper = value.toUpperCase();
+      const ath = value.toUpperCase();
       const searchArray = [];
       this.state.data.map((res) => {
-        if (res.name.toUpperCase().includes(clubUpper)) {
+        if (res.name.toUpperCase().includes(ath)) {
           searchArray.push(res);
         }
       });
@@ -106,7 +108,9 @@ class AdminClubDetails extends React.Component {
         xs={6}
         className="cursorPointer"
         style={{ marginTop: "5vh" }}
-        onClick={() => this.setState({ profile: member,athletProfieShow:true })}
+        onClick={() =>
+          this.setState({ profile: member, athletProfieShow: true })
+        }
       >
         <div id="memberClubCard">
           <Row>
@@ -292,12 +296,21 @@ class AdminClubDetails extends React.Component {
               onHide={() => this.setState({ deleteClubModalShow: false })}
             />
           )}
+
           {this.state.athletProfieShow && (
             <AthletProfile
               profile={this.state.profile}
               club={this.state.thisClub}
               show={this.state.athletProfieShow}
               onHide={() => this.setState({ athletProfieShow: false })}
+              onEdit={() => this.setState({ athleteEditShow: true })}
+            />
+          )}
+          {this.state.athleteEditShow && (
+            <AthletesEdit
+              show={this.state.athleteEditShow}
+              onHide={() => this.setState({ athleteEditShow: false })}
+              atlet={this.state.profile}
             />
           )}
         </Row>
