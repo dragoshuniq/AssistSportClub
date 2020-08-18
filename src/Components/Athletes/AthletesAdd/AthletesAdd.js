@@ -66,7 +66,8 @@ class AthletesAdd extends Component {
         })
     }
 
-    onSubmit = () => {
+    onSubmit = (e) => {
+        e.preventDefault();
         this.props.onAdd(this.state.details);
         this.incrementID();
         this.props.onHide();
@@ -88,7 +89,7 @@ class AthletesAdd extends Component {
 
                         render={({ errors, status, touched }) => ( */}
 
-                    <Form onSubmit={() => this.onSubmit()}>
+                    <Form onSubmit={(e) => this.onSubmit(e)}>
 
                         <Form.Row>
                             <Form.Group as={Col} controlId="formGridEmail">
@@ -113,7 +114,7 @@ class AthletesAdd extends Component {
                                 <Form.Label>Email Adress</Form.Label>
                                 <Form.Control
                                     // isValid
-                                    // required
+                                    required
                                     name="email"
                                     type="email"
                                     value={this.state.details.email}
@@ -127,7 +128,7 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridPrimarySports">
                                 <Form.Label>Primary Sports</Form.Label>
                                 <Form.Control
-                                    // required
+                                    required
                                     name="primary_sports"
                                     type="text"
                                     value={this.state.details.primary_sports}
@@ -138,7 +139,7 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridSecondarySports">
                                 <Form.Label>Secondary Sports</Form.Label>
                                 <Form.Control
-                                    // required
+                                    required
                                     name="secondary_sports"
                                     type="text"
                                     value={this.state.details.secondary_sports}
