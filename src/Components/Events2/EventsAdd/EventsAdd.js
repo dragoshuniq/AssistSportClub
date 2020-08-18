@@ -1,7 +1,9 @@
 import React from "react";
 import { Modal, Button as RButton } from "react-bootstrap";
+import DatePicker from "react-datepicker";
 import { Formik } from "formik";
-import "../AdminClubs.css";
+import TimePicker from "react-time-picker";
+import "./EventAdd.css";
 import {
   InputGroup,
   FormControl,
@@ -13,11 +15,15 @@ import {
   Label,
   Icon,
 } from "semantic-ui-react";
+import { Row, Col } from "react-bootstrap";
+import "react-datepicker/dist/react-datepicker.css";
 
-class AddClubModal extends React.Component {
+class EventAdd extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      date: new Date(),
+      time: new Date(),
       members: [],
       isInvite: false,
       trainOptions: [
@@ -39,9 +45,7 @@ class AddClubModal extends React.Component {
     this.setState({ mailMap: aux });
   }
   componentWillMount() {
-    const own = this.state.club;
-    own.owner = this.state.trainOptions[0].value;
-    this.setState();
+    console.log(this.state.date);
   }
   onChangeClubName(value) {
     const train = this.state.club;
@@ -107,13 +111,13 @@ class AddClubModal extends React.Component {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            <h1 id="coachesText"> Add Club </h1>
+            <h1 id="coachesText"> Add Event </h1>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Form onSubmit={()=> this.onSubmit()}>
+          <Form onSubmit={() => this.onSubmit()}>
             <Form.Field>
-              <label id="assignACoach">Club's Name</label>
+              <label id="assignACoach">Name</label>
               <input
                 id="field"
                 required
@@ -121,17 +125,34 @@ class AddClubModal extends React.Component {
                 onChange={(event) => this.onChangeClubName(event.target.value)}
               />
             </Form.Field>
+            <Row>
+              <Col>
+                <Form.Field>
+                  <label id="assignACoach">DatePicker </label>
+                  <DatePicker
+                    className="inputDate"
+                    dateFormat="MM/dd/yyyy"
+                    selected={this.state.date}
+                    onChange={(date) => this.setState({ date: date })}
+                  />
+                </Form.Field>
+              </Col>
+              <Col>
+                <Form.Field>
+                  <label id="assignACoach">Time</label>
+                  <DatePicker
+                    selected={this.state.time}
+                    onChange={(time) => this.setState({ time: time })}
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeIntervals={15}
+                    timeCaption="Time"
+                    dateFormat="hh:mm aa"
+                  />
+                </Form.Field>
+              </Col>
+            </Row>
 
-            <Form.Field>
-              <label id="assignACoach">Assign a coach</label>
-              <Select
-                id="field"
-                placeholder="Coach Assign"
-                options={this.state.trainOptions}
-                defaultValue={this.state.trainOptions[0].value}
-                onChange={(e, { value }) => this.onChangeCoach(value)}
-              />
-            </Form.Field>
             <div style={{ flexDirection: "row" }}>
               <label
                 id="inviteMembers"
@@ -166,4 +187,4 @@ class AddClubModal extends React.Component {
   }
 }
 
-export default AddClubModal;
+export default EventAdd;
