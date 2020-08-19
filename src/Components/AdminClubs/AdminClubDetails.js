@@ -129,7 +129,8 @@ class AdminClubDetails extends React.Component {
             <Col>
               <Row>
                 <h2 id="memberName">
-                  {member.firstName} {member.lastName} {this.props.id}
+                  {member.firstName} {member.lastName} 
+                  {/* {this.props.id} */}
                 </h2>
               </Row>
               <Row>

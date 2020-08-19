@@ -11,9 +11,9 @@ import 'semantic-ui-css/semantic.min.css'
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+   {/* // <BrowserRouter> */}
       <App />
-    </BrowserRouter>
+   {/* // </BrowserRouter> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

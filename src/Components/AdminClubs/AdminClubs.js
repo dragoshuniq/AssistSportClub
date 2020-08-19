@@ -60,7 +60,7 @@ class AdminClubs extends React.Component {
   };
   PostClub = (club) => {
     return (
-      <NavLink to={`/AdminClubDetails/${club.id}`}>
+      <NavLink to={`/Navigation/AdminClubDetails/${club.id}`}>
         
         <Col xl={3} lg={3} md={6} sm={12} xs={12} style={{ marginTop: "5vh" }}>
           <div id="clubCard">

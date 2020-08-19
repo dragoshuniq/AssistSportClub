@@ -185,7 +185,7 @@ class Events extends React.Component {
                 this.state.useArray.map((value, index) => {
                   return (
 
-                    <NavLink className='navLinkCart' to={`/EventsDetails/${value.id}`}>
+                    <NavLink className='navLinkCart' to={`/Navigation/EventsDetails/${value.id}`}>
                       <Col className='cartCol' xl={3} lg={3} md={6} sm={12} xs={12} >
                         {console.log('valu: ', value)}
 
