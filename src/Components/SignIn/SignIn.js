@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext, useContext } from "react";
 import {
   InputGroup,
   FormControl,
@@ -13,10 +13,11 @@ import { Formik, Field, ErrorMessage, Form } from "formik";
 import * as Yup from "yup";
 import ReactPaginate from "react-paginate";
 import axios from "axios";
-
+import AuthApi from "../AuthApi";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import logo from "./login.jpg";
 import "./SignIn.css";
+import serverUrl from "../url";
 class SignIn extends React.Component {
   constructor(props) {
     super(props);
@@ -36,13 +37,14 @@ class SignIn extends React.Component {
     //   });
     // });
   }
+
   render() {
     return (
       <Container fluid style={{ backgroundColor: "#F9F9F9" }}>
-        <Row noGutters className='ceterRoeLog'>
+        <Row noGutters className="ceterRoeLog">
           <Col
             noGutters
-            className='centerLog'
+            className="centerLog"
             xl={4}
             lg={4}
             md={4}
@@ -85,16 +87,15 @@ class SignIn extends React.Component {
                     user.email = fields.email;
                     user.password = fields.password;
                     this.setState({ user: user });
-
-                    console.log(this.state.user);
                     axios
-                      .post(
-                        "http://278ebb25ae31.ngrok.io/api/auth/login",
-                       this.state.user,{
-                        headers: {  'Content-Type': 'application/json' }}
-                      )
+                      .post(serverUrl + "api/auth/login", this.state.user, {
+                        headers: { "Content-Type": "application/json" },
+                      })
                       .then((response) => {
-                        console.log(response);
+                        console.log(response.data.accessToken);
+                        const myStorage = window.localStorage;
+                        myStorage.setItem("user", response.data.accessToken);
+                        window.location.reload(false);
                       })
                       .catch(function (error) {
                         console.log(error);
@@ -143,7 +144,7 @@ class SignIn extends React.Component {
                           <Icon
                             style={{ marginLeft: "3vh", alignItems: "center" }}
                             name={this.state.isPassword ? "eye slash" : "eye"}
-                            className='iconLog'
+                            className="iconLog"
                             size="big"
                             onClick={() =>
                               this.setState({

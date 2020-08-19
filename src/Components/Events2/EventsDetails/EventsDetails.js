@@ -52,7 +52,7 @@ class EventsDetails extends React.Component {
   }
 
   receivedData() {
-    axios.get(`EventsDetails/` + this.props.id).then((res) => {
+    axios.get(`/Navigation/EventsDetails/` + this.props.id).then((res) => {
       this.setState({ data: res.data });
     });
     // axios
