@@ -1,18 +1,23 @@
 import React from "react";
 import axios from "axios";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { Input, Checkbox, Button as SemanticButton, Icon, Divider, Pagination, Image, } from "semantic-ui-react";
+import {
+  Input,
+  Checkbox,
+  Button as SemanticButton,
+  Icon,
+  Divider,
+  Pagination,
+  Image,
+} from "semantic-ui-react";
 import { Route, NavLink, Switch } from "react-router-dom";
 import "./AdminClubs.css";
 import EventsAdd from "./EventsAdd/EventsAdd";
 import EventsAddedMessage from "./EventsAddedMessage/EventsAddedMessage";
 import EventsDetails from "./EventsDetails/EventsDetails";
 
-
 class Events extends React.Component {
-
   constructor(props) {
-
     super(props);
 
     this.state = {
@@ -20,22 +25,21 @@ class Events extends React.Component {
       useArray: [],
       addModalShow: false,
       confirmModalShow: false,
-      addedClub: {},
+      addedEvent: {},
       currentPage: 1,
       postsPerPage: 4,
       offset: 0,
       pageCount: 0,
-      totalPosts: -1
+      totalPosts: -1,
     };
 
     this.handlePageClick = this.handlePageClick.bind(this);
-
   }
 
   // paginare
   handlePageClick = (e, { activePage }) => {
     const selectedPage = activePage;
-    console.log("e.target.value", activePage);
+    //console.log("e.target.value", activePage);
 
     const offset = (selectedPage - 1) * this.state.postsPerPage;
 
@@ -51,15 +55,13 @@ class Events extends React.Component {
   };
 
   receivedData() {
-
     // fetch(`https://next.json-generator.com/api/json/get/E1lwlJmAWY`)
     fetch(`https://next.json-generator.com/api/json/get/N1jZEd3bt`)
       .then((res) => res.json())
       .then((result) => {
-
         this.setState({
           data: result,
-          useArray: result
+          useArray: result,
         });
         // console.log('data=',this.state.data);
         this.setState({ totalPosts: Math.ceil(result.length / 4) });
@@ -73,7 +75,7 @@ class Events extends React.Component {
         this.setState({ result: slice });
 
         // console.log(result);
-      })
+      });
   }
 
   componentDidMount() {
@@ -97,29 +99,22 @@ class Events extends React.Component {
     }
   };
 
-  addClubHandler = (club) => {
-    // console.log(club)
-    const localArray = this.state.data;
-    localArray.push(club);
+  addEventHandler = (event) => {
+    const localArray = this.state.useArray;
+    localArray.push(event);
+    console.log(event);
     this.setState({
-      data: localArray,
-      addedClub: club,
+      useArray: localArray,
+      addedEvent: event,
       confirmModalShow: true,
     });
   };
 
-
-
   render() {
-
-
-
     return (
       <Container fluid id="containerAdminCoaches">
-
         <Row>
           <Col xl={12} lg={12} md={12} sm={12} xs={12}>
-
             <Row style={{ marginRight: "5vh", marginLeft: "5vh" }}>
               <Col>
                 <h1 id="coachesText">Clubs</h1>
@@ -145,7 +140,6 @@ class Events extends React.Component {
               <Col md={{ span: 2, offset: 6 }}>
                 <Button
                   id="addNewButtonEvent"
-
                   onClick={() => this.setState({ addModalShow: true })}
                 >
                   ADD NEW
@@ -154,19 +148,21 @@ class Events extends React.Component {
             </Row>
 
             <Row
-              id='rowBtnGroup'
-            // style={{ marginRight: "5vh", marginLeft: "5vh" }}
+              id="rowBtnGroup"
+              // style={{ marginRight: "5vh", marginLeft: "5vh" }}
             >
-              <Col >
-                <Button id='onGoingBtn' >Ongoing ({this.state.data.length})</Button>
-                <Button id='futureBtn'>Future</Button>
-                <Button id='pastBtn'>Past</Button>
+              <Col>
+                <Button id="onGoingBtn">
+                  Ongoing ({this.state.data.length})
+                </Button>
+                <Button id="futureBtn">Future</Button>
+                <Button id="pastBtn">Past</Button>
               </Col>
             </Row>
 
             {/** DETAILS PART */}
             <Row
-              className='rowRightEvent'
+              className="rowRightEvent"
               id="rowDynamic"
               style={{
                 marginTop: "5vh",
@@ -174,72 +170,85 @@ class Events extends React.Component {
                 paddingLeft: "7vh",
               }}
             >
-              {
+              {this.state.useArray.map((value, index) => {
+                return (
+                  <NavLink
+                    className="navLinkCart"
+                    to={`/EventsDetails/${value.id}`}
+                  >
+                    <Col
+                      className="cartCol"
+                      xl={3}
+                      lg={3}
+                      md={6}
+                      sm={12}
+                      xs={12}
+                    >
+                      {/* //  {console.log("valu: ", value)} */}
 
+                      <Row className="rowCart">
+                        <Col id="cartLeftEvent" md={5}>
+                          <Image src={value.src} id="imgLeftCartEvent" />
+                        </Col>
 
-                this.state.useArray.map((value, index) => {
-                  return (
-                    
-                    <NavLink className='navLinkCart' to={`/EventsDetails/${value.id}`}>
-                      <Col className='cartCol' xl={3} lg={3} md={6} sm={12} xs={12} >
-                        {console.log('valu: ',value)}
+                        <Col className="cartRight">
+                          <Row id="rowRightCart">
+                            <h3 className="marginLeft">Running for Life</h3>
+                            {value.name}
+                            <p>
+                              Ad enim sit commodo laborum mollit. Incididunt
+                              Lorem exercitation ad occaecat reprehenderit id.
+                            </p>
 
-                        <Row className='rowCart'>
+                            <p className="participants">participants</p>
 
-                          <Col id='cartLeftEvent' md={5} >
-                            <Image src={value.src} id='imgLeftCartEvent' />
-                          </Col>
+                            <small className="marginLeft">20.06.2020</small>
+                            <small>20.06.2020</small>
 
-                          <Col className='cartRight'>
+                            <p className="width">
+                              Suceava Fortress, Main Enter
+                            </p>
 
-                            <Row id='rowRightCart'>
-
-                              <h3 className='marginLeft' >Running for Life</h3>
-                              {value.name}
-                              <p>
-                                Ad enim sit commodo laborum mollit. Incididunt Lorem exercitation ad occaecat reprehenderit id.
-                              </p>
-
-                              <p className='participants'>
-                                participants
-                              </p>
-
-                              <small className='marginLeft'>20.06.2020</small>
-                              <small>20.06.2020</small>
-
-                              <p className='width'>Suceava Fortress, Main Enter</p>
-
-                              <img src={value.src} size="mini" circular id="imageCircIcons" />
-                              <img src={value.src} size="mini" circular id="imageCircIcons" />
-                              <img src={value.src} size="mini" circular id="imageCircIcons" />
-                              <img src={value.src} size="mini" circular id="imageCircIcons" />
-                              <p>+20</p>
-
-                            </Row>
-
-                          </Col>
-
-                        </Row>
-
-                      </Col>
-                    </NavLink>
-
-
-                  )
-                }
-                )
-
-              }
+                            <img
+                              src={value.src}
+                              size="mini"
+                              circular
+                              id="imageCircIcons"
+                            />
+                            <img
+                              src={value.src}
+                              size="mini"
+                              circular
+                              id="imageCircIcons"
+                            />
+                            <img
+                              src={value.src}
+                              size="mini"
+                              circular
+                              id="imageCircIcons"
+                            />
+                            <img
+                              src={value.src}
+                              size="mini"
+                              circular
+                              id="imageCircIcons"
+                            />
+                            <p>+20</p>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </NavLink>
+                );
+              })}
             </Row>
 
             {/* <Row style={{ marginTop: "3vh" }}></Row> */}
-
           </Col>
-
 
           {this.state.addModalShow && (
             <EventsAdd
-              addClubHandler={(club) => this.addClubHandler(club)}
+              addEventHandler={(e) => this.addEventHandler(e)}
               show={this.state.addModalShow}
               onHide={() => this.setState({ addModalShow: false })}
             />
@@ -248,11 +257,9 @@ class Events extends React.Component {
             <EventsAddedMessage
               show={this.state.confirmModalShow}
               onHide={() => this.setState({ confirmModalShow: false })}
-              club={this.state.addedClub}
+              event={this.state.addedEvent}
             />
           )}
-
-
         </Row>
 
         <Row>
@@ -264,7 +271,6 @@ class Events extends React.Component {
             />
           </Col>
         </Row>
-
       </Container>
     );
   }
