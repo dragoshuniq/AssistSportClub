@@ -69,7 +69,6 @@ class AdminCoaches extends React.Component {
   }
   handlePageClick = (e, { activePage }) => {
     const selectedPage = activePage;
-    console.log("e.target.value", activePage);
 
     const offset = (selectedPage - 1) * this.state.postsPerPage;
 
@@ -84,53 +83,39 @@ class AdminCoaches extends React.Component {
     );
   };
   receivedData() {
-    axios.get(serverUrl + `api/user/2`).then((res) => {
-      const data = res.data;
-      const slice = data.slice(
-        this.state.offset,
-        this.state.offset + this.state.postsPerPage
-      );
-      const myMap = new Map();
-      slice.map((res) => {
-        myMap.set(res.id, false);
-      });
-      this.setState({
-        totalPosts: Math.ceil(data.length / this.state.postsPerPage),
-        useArray: slice,
-        data: slice,
-        selectedElements: myMap,
-        selectAllElements: false,
-        deleteMultiple: false,
-      });
-    });
-  }
-
-  /* fetchDataFromServer() {
-    fetch("https://next.json-generator.com/api/json/get/Nklk-DiWY")
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            data: result,
-            useArray: result,
-          });
+    axios
+      .get(serverUrl + "api/user/search/2", {
+        headers: {
+          Authorization: localStorage.getItem("user"),
         },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error,
-          });
-        }
-      );
-  }*/
+      })
+      .then((res) => {
+        console.log(res.data);
+        const data = res.data;
+        const slice = data.slice(
+          this.state.offset,
+          this.state.offset + this.state.postsPerPage
+        );
+        const myMap = new Map();
+        slice.map((res) => {
+          myMap.set(res.id, false);
+        });
+        this.setState({
+          totalPosts: Math.ceil(data.length / this.state.postsPerPage),
+          useArray: slice,
+          data: slice,
+          selectedElements: myMap,
+          selectAllElements: false,
+          deleteMultiple: false,
+        });
+      });
+  }
 
   deleteMultipleHandler = () => {
     var localData = this.state.useArray;
     for (let [key, value] of this.state.selectedElements) {
       if (value) {
         localData = localData.filter((item) => item.id !== key);
-        console.log([key, value]);
       }
     }
     this.setState({
@@ -166,7 +151,7 @@ class AdminCoaches extends React.Component {
       const searchArray = [];
       this.state.data.map((res) => {
         if (
-          res.name.toUpperCase().includes(nameUpper) ||
+          res.firstName.toUpperCase().includes(nameUpper) ||
           res.clubs.toUpperCase().includes(clubUpper) ||
           res.email.toUpperCase().includes(mailUpper)
         ) {
@@ -244,7 +229,6 @@ class AdminCoaches extends React.Component {
       this.setState({ selectedElements: aux, selectAllElements: false });
     }
     this.verifySelectedAll();
-    console.log(this.state.selectedElements);
   }
   verifySelectedAll() {
     const aux = this.state.selectedElements;
@@ -294,7 +278,7 @@ class AdminCoaches extends React.Component {
           />
         </Col>
         <Col xl={2} lg={2} md={2} sm={2} xs={2}>
-          <h1 id="coachesDetailsInfo">{value.name}</h1>
+          <h1 id="coachesDetailsInfo">{value.first_name} {value.last_name }</h1>
         </Col>
         <Col xl={4} lg={4} md={4} sm={4} xs={4}>
           <h1 id="coachesDetailsInfo">{value.email}</h1>
@@ -509,7 +493,6 @@ class AdminCoaches extends React.Component {
               coach={this.state.addedCoach}
             />
           )}
-          {console.log(this.state.data)}
         </Row>
       </Container>
     );
