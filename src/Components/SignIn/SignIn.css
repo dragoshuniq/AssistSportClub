@@ -58,3 +58,12 @@
   box-sizing: border-box;
   border-radius: 8px;
 }
+.centerLog{
+  /* background-color: red; */
+  display: flex;
+  justify-content: center;
+}
+.ceterRoeLog{
+  /* background-color: green; */
+  align-items: center;
+}

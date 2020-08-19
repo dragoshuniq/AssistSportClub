@@ -110,6 +110,14 @@ class Events extends React.Component {
     });
   };
 
+
+  // search
+  updateSearch(event) {
+    this.setState({ search: event.target.value.substr(0, 20) });
+  }
+
+
+
   render() {
     return (
       <Container fluid id="containerAdminCoaches">
@@ -117,7 +125,7 @@ class Events extends React.Component {
           <Col xl={12} lg={12} md={12} sm={12} xs={12}>
             <Row style={{ marginRight: "5vh", marginLeft: "5vh" }}>
               <Col>
-                <h1 id="coachesText">Clubs</h1>
+                <h1 id="coachesText">Events</h1>
               </Col>
             </Row>
 
@@ -134,6 +142,7 @@ class Events extends React.Component {
                     placeholder="Search clubs..."
                     id="searchClubs"
                     onChange={this.searchHandler}
+                    // onChange={this.updateSearch.bind(this)}
                   />
                 </div>
               </Col>
@@ -170,77 +179,62 @@ class Events extends React.Component {
                 paddingLeft: "7vh",
               }}
             >
-              {this.state.useArray.map((value, index) => {
-                return (
-                  <NavLink
-                    className="navLinkCart"
-                    to={`/EventsDetails/${value.id}`}
-                  >
-                    <Col
-                      className="cartCol"
-                      xl={3}
-                      lg={3}
-                      md={6}
-                      sm={12}
-                      xs={12}
-                    >
-                      {/* //  {console.log("valu: ", value)} */}
+              {
 
-                      <Row className="rowCart">
-                        <Col id="cartLeftEvent" md={5}>
-                          <Image src={value.src} id="imgLeftCartEvent" />
-                        </Col>
 
-                        <Col className="cartRight">
-                          <Row id="rowRightCart">
-                            <h3 className="marginLeft">Running for Life</h3>
-                            {value.name}
-                            <p>
-                              Ad enim sit commodo laborum mollit. Incididunt
-                              Lorem exercitation ad occaecat reprehenderit id.
-                            </p>
+                this.state.useArray.map((value, index) => {
+                  return (
 
-                            <p className="participants">participants</p>
+                    <NavLink className='navLinkCart' to={`/EventsDetails/${value.id}`}>
+                      <Col className='cartCol' xl={3} lg={3} md={6} sm={12} xs={12} >
+                        {console.log('valu: ', value)}
 
-                            <small className="marginLeft">20.06.2020</small>
-                            <small>20.06.2020</small>
+                        <Row className='rowCart'>
 
-                            <p className="width">
-                              Suceava Fortress, Main Enter
-                            </p>
+                          <Col id='cartLeftEvent' md={5} >
+                            <Image src={value.src} id='imgLeftCartEvent' />
+                          </Col>
 
-                            <img
-                              src={value.src}
-                              size="mini"
-                              circular
-                              id="imageCircIcons"
-                            />
-                            <img
-                              src={value.src}
-                              size="mini"
-                              circular
-                              id="imageCircIcons"
-                            />
-                            <img
-                              src={value.src}
-                              size="mini"
-                              circular
-                              id="imageCircIcons"
-                            />
-                            <img
-                              src={value.src}
-                              size="mini"
-                              circular
-                              id="imageCircIcons"
-                            />
-                            <p>+20</p>
-                          </Row>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </NavLink>
-                );
-              })}
+                          <Col className='cartRight'>
+
+                            <Row id='rowRightCart'>
+
+                              <h3 className='marginLeft' >Running for Life</h3>
+                              {value.name}
+                              <p>
+                                Ad enim sit commodo laborum mollit. Incididunt Lorem exercitation ad occaecat reprehenderit id.
+                              </p>
+
+                              <p className='participants'>
+                                participants
+                              </p>
+
+                              <small className='marginLeft'>20.06.2020</small>
+                              <small>20.06.2020</small>
+
+                              <p className='width'>Suceava Fortress, Main Enter</p>
+
+                              <img src={value.src} size="mini" circular id="imageCircIcons" />
+                              <img src={value.src} size="mini" circular id="imageCircIcons" />
+                              <img src={value.src} size="mini" circular id="imageCircIcons" />
+                              <img src={value.src} size="mini" circular id="imageCircIcons" />
+                              <p>+20</p>
+
+                            </Row>
+
+                          </Col>
+
+                        </Row>
+
+                      </Col>
+                    </NavLink>
+
+
+                  )
+                }
+                )
+
+              }
             </Row>
 
             {/* <Row style={{ marginTop: "3vh" }}></Row> */}
@@ -263,7 +257,7 @@ class Events extends React.Component {
         </Row>
 
         <Row>
-          <Col>
+          <Col className='centerPagination'>
             <Pagination
               defaultActivePage={1}
               totalPages={this.state.totalPosts}

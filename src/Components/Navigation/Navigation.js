@@ -163,7 +163,7 @@ class Navigation extends Component {
                                 <Route path="/EventsDetails/:id" component={(routerProps) => <EventsDetails {...this.props} id={routerProps.match.params.id} />} />
                                 <Route path="/AdminClubs" component={AdminClubs} />
                                 <Route path="/Athletes" component={Athletes} />
-                                <Route path="/AdminClubDetails" component={AdminClubDetails} />
+                                <Route path="/AdminClubDetails/:id" component={(route) => <AdminClubDetails {...this.props} id={route.match.params.id} />} />
 
                                 {/* <Route path="/Login" component={Login} /> */}
                             </Switch>

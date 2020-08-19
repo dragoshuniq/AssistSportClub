@@ -46,6 +46,11 @@ class AdminClubDetails extends React.Component {
     this.handlePageClick = this.handlePageClick.bind(this);
   }
   receivedData() {
+    // axios
+    //   .get(`AdminClubDetails/` + this.props.id)
+    //   .then((res) => {
+    //     this.setState({ data: res.data });
+    //   });
     axios
       .get(`https://next.json-generator.com/api/json/get/EJeP7rkft`)
       .then((res) => {
@@ -124,7 +129,7 @@ class AdminClubDetails extends React.Component {
             <Col>
               <Row>
                 <h2 id="memberName">
-                  {member.firstName} {member.lastName}
+                  {member.firstName} {member.lastName} {this.props.id}
                 </h2>
               </Row>
               <Row>

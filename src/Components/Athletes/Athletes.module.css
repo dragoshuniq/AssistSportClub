@@ -8,11 +8,11 @@
     background-color: red;
 }
 
-.rowTopAtleti{
+.rowTopAtleti {
     margin-top: 5vh;
 }
 
-.btnColAtleti{
+.btnColAtleti {
     display: flex;
     justify-content: flex-end;
     /* background-color: red; */
@@ -24,7 +24,6 @@
     float: right;
     width: 200px;
     border: black; */
-
     margin-right: 50px;
     width: 177px;
     height: 46px;
@@ -54,8 +53,6 @@
     padding: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-
-
     /* width: 500px; */
     /* display: flex; */
     /* flex-wrap: wrap; */
@@ -92,8 +89,7 @@
 @media only screen and (max-width: 992px) {
     #Button {
         width: 100%;
-    margin: 0px;
-
+        margin: 0px;
     }
 }
 
@@ -101,15 +97,21 @@
     font-size: 23px;
     margin-bottom: 0px;
 }
-.Gender_Years{
+
+.Gender_Years {
     margin-top: 0px;
 }
-.marginBotRow{
+
+.marginBotRow {
     margin-bottom: 15px;
 }
 
 .primary_sport, .secondary_sport {
     color: grey;
     margin-bottom: 0px;
+}
 
+.centerPaginationAtlet {
+    display: flex;
+    justify-content: center;
 }

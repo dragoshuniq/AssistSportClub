@@ -28,7 +28,8 @@ class AdminClubs extends React.Component {
   }
   receivedData() {
     axios
-      .get(`http://278ebb25ae31.ngrok.io/api/club/2`)
+      // .get(`http://278ebb25ae31.ngrok.io/api/club/2`)
+      .get(`https://next.json-generator.com/api/json/get/EyvgkQCZK`)
       .then((res) => {
         const data = res.data;
         this.setState({
@@ -59,12 +60,12 @@ class AdminClubs extends React.Component {
   };
   PostClub = (club) => {
     return (
-      <NavLink to="/AdminClubDetails">
+      <NavLink to={`/AdminClubDetails/${club.id}`}>
         
         <Col xl={3} lg={3} md={6} sm={12} xs={12} style={{ marginTop: "5vh" }}>
           <div id="clubCard">
             <div>
-              <h1 id="clubCardTitle"> {club.name}</h1>
+    <h1 id="clubCardTitle"> {club.name} {club.id}</h1>
             </div>
             <Divider clearing />
             <h1 id="membersText">MEMBERS</h1>
