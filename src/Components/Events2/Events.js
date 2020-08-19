@@ -1,18 +1,23 @@
 import React from "react";
 import axios from "axios";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { Input, Checkbox, Button as SemanticButton, Icon, Divider, Pagination, Image, } from "semantic-ui-react";
+import {
+  Input,
+  Checkbox,
+  Button as SemanticButton,
+  Icon,
+  Divider,
+  Pagination,
+  Image,
+} from "semantic-ui-react";
 import { Route, NavLink, Switch } from "react-router-dom";
 import "./AdminClubs.css";
 import EventsAdd from "./EventsAdd/EventsAdd";
 import EventsAddedMessage from "./EventsAddedMessage/EventsAddedMessage";
 import EventsDetails from "./EventsDetails/EventsDetails";
 
-
 class Events extends React.Component {
-
   constructor(props) {
-
     super(props);
 
     this.state = {
@@ -20,22 +25,21 @@ class Events extends React.Component {
       useArray: [],
       addModalShow: false,
       confirmModalShow: false,
-      addedClub: {},
+      addedEvent: {},
       currentPage: 1,
       postsPerPage: 4,
       offset: 0,
       pageCount: 0,
-      totalPosts: -1
+      totalPosts: -1,
     };
 
     this.handlePageClick = this.handlePageClick.bind(this);
-
   }
 
   // paginare
   handlePageClick = (e, { activePage }) => {
     const selectedPage = activePage;
-    console.log("e.target.value", activePage);
+    //console.log("e.target.value", activePage);
 
     const offset = (selectedPage - 1) * this.state.postsPerPage;
 
@@ -51,15 +55,13 @@ class Events extends React.Component {
   };
 
   receivedData() {
-
     // fetch(`https://next.json-generator.com/api/json/get/E1lwlJmAWY`)
     fetch(`https://next.json-generator.com/api/json/get/N1jZEd3bt`)
       .then((res) => res.json())
       .then((result) => {
-
         this.setState({
           data: result,
-          useArray: result
+          useArray: result,
         });
         // console.log('data=',this.state.data);
         this.setState({ totalPosts: Math.ceil(result.length / 4) });
@@ -73,7 +75,7 @@ class Events extends React.Component {
         this.setState({ result: slice });
 
         // console.log(result);
-      })
+      });
   }
 
   componentDidMount() {
@@ -97,13 +99,13 @@ class Events extends React.Component {
     }
   };
 
-  addClubHandler = (club) => {
-    // console.log(club)
-    const localArray = this.state.data;
-    localArray.push(club);
+  addEventHandler = (event) => {
+    const localArray = this.state.useArray;
+    localArray.push(event);
+    console.log(event);
     this.setState({
-      data: localArray,
-      addedClub: club,
+      useArray: localArray,
+      addedEvent: event,
       confirmModalShow: true,
     });
   };
@@ -117,15 +119,10 @@ class Events extends React.Component {
 
 
   render() {
-
-
-
     return (
       <Container fluid id="containerAdminCoaches">
-
         <Row>
           <Col xl={12} lg={12} md={12} sm={12} xs={12}>
-
             <Row style={{ marginRight: "5vh", marginLeft: "5vh" }}>
               <Col>
                 <h1 id="coachesText">Events</h1>
@@ -152,7 +149,6 @@ class Events extends React.Component {
               <Col md={{ span: 2, offset: 6 }}>
                 <Button
                   id="addNewButtonEvent"
-
                   onClick={() => this.setState({ addModalShow: true })}
                 >
                   ADD NEW
@@ -161,19 +157,21 @@ class Events extends React.Component {
             </Row>
 
             <Row
-              id='rowBtnGroup'
-            // style={{ marginRight: "5vh", marginLeft: "5vh" }}
+              id="rowBtnGroup"
+              // style={{ marginRight: "5vh", marginLeft: "5vh" }}
             >
-              <Col >
-                <Button id='onGoingBtn' >Ongoing ({this.state.data.length})</Button>
-                <Button id='futureBtn'>Future</Button>
-                <Button id='pastBtn'>Past</Button>
+              <Col>
+                <Button id="onGoingBtn">
+                  Ongoing ({this.state.data.length})
+                </Button>
+                <Button id="futureBtn">Future</Button>
+                <Button id="pastBtn">Past</Button>
               </Col>
             </Row>
 
             {/** DETAILS PART */}
             <Row
-              className='rowRightEvent'
+              className="rowRightEvent"
               id="rowDynamic"
               style={{
                 marginTop: "5vh",
@@ -240,13 +238,11 @@ class Events extends React.Component {
             </Row>
 
             {/* <Row style={{ marginTop: "3vh" }}></Row> */}
-
           </Col>
-
 
           {this.state.addModalShow && (
             <EventsAdd
-              addClubHandler={(club) => this.addClubHandler(club)}
+              addEventHandler={(e) => this.addEventHandler(e)}
               show={this.state.addModalShow}
               onHide={() => this.setState({ addModalShow: false })}
             />
@@ -255,11 +251,9 @@ class Events extends React.Component {
             <EventsAddedMessage
               show={this.state.confirmModalShow}
               onHide={() => this.setState({ confirmModalShow: false })}
-              club={this.state.addedClub}
+              event={this.state.addedEvent}
             />
           )}
-
-
         </Row>
 
         <Row>
@@ -271,7 +265,6 @@ class Events extends React.Component {
             />
           </Col>
         </Row>
-
       </Container>
     );
   }
