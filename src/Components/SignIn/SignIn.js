@@ -92,7 +92,7 @@ class SignIn extends React.Component {
                         headers: { "Content-Type": "application/json" },
                       })
                       .then((response) => {
-                        console.log(response.data.accessToken);
+                        console.log(response);
                         const myStorage = window.localStorage;
                         myStorage.setItem("user", response.data.accessToken);
                         window.location.reload(false);

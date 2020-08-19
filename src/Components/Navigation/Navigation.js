@@ -81,7 +81,7 @@ class Navigation extends Component {
                       />
                       <div>
                         <p className={classes.NavTopP1}>Connie Web</p>
-                        <p className={classes.NavTopP2}>ADMINISTRATOR</p>
+                        <p className={classes.NavTopP2}>        TOR</p>
                       </div>
                     </div>
                   ) : null}

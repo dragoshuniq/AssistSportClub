@@ -15,6 +15,7 @@ import "./AdminClubs.css";
 import AddClubModal from "./AddClubModal";
 import AddedConfirmModal from "./AddedConfirmModal";
 import AdminClubDetails from "./AdminClubDetails";
+import serverUrl from "../url";
 class AdminClubs extends React.Component {
   constructor(props) {
     super(props);
@@ -28,9 +29,13 @@ class AdminClubs extends React.Component {
   }
   receivedData() {
     axios
-      // .get(`http://278ebb25ae31.ngrok.io/api/club/2`)
-      .get(`https://next.json-generator.com/api/json/get/EyvgkQCZK`)
+      .get(serverUrl + "api/club", {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      })
       .then((res) => {
+        console.log(res.data);
         const data = res.data;
         this.setState({
           useArray: data,
@@ -61,11 +66,13 @@ class AdminClubs extends React.Component {
   PostClub = (club) => {
     return (
       <NavLink to={`/Navigation/AdminClubDetails/${club.id}`}>
-        
         <Col xl={3} lg={3} md={6} sm={12} xs={12} style={{ marginTop: "5vh" }}>
           <div id="clubCard">
             <div>
-    <h1 id="clubCardTitle"> {club.name} {club.id}</h1>
+              <h1 id="clubCardTitle">
+                {club.name} 
+                {/* {club.id} */}
+              </h1>
             </div>
             <Divider clearing />
             <h1 id="membersText">MEMBERS</h1>
@@ -93,7 +100,7 @@ class AdminClubs extends React.Component {
     );
   };
   addClubHandler = (club) => {
-    console.log(club)
+    console.log(club);
     const localArray = this.state.data;
     localArray.push(club);
     this.setState({
@@ -112,7 +119,6 @@ class AdminClubs extends React.Component {
     );
     return (
       <Container fluid id="containerAdminCoaches">
-        
         <Row>
           <Col xl={12} lg={12} md={12} sm={12} xs={12}>
             <Row style={{ marginRight: "5vh", marginLeft: "5vh" }}>
@@ -126,20 +132,19 @@ class AdminClubs extends React.Component {
             >
               <Col xl={4} lg={4} md={4} sm={12} xs={12}>
                 <div>
-                <Input
-                  fluid
-                  icon="search"
-                  iconPosition="left"
-                  placeholder="Search clubs..."
-                  id="searchClubs"
-                  onChange={this.searchHandler}
-                />
+                  <Input
+                    fluid
+                    icon="search"
+                    iconPosition="left"
+                    placeholder="Search clubs..."
+                    id="searchClubs"
+                    onChange={this.searchHandler}
+                  />
                 </div>
               </Col>
               <Col md={{ span: 2, offset: 6 }}>
                 <Button
-                                    id="addNewButtonClub"
-
+                  id="addNewButtonClub"
                   onClick={() => this.setState({ addModalShow: true })}
                 >
                   ADD NEW
@@ -161,7 +166,7 @@ class AdminClubs extends React.Component {
           </Col>
           {this.state.addModalShow && (
             <AddClubModal
-              addClubHandler={(club)=>this.addClubHandler(club)}
+              addClubHandler={(club) => this.addClubHandler(club)}
               show={this.state.addModalShow}
               onHide={() => this.setState({ addModalShow: false })}
             />
@@ -174,7 +179,6 @@ class AdminClubs extends React.Component {
             />
           )}
         </Row>
-       
       </Container>
     );
   }
