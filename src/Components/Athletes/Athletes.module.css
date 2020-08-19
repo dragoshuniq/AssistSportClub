@@ -8,12 +8,37 @@
     background-color: red;
 }
 
+.rowTopAtleti{
+    margin-top: 5vh;
+}
+
+.btnColAtleti{
+    display: flex;
+    justify-content: flex-end;
+    /* background-color: red; */
+}
+
 #Button {
-    background-color: black;
+    /* background-color: black;
     color: #00cc99;
     float: right;
     width: 200px;
-    border: black;
+    border: black; */
+
+    margin-right: 50px;
+    width: 177px;
+    height: 46px;
+    top: 298px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #44dabd;
 }
 
 #Button:hover {
@@ -29,6 +54,8 @@
     padding: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 10px;
+
+
     /* width: 500px; */
     /* display: flex; */
     /* flex-wrap: wrap; */
@@ -42,9 +69,11 @@
 }
 
 .test {
-    /* background-color: red; */
+    /* display: flex;
+    justify-content: flex-end;
+    background-color: red; */
     /* margin-top: 0px; */
-    margin-bottom: 0px;
+    /* margin-bottom: 0px; */
     /* height: 100%; */
     /* display: block; */
     /* position: fixed; */
@@ -63,6 +92,8 @@
 @media only screen and (max-width: 992px) {
     #Button {
         width: 100%;
+    margin: 0px;
+
     }
 }
 

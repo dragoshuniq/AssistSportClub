@@ -170,7 +170,7 @@ class Athletes extends Component {
             <Container fluid className={classes.back} >
 
                 {/* Header */}
-                <Row>
+                <Row className={classes.rowTopAtleti}>
                     <Col>
                         <h1 >Athletes</h1>
                     </Col>
@@ -198,7 +198,7 @@ class Athletes extends Component {
                         </Form.Row>
 
                     </Col>
-                    <Col md={{ span: 4, offset: 4 }}  >
+                    <Col md={{ span: 4, offset: 4 }} className={classes.btnColAtleti} >
                         {/* Add button */}
                         <Button onClick={() => this.setState({ addModalShow: true })} id={classes.Button}>ADD NEW</Button>
                     </Col>

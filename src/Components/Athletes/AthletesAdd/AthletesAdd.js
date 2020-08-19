@@ -158,7 +158,7 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridGender">
                                 <Form.Label>Gender</Form.Label>
                                 <Form.Control
-                                    // required
+                                    required
                                     name="gender"
                                     type="text"
                                     value={this.state.details.gender}
@@ -169,7 +169,7 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridAge">
                                 <Form.Label>Age</Form.Label>
                                 <Form.Control
-                                    // required
+                                    required
                                     name="age"
                                     type="text"
                                     value={this.state.details.age}
@@ -182,7 +182,7 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridHeight">
                                 <Form.Label>Height</Form.Label>
                                 <Form.Control
-                                    // required
+                                    required
                                     name="height"
                                     type="text"
                                     value={this.state.details.height}
@@ -211,7 +211,7 @@ class AthletesAdd extends Component {
 
                         <Form.Group as={Col} controlId="formGridAssignToClub">
                             <Form.Label>Assign To a Club</Form.Label>
-                            <Form.Control name="club_name" as="select" defaultValue="Choose..." onChange={this.HandlerEventADD}>
+                            <Form.Control required name="club_name" as="select" defaultValue="club 1" onChange={this.HandlerEventADD}>
                                 <option value="club 1">Club 1</option>
                                 <option value="club 2">Club 2</option>
                                 <option value="club 3">Club 3</option>
@@ -224,7 +224,7 @@ class AthletesAdd extends Component {
                             <Form.File id="formcheck-api-custom" custom>
                                 <Form.File.Input
                                     // isValid 
-                                    // required
+                                    required
                                     name="file"
                                     type="file"
                                     onChange={this.HandlerEventADD_FILE}

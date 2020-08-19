@@ -55,7 +55,8 @@ class AdminClubDetails extends React.Component {
       pageCount: 0,
       totalMembers: 0,
       totalPosts: 0,
-      addAthletesShow: false
+      addAthletesShow: false,
+      poza: require('../../../poze/img1.jpg')
 
     };
 
@@ -65,23 +66,29 @@ class AdminClubDetails extends React.Component {
 
   receivedData() {
     axios
-      .get(`https://next.json-generator.com/api/json/get/EJeP7rkft`)
+      .get(`EventsDetails/` + this.props.id)
       .then((res) => {
-        const data = res.data;
-        const slice = data.slice(
-          this.state.offset,
-          this.state.offset + this.state.postsPerPage
-        );
-        this.setState({
-          totalMembers: res.data.length,
-          totalPosts: Math.ceil(data.length / this.state.postsPerPage),
-          useArray: slice,
-          data: slice,
-        });
+        this.setState({ data: res.data });
       });
+    // axios
+    //   .get(`https://next.json-generator.com/api/json/get/EJeP7rkft`)
+    //   .then((res) => {
+    //     const data = res.data;
+    //     const slice = data.slice(
+    //       this.state.offset,
+    //       this.state.offset + this.state.postsPerPage
+    //     );
+    //     this.setState({
+    //       totalMembers: res.data.length,
+    //       totalPosts: Math.ceil(data.length / this.state.postsPerPage),
+    //       useArray: slice,
+    //       data: slice,
+    //     });
+    //   });
   }
 
   componentDidMount() {
+    console.log('props: ',this.props)
     this.receivedData();
   }
 
@@ -140,12 +147,13 @@ class AdminClubDetails extends React.Component {
 
           <Col md={12} className='topEvents'>
             <p> <b><span className='spanEvent'>Events &#62;</span> Running For Life</b></p>
+            {this.props.id}
           </Col>
 
           <Col md={12} className='topEventsGroup'>
             <div>
-              <p>Running for Life</p>
-              <p><span>  <FontAwesomeIcon icon={faCalendarAlt} /> 20.06.2020</span> | <FontAwesomeIcon icon={faClock} />  <span> 09:00 AM </span>  |  <span>  <FontAwesomeIcon icon={faMapMarkerAlt} /> Suceava Fortress, Main Enter</span></p>
+              <p className='pRunningEvets'>Running for Life</p>
+              <p className='p2EventsIcon'><span>  <FontAwesomeIcon icon={faCalendarAlt} /> 20.06.2020</span> | <FontAwesomeIcon icon={faClock} />  <span> 09:00 AM </span>  |  <span>  <FontAwesomeIcon icon={faMapMarkerAlt} /> Suceava Fortress, Main Enter</span></p>
             </div>
             <Button
               id="addNewButtonClub"
@@ -158,7 +166,7 @@ class AdminClubDetails extends React.Component {
           </Col>
 
           <Col className='image' md={12}>
-            dsfasdf
+            
           </Col>
 
           <Col className='contentEvent' md={12}>
@@ -182,10 +190,10 @@ class AdminClubDetails extends React.Component {
             <Row>
 
               <Col md={6}>
-                <p>
+                <p className='particip'>
                   Participants (76)
                 </p>
-                <p>
+                <p className='particip2'>
                   Select participants you want to compare
                 </p>
               </Col>
@@ -193,33 +201,146 @@ class AdminClubDetails extends React.Component {
               <Col md={6} className='doneBtnCol'>
 
                 <Button
-                  id="addNewButtonClub"
+                  id="addNewButtonEventDetail"
                 // onClick={() => this.setState({ addModalShow: true })}
                 >
-                  DONE
+                  Compare performanc
                 </Button>
 
               </Col>
 
               <Col className='listUsers'>
-                <div className='user'>
-                  sfadsafdasf
-                </div>
-                <div className='user'>
-                  sfadsafdasf
-                </div>
-                <div className='user'>
-                  sfadsafdasf
-                </div>
-                <div className='user'>
-                  sfadsafdasf
-                </div>
-                <div className='user'>
-                  sfadsafdasf
-                </div>
-                <div className='user'>
-                  sfadsafdasf
-                </div>
+
+              <Row className='user'>
+                  <Col className='imgColEventSt'>
+                    <img className='cartImgEvent2' src={this.state.poza} />
+                    <p className='pEvents'>Harold Howard</p>
+                  </Col>
+
+                  <Col className='imgColEventDr'>
+                    <input type='checkbox'></input>
+                  </Col>
+
+                  <Col className='p2Events' md={12}>
+                    Male • 26 years
+                  </Col>
+
+                </Row>
+
+                <Row className='user'>
+                  <Col className='imgColEventSt'>
+                    <img className='cartImgEvent2' src={this.state.poza} />
+                    <p className='pEvents'>Harold Howard</p>
+                  </Col>
+
+                  <Col className='imgColEventDr'>
+                    <input type='checkbox'></input>
+                  </Col>
+
+                  <Col className='p2Events' md={12}>
+                    Male • 26 years
+                  </Col>
+
+                </Row>
+
+                <Row className='user'>
+                  <Col className='imgColEventSt'>
+                    <img className='cartImgEvent2' src={this.state.poza} />
+                    <p className='pEvents'>Harold Howard</p>
+                  </Col>
+
+                  <Col className='imgColEventDr'>
+                    <input type='checkbox'></input>
+                  </Col>
+
+                  <Col className='p2Events' md={12}>
+                    Male • 26 years
+                  </Col>
+
+                </Row>
+
+                <Row className='user'>
+                  <Col className='imgColEventSt'>
+                    <img className='cartImgEvent2' src={this.state.poza} />
+                    <p className='pEvents'>Harold Howard</p>
+                  </Col>
+
+                  <Col className='imgColEventDr'>
+                    <input type='checkbox'></input>
+                  </Col>
+
+                  <Col className='p2Events' md={12}>
+                    Male • 26 years
+                  </Col>
+
+                </Row>
+
+                <Row className='user'>
+                  <Col className='imgColEventSt'>
+                    <img className='cartImgEvent2' src={this.state.poza} />
+                    <p className='pEvents'>Harold Howard</p>
+                  </Col>
+
+                  <Col className='imgColEventDr'>
+                    <input type='checkbox'></input>
+                  </Col>
+
+                  <Col className='p2Events' md={12}>
+                    Male • 26 years
+                  </Col>
+
+                </Row>
+
+                <Row className='user'>
+                  <Col className='imgColEventSt'>
+                    <img className='cartImgEvent2' src={this.state.poza} />
+                    <p className='pEvents'>Harold Howard</p>
+                  </Col>
+
+                  <Col className='imgColEventDr'>
+                    <input type='checkbox'></input>
+                  </Col>
+
+                  <Col className='p2Events' md={12}>
+                    Male • 26 years
+                  </Col>
+
+                </Row>
+
+                <Row className='user'>
+                  <Col className='imgColEventSt'>
+                    <img className='cartImgEvent2' src={this.state.poza} />
+                    <p className='pEvents'>Harold Howard</p>
+                  </Col>
+
+                  <Col className='imgColEventDr'>
+                    <input type='checkbox'></input>
+                  </Col>
+
+                  <Col className='p2Events' md={12}>
+                    Male • 26 years
+                  </Col>
+
+                </Row>
+
+
+                <Row className='user'>
+                  <Col className='imgColEventSt'>
+                    <img className='cartImgEvent2' src={this.state.poza} />
+                    <p className='pEvents'>Harold Howard</p>
+                  </Col>
+
+                  <Col className='imgColEventDr'>
+                    <input type='checkbox'></input>
+                  </Col>
+
+                  <Col className='p2Events' md={12}>
+                    Male • 26 years
+                  </Col>
+
+                </Row>
+            
+
               </Col>
 
             </Row>
@@ -229,6 +350,12 @@ class AdminClubDetails extends React.Component {
             <div>
 
             </div>
+          </Col>
+
+          <Col md={12}>
+            <p className='particip2'>
+              Select participants you want to compare
+                </p>
           </Col>
 
 
