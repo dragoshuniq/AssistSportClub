@@ -3,25 +3,25 @@ import React, { Component } from "react";
 import classes from "./Navigation.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCoffee,
-  faFlag,
-  faTrophy,
-  faRunning,
-  faFutbol,
-  faSignOutAlt,
-  faAlignJustify,
+    faCoffee,
+    faFlag,
+    faTrophy,
+    faRunning,
+    faFutbol,
+    faSignOutAlt,
+    faAlignJustify,
 } from "@fortawesome/free-solid-svg-icons";
 import {
-  Container,
-  Row,
-  Col,
-  Image,
-  Navbar,
-  Nav,
-  NavDropdown,
-  Form,
-  FormControl,
-  Button,
+    Container,
+    Row,
+    Col,
+    Image,
+    Navbar,
+    Nav,
+    NavDropdown,
+    Form,
+    FormControl,
+    Button,
 } from "react-bootstrap";
 
 import { Route, NavLink, Switch } from "react-router-dom";
@@ -38,7 +38,7 @@ import AdminClubs from "../AdminClubs/AdminClubs";
 import AdminClubDetails from "../AdminClubs/AdminClubDetails";
 
 class Navigation extends Component {
- 
+
 
     state = {
         imagine: require('../../poze/img1.jpg'),
@@ -141,7 +141,7 @@ class Navigation extends Component {
                                                 }
                                             }
                                         >
-                                            {console.log("logout = ",this.state.logout)}
+                                            {console.log("logout = ", this.state.logout)}
                                             <FontAwesomeIcon icon={faSignOutAlt} />
                                             {
                                                 this.state.showAllNavigation === true ?
@@ -160,11 +160,11 @@ class Navigation extends Component {
                                 <Route exact path="/" component={AdminCoaches} />
                                 <Route exact path="/AdminCoaches" component={AdminCoaches} />
                                 <Route path="/Events2" component={Events2} />
-                                <Route path="/EventsDetails" component={EventsDetails} />
+                                <Route path="/EventsDetails/:id" component={(routerProps) => <EventsDetails {...this.props} id={routerProps.match.params.id} />} />
                                 <Route path="/AdminClubs" component={AdminClubs} />
                                 <Route path="/Athletes" component={Athletes} />
                                 <Route path="/AdminClubDetails" component={AdminClubDetails} />
-                                
+
                                 {/* <Route path="/Login" component={Login} /> */}
                             </Switch>
                         </Col>

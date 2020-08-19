@@ -1,155 +1,17 @@
-#blackDiv {
-  background-color: black;
-  height: 100vh;
-}
-
-#clubCard {
-  background: #ffffff;
-  padding-left: 20px;
-  padding-top: 20px;
-  box-shadow: 0px 6px 13px rgba(0, 0, 0, 0.05), 0px 1.34018px 2.90372px rgba(0, 0, 0, 0.0298054), 0px 0.399006px 0.864513px rgba(0, 0, 0, 0.0201946);
-  border-radius: 8px;
-  width: 274px;
-  height: 240px;
-}
-
-#clubCardTitle {
-  font-family: Inter;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 2.5vw;
-  line-height: 32px;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin-right: 4vw;
-  color: #000000;
-}
-
-/* #membersText {
-  font-family: Inter;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 1vw;
-  display: flex;
-  align-items: center;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #8e9296;
-  margin-top: 0vh;
-} */
-
 #imageCircIcons {
   margin-left: -1vw;
-}
-/* 
-#clubsMembersText {
-  font-family: Inter;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  color: #000000;
-  justify-content: center;
-  align-items: center;
-} */
-
-/* #coachText {
-  font-family: Inter;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 1.2vw;
-  color: #000000;
-  margin-top: 0vh;
-} */
-/* 
-#rowDynamic {
-  padding: 0px;
-  margin: 0px;
-  width: 100%;
-} */
-
-#dynamicRender {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0px;
-  padding: 0px;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
 }
 
-#directionRow {
-  flex-direction: "row";
-}
-
-#alignPencil {
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  margin-top: 4vh;
-}
-
-#coachTextDetails {
-  font-family: Inter;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 14px;
-  display: flex;
-  align-items: center;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #8e9296;
-}
-
-#memberClubCard {
-  /* Auto Layout */
-  padding: 22px 24px;
-  width: 340px;
-  height: 161px;
-  background: #ffffff;
-  box-shadow: 0px 6px 13px rgba(0, 0, 0, 0.05), 0px 1.34018px 2.90372px rgba(0, 0, 0, 0.0298054), 0px 0.399006px 0.864513px rgba(0, 0, 0, 0.0201946);
-  border-radius: 8px;
-  flex: none;
-  order: 0;
-  align-self: center;
-  margin: 16px 0px;
-}
-
-#membersButton {
-  width: 170px;
-  height: 46px;
-  left: 40px;
-  top: 220px;
-  background: #1a1a1a;
-  border-radius: 8px;
-}
-
-#requestMembersButton {
-  width: 128px;
-  height: 46px;
-  left: 214px;
-  top: 220px;
-  background: #ffffff;
-  border: 1px solid #8e9296;
-  box-sizing: border-box;
-  border-radius: 8px;
-  font-family: Inter;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 16px;
-  text-transform: capitalize;
-  color: #1a1a1a;
-}
-
-#addNewButtonClub {
+#addNewButtonEvent {
   width: 177px;
   height: 46px;
-  left: 1007px;
   top: 298px;
   background: #1a1a1a;
   border-radius: 8px;
   font-family: Inter;
-  font-style: normal;
   font-weight: bold;
   font-size: 12px;
   line-height: 14px;
@@ -285,6 +147,7 @@ label {
 }
 #rowBtnGroup{
   margin-top: 20px ;
+  margin-left: 40px ;
 }
 
 
@@ -313,13 +176,12 @@ label {
 }
 
 /* left card */
-.cartLeft{
-  background-color: red;
+#cartLeftEvent{
   padding: 0px;
   margin: 0px;
 }
-.imgLeftCart{
-  /* height: 100%; */
+#imgLeftCartEvent{
+  height: 100%;
   width: 100%;
   margin: 0px;
   padding: 0px;

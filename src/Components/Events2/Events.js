@@ -7,30 +7,73 @@ import "./AdminClubs.css";
 import EventsAdd from "./EventsAdd/EventsAdd";
 import EventsAddedMessage from "./EventsAddedMessage/EventsAddedMessage";
 import EventsDetails from "./EventsDetails/EventsDetails";
+
+
 class Events extends React.Component {
 
   constructor(props) {
+
     super(props);
+
     this.state = {
       data: [],
       useArray: [],
       addModalShow: false,
       confirmModalShow: false,
       addedClub: {},
+      currentPage: 1,
+      postsPerPage: 4,
+      offset: 0,
+      pageCount: 0,
+      totalPosts: -1
     };
+
+    this.handlePageClick = this.handlePageClick.bind(this);
+
   }
 
+  // paginare
+  handlePageClick = (e, { activePage }) => {
+    const selectedPage = activePage;
+    console.log("e.target.value", activePage);
+
+    const offset = (selectedPage - 1) * this.state.postsPerPage;
+
+    this.setState(
+      {
+        currentPage: selectedPage,
+        offset: offset,
+      },
+      () => {
+        this.receivedData();
+      }
+    );
+  };
+
   receivedData() {
-    axios
-      .get(`https://next.json-generator.com/api/json/get/E1lwlJmAWY`)
-      .then((res) => {
-        const data = res.data;
+
+    // fetch(`https://next.json-generator.com/api/json/get/E1lwlJmAWY`)
+    fetch(`https://next.json-generator.com/api/json/get/N1jZEd3bt`)
+      .then((res) => res.json())
+      .then((result) => {
+
         this.setState({
-          useArray: data,
-          data: data,
-          searchValue: "",
+          data: result,
+          useArray: result
         });
-      });
+        // console.log('data=',this.state.data);
+        this.setState({ totalPosts: Math.ceil(result.length / 4) });
+
+        const slice = result.slice(
+          this.state.offset,
+          this.state.offset + this.state.postsPerPage
+        );
+
+        this.setState({ useArray: slice });
+        this.setState({ result: slice });
+
+        // console.log(result);
+      })
   }
 
   componentDidMount() {
@@ -55,7 +98,7 @@ class Events extends React.Component {
   };
 
   addClubHandler = (club) => {
-    console.log(club)
+    // console.log(club)
     const localArray = this.state.data;
     localArray.push(club);
     this.setState({
@@ -65,125 +108,11 @@ class Events extends React.Component {
     });
   };
 
-  PostClub = (club) => {
-    return (
-      <NavLink to="/EventsDetails">
-
-        <Col xl={3} lg={3} md={6} sm={12} xs={12} style={{ marginTop: "5vh" }}>
-          {/* <div id="clubCard"> */}
-
-          {/* <div>
-              <h1 id="clubCardTitle"> {club.name}</h1>
-            </div> */}
-
-          {/* <Divider clearing /> */}
-          {/* <h1 id="membersText">MEMBERS</h1> */}
-
-          <Row className='test'>
-
-            <Col>
-              dsafdasf
-            </Col>
-
-            <Col md='6'>
-
-              <Row
-                style={{
-                  flexDirection: "row",
-                  marginLeft: "5%",
-                  alignItems: "center",
-                }}
-              >
-                <Image src={club.src} size="mini" circular id="imageCircIcons" />
-                <Image src={club.src} size="mini" circular id="imageCircIcons" />
-                <Image src={club.src} size="mini" circular id="imageCircIcons" />
-                <Image src={club.src} size="mini" circular id="imageCircIcons" />
-
-                <p id="clubsMembersText">+20</p>
-              </Row>
-
-            </Col>
-
-
-          </Row>
-
-          {/* <div style={{ marginTop: "1vh" }}>
-              <h1 id="membersText">Coach</h1>
-              <h1 id="coachText">{club.owner}</h1>
-            </div> */}
-
-          {/* </div> */}
-
-        </Col>
-      </NavLink>
-    );
-  };
 
 
   render() {
 
-    let dynamicRender = (
-      <div id="dynamicRender">
-        {
-          this.state.useArray.map((value, index) => {
-            return (
 
-              <NavLink to="/EventsDetails">
-
-                <Col xl={3} lg={3} md={6} sm={12} xs={12} style={{ marginTop: "5vh" }}>
-                  {/* <div id="clubCard"> */}
-
-                  {/* <div>
-                    <h1 id="clubCardTitle"> {club.name}</h1>
-                  </div> */}
-
-                  {/* <Divider clearing /> */}
-                  {/* <h1 id="membersText">MEMBERS</h1> */}
-
-                  <Row className='test'>
-
-                    <Col>
-                      dsafdasf
-                  </Col>
-
-                    <Col md='6'>
-
-                      <Row
-                        style={{
-                          flexDirection: "row",
-                          marginLeft: "5%",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Image src={value.src} size="mini" circular id="imageCircIcons" />
-                        <Image src={value.src} size="mini" circular id="imageCircIcons" />
-                        <Image src={value.src} size="mini" circular id="imageCircIcons" />
-                        <Image src={value.src} size="mini" circular id="imageCircIcons" />
-
-                        <p id="clubsMembersText">+20</p>
-                      </Row>
-
-                    </Col>
-
-
-                  </Row>
-
-                  {/* <div style={{ marginTop: "1vh" }}>
-                    <h1 id="membersText">Coach</h1>
-                    <h1 id="coachText">{club.owner}</h1>
-                  </div> */}
-
-                  {/* </div> */}
-
-                </Col>
-              </NavLink>
-
-
-            )
-          })
-        }
-      </div>
-    );
 
     return (
       <Container fluid id="containerAdminCoaches">
@@ -215,7 +144,7 @@ class Events extends React.Component {
               </Col>
               <Col md={{ span: 2, offset: 6 }}>
                 <Button
-                  id="addNewButtonClub"
+                  id="addNewButtonEvent"
 
                   onClick={() => this.setState({ addModalShow: true })}
                 >
@@ -226,7 +155,8 @@ class Events extends React.Component {
 
             <Row
               id='rowBtnGroup'
-              style={{ marginRight: "5vh", marginLeft: "5vh" }}>
+            // style={{ marginRight: "5vh", marginLeft: "5vh" }}
+            >
               <Col >
                 <Button id='onGoingBtn' >Ongoing ({this.state.data.length})</Button>
                 <Button id='futureBtn'>Future</Button>
@@ -240,7 +170,7 @@ class Events extends React.Component {
               id="rowDynamic"
               style={{
                 marginTop: "5vh",
-                // marginRight: "8vh",
+                marginRight: "8vh",
                 paddingLeft: "7vh",
               }}
             >
@@ -249,14 +179,15 @@ class Events extends React.Component {
 
                 this.state.useArray.map((value, index) => {
                   return (
-
-                    <NavLink className='navLinkCart' to="/EventsDetails">
+                    
+                    <NavLink className='navLinkCart' to={`/EventsDetails/${value.id}`}>
                       <Col className='cartCol' xl={3} lg={3} md={6} sm={12} xs={12} >
-                       
+                        {console.log('valu: ',value)}
+
                         <Row className='rowCart'>
 
-                          <Col className='cartLeft' md={5} >
-                            <Image src={value.src} className='imgLeftCart' />
+                          <Col id='cartLeftEvent' md={5} >
+                            <Image src={value.src} id='imgLeftCartEvent' />
                           </Col>
 
                           <Col className='cartRight'>
@@ -264,7 +195,7 @@ class Events extends React.Component {
                             <Row id='rowRightCart'>
 
                               <h3 className='marginLeft' >Running for Life</h3>
-                    
+                              {value.name}
                               <p>
                                 Ad enim sit commodo laborum mollit. Incididunt Lorem exercitation ad occaecat reprehenderit id.
                               </p>
@@ -278,12 +209,12 @@ class Events extends React.Component {
 
                               <p className='width'>Suceava Fortress, Main Enter</p>
 
-                              <Image src={value.src} size="mini" circular id="imageCircIcons" />
-                              <Image src={value.src} size="mini" circular id="imageCircIcons" />
-                              <Image src={value.src} size="mini" circular id="imageCircIcons" />
-                              <Image src={value.src} size="mini" circular id="imageCircIcons" />
+                              <img src={value.src} size="mini" circular id="imageCircIcons" />
+                              <img src={value.src} size="mini" circular id="imageCircIcons" />
+                              <img src={value.src} size="mini" circular id="imageCircIcons" />
+                              <img src={value.src} size="mini" circular id="imageCircIcons" />
+                              <p>+20</p>
 
-                              <p id="clubsMembersText">+20</p>
                             </Row>
 
                           </Col>
@@ -301,7 +232,7 @@ class Events extends React.Component {
               }
             </Row>
 
-            <Row style={{ marginTop: "3vh" }}></Row>
+            {/* <Row style={{ marginTop: "3vh" }}></Row> */}
 
           </Col>
 
@@ -322,6 +253,16 @@ class Events extends React.Component {
           )}
 
 
+        </Row>
+
+        <Row>
+          <Col>
+            <Pagination
+              defaultActivePage={1}
+              totalPages={this.state.totalPosts}
+              onPageChange={this.handlePageClick}
+            />
+          </Col>
         </Row>
 
       </Container>
