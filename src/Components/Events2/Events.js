@@ -109,6 +109,12 @@ class Events extends React.Component {
   };
 
 
+  // search
+  updateSearch(event) {
+    this.setState({ search: event.target.value.substr(0, 20) });
+  }
+
+
 
   render() {
 
@@ -122,7 +128,7 @@ class Events extends React.Component {
 
             <Row style={{ marginRight: "5vh", marginLeft: "5vh" }}>
               <Col>
-                <h1 id="coachesText">Clubs</h1>
+                <h1 id="coachesText">Events</h1>
               </Col>
             </Row>
 
@@ -139,6 +145,7 @@ class Events extends React.Component {
                     placeholder="Search clubs..."
                     id="searchClubs"
                     onChange={this.searchHandler}
+                    // onChange={this.updateSearch.bind(this)}
                   />
                 </div>
               </Col>
@@ -179,10 +186,10 @@ class Events extends React.Component {
 
                 this.state.useArray.map((value, index) => {
                   return (
-                    
+
                     <NavLink className='navLinkCart' to={`/EventsDetails/${value.id}`}>
                       <Col className='cartCol' xl={3} lg={3} md={6} sm={12} xs={12} >
-                        {console.log('valu: ',value)}
+                        {console.log('valu: ', value)}
 
                         <Row className='rowCart'>
 
@@ -256,7 +263,7 @@ class Events extends React.Component {
         </Row>
 
         <Row>
-          <Col>
+          <Col className='centerPagination'>
             <Pagination
               defaultActivePage={1}
               totalPages={this.state.totalPosts}

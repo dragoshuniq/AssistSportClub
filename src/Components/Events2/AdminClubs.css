@@ -211,3 +211,7 @@ label {
 .width{
   width: 100%;
 }
+.centerPagination{
+  display: flex;
+  justify-content: center;
+}

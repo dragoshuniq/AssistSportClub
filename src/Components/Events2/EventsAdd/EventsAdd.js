@@ -19,6 +19,8 @@ import {
 import { Row, Col } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import MapContainer from "./MapContainer";
+import MapModal from "./MapModal";
+
 class EventAdd extends React.Component {
   constructor(props) {
     super(props);
@@ -38,7 +40,8 @@ class EventAdd extends React.Component {
         email: "",
         owner: "",
       },
-      location: null,
+      location: { lat: 47.667138, lng: 26.27439 },
+      mapModalShow: false,
     };
   }
   onClickCoord(coord) {
@@ -108,14 +111,10 @@ class EventAdd extends React.Component {
     this.props.onHide();
   }
   render() {
-    const mapStyles = {
-      width: "100%",
-      height: "100%",
-    };
     return (
       <Modal
         {...this.props}
-        size="tinny"
+        size="fullscreen"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
@@ -131,7 +130,7 @@ class EventAdd extends React.Component {
               <input
                 id="field"
                 required
-                placeholder="Club"
+                placeholder="Name"
                 onChange={(event) => this.onChangeClubName(event.target.value)}
               />
             </Form.Field>
@@ -168,16 +167,28 @@ class EventAdd extends React.Component {
             <Divider hidden />
 
             <Form.Field>
-              <label id="assignACoach">Location</label>
-              <div style={{ justifyContent: "center", alignItems: "center" }}>
-                <MapContainer
-                  onClickCoord={(coord) => this.onClickCoord(coord)}
-                />
-              </div>
+              <label id="assignACoach">
+                Location
+                <label id="assignACoach" style={{color:"red"}}>   (click to choose on map)</label>
+              </label>
+              <input
+                id="field"
+                value={
+                  "Lat: " +
+                  this.state.location.lat +
+                  " Long:" +
+                  this.state.location.lng
+                }
+                placeholder="Click to choose location"
+                onClick={() => this.setState({ mapModalShow: true })}
+              />
+              {/* <MapContainer
+                onClickCoord={(coord) => this.onClickCoord(coord)}
+              /> */}
             </Form.Field>
             <Divider hidden />
 
-            <Form.Field style={{ marginTop: "22vh" }}>
+            <Form.Field>
               <label id="assignACoach">Details</label>
               <TextArea placeholder="Details" id="field" />
             </Form.Field>
@@ -227,6 +238,13 @@ class EventAdd extends React.Component {
             </div>
           </Form>
         </Modal.Body>
+        {this.state.mapModalShow && (
+          <MapModal
+            show={this.state.mapModalShow}
+            onHide={() => this.setState({ mapModalShow: false })}
+            onClickCoord={(coord) => this.onClickCoord(coord)}
+          />
+        )}
       </Modal>
     );
   }

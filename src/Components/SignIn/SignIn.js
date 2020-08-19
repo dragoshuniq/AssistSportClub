@@ -39,9 +39,10 @@ class SignIn extends React.Component {
   render() {
     return (
       <Container fluid style={{ backgroundColor: "#F9F9F9" }}>
-        <Row noGutters>
+        <Row noGutters className='ceterRoeLog'>
           <Col
             noGutters
+            className='centerLog'
             xl={4}
             lg={4}
             md={4}
@@ -142,6 +143,7 @@ class SignIn extends React.Component {
                           <Icon
                             style={{ marginLeft: "3vh", alignItems: "center" }}
                             name={this.state.isPassword ? "eye slash" : "eye"}
+                            className='iconLog'
                             size="big"
                             onClick={() =>
                               this.setState({

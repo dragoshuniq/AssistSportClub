@@ -275,7 +275,7 @@ class Athletes extends Component {
 
                 </Row>
                 <Row>
-                    <Col>
+                    <Col className={classes.centerPaginationAtlet}>
                         <Pagination
                             defaultActivePage={1}
                             totalPages={this.state.totalPosts}

@@ -5,7 +5,6 @@ class MapContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      location: null,
       marker: {
         title: "Event",
         name: "ASSIST",
@@ -25,18 +24,17 @@ class MapContainer extends React.Component {
         position: { lat: lat, lng: lng },
       },
     });
-    this.props.onClickCoord(this.state.marker);
-    // console.log(this.state.marker);
+   this.props.onClickCoord(this.state.marker);
   }
   render() {
     const mapStyles = {
-      width: "468px",
-      height: "150px",
+      width: "50vw",
+      height: "50vh",
     };
     return (
       <Map
         google={this.props.google}
-        zoom={8}
+        zoom={15}
         style={mapStyles}
         initialCenter={{ lat: 47.667138, lng: 26.274390 }}
         onClick={this.onClick}
