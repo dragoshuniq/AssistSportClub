@@ -10,66 +10,51 @@ import {
   Pagination,
   Image,
 } from "semantic-ui-react";
-import AthletesAdd from "../../Athletes/AthletesAdd/AthletesAdd";
 import "./EventsDetails.css";
-import { NavLink } from "react-router-dom";
-import EventsAdd from "../EventsAdd/EventsAdd";
-import EventsAddedMessage from "../EventsAddedMessage/EventsAddedMessage";
+// import EventsEdit from "../EventsEdit/EventsEdit";
 import EventsEdit from "../EventsEdit/EventsEdit";
-
+import DeleteModal from "../EventsEdit/DeleteModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCoffee,
-  faFlag,
-  faTrophy,
-  faRunning,
-  faFutbol,
-  faSignOutAlt,
-  faAlignJustify,
   faMapMarkerAlt,
   faClock,
-  faCalendarAlt
+  faCalendarAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
-class AdminClubDetails extends React.Component {
-
+class EventsDetails extends React.Component {
   constructor(props) {
-
     super(props);
 
     this.state = {
-
-      thisClub: {
-        name: "Club Name",
-        coach: "Coach name",
+      event: {
+        name: "Event",
+        date: new Date(),
+        time: new Date(),
+        members: [],
+        description: "",
+        location: { lat: 47.667138, lng: 26.27439 },
       },
+      thisEvent: this.props.event,
       data: [],
       useArray: [],
-      addModalShow: false,
-      confirmModalShow: false,
       editModalShow: false,
-      addedClub: {},
       currentPage: 1,
       postsPerPage: 9,
       offset: 0,
       pageCount: 0,
       totalMembers: 0,
       totalPosts: 0,
-      addAthletesShow: false,
-      poza: require('../../../poze/img1.jpg')
-
+      poza: require("../../../poze/img1.jpg"),
+      deleteModalShow: false,
     };
 
     this.handlePageClick = this.handlePageClick.bind(this);
-
   }
 
   receivedData() {
-    axios
-      .get(`EventsDetails/` + this.props.id)
-      .then((res) => {
-        this.setState({ data: res.data });
-      });
+    axios.get(`EventsDetails/` + this.props.id).then((res) => {
+      this.setState({ data: res.data });
+    });
     // axios
     //   .get(`https://next.json-generator.com/api/json/get/EJeP7rkft`)
     //   .then((res) => {
@@ -88,7 +73,7 @@ class AdminClubDetails extends React.Component {
   }
 
   componentDidMount() {
-    console.log('props: ',this.props)
+    console.log("props: ", this.props);
     this.receivedData();
   }
 
@@ -126,7 +111,6 @@ class AdminClubDetails extends React.Component {
     }
   };
 
-
   addClubHandler = (member) => {
     const localArray = this.state.data;
     localArray.push(member);
@@ -138,226 +122,215 @@ class AdminClubDetails extends React.Component {
   };
 
   render() {
-
-
-
     return (
-      <Container id='container'>
-        <Row >
-
-          <Col md={12} className='topEvents'>
-            <p> <b><span className='spanEvent'>Events &#62;</span> Running For Life</b></p>
+      <Container id="container">
+        <Row>
+          <Col md={12} className="topEvents">
+            <p>
+              {" "}
+              <b>
+                <span className="spanEvent">Events &#62;</span> Running For Life
+              </b>
+            </p>
             {this.props.id}
           </Col>
 
-          <Col md={12} className='topEventsGroup'>
+          <Col md={12} className="topEventsGroup">
             <div>
-              <p className='pRunningEvets'>Running for Life</p>
-              <p className='p2EventsIcon'><span>  <FontAwesomeIcon icon={faCalendarAlt} /> 20.06.2020</span> | <FontAwesomeIcon icon={faClock} />  <span> 09:00 AM </span>  |  <span>  <FontAwesomeIcon icon={faMapMarkerAlt} /> Suceava Fortress, Main Enter</span></p>
+              <p className="pRunningEvets">Running for Life</p>
+              <p className="p2EventsIcon">
+                <span>
+                  {" "}
+                  <FontAwesomeIcon icon={faCalendarAlt} /> 20.06.2020
+                </span>{" "}
+                | <FontAwesomeIcon icon={faClock} /> <span> 09:00 AM </span> |{" "}
+                <span>
+                  {" "}
+                  <FontAwesomeIcon icon={faMapMarkerAlt} /> Suceava Fortress,
+                  Main Enter
+                </span>
+              </p>
             </div>
             <Button
               id="addNewButtonClub"
-
-            // onClick={() => this.setState({ addModalShow: true })}
+              onClick={() => this.setState({ editModalShow: true })}
             >
               EDIT
-                </Button>
-
+            </Button>
           </Col>
 
-          <Col className='image' md={12}>
-            
-          </Col>
+          <Col className="image" md={12}></Col>
 
-          <Col className='contentEvent' md={12}>
+          <Col className="contentEvent" md={12}>
             <h3>
-              Est amet incididunt proident proident ipsum incididunt non sint cillum amet ullamco proident ut.
+              Est amet incididunt proident proident ipsum incididunt non sint
+              cillum amet ullamco proident ut.
             </h3>
             <p>
-              Est amet incididunt proident proident ipsum incididunt non sint cillum amet ullamco proident ut.
-              Consectetur irure quis adipisicing occaecat eiusmod esse nostrud mollit et.
-              Excepteur anim aliquip consequat sint ad ut enim mollit. Amet esse adipisicing aute reprehenderit labore
-              enim exercitation. Dolor laboris irure exercitation elit. Labore labore pariatur deserunt Lorem veniam
-              Lorem incididunt labore sint. Ut laboris ex in nostrud irure fugiat duis nisi non deserunt et. Labore
-              sunt culpa cupidatat non irure duis ipsum nulla dolor in ipsum sint aliqua. Labore ipsum adipisicing id aliquip id qui duis.
-              Laborum ut consectetur esse aliquip anim consectetur dolore mollit anim quis consequat anim proident.
+              Est amet incididunt proident proident ipsum incididunt non sint
+              cillum amet ullamco proident ut. Consectetur irure quis
+              adipisicing occaecat eiusmod esse nostrud mollit et. Excepteur
+              anim aliquip consequat sint ad ut enim mollit. Amet esse
+              adipisicing aute reprehenderit labore enim exercitation. Dolor
+              laboris irure exercitation elit. Labore labore pariatur deserunt
+              Lorem veniam Lorem incididunt labore sint. Ut laboris ex in
+              nostrud irure fugiat duis nisi non deserunt et. Labore sunt culpa
+              cupidatat non irure duis ipsum nulla dolor in ipsum sint aliqua.
+              Labore ipsum adipisicing id aliquip id qui duis. Laborum ut
+              consectetur esse aliquip anim consectetur dolore mollit anim quis
+              consequat anim proident.
             </p>
-
           </Col>
-
 
           <Col md={12}>
             <Row>
-
               <Col md={6}>
-                <p className='particip'>
-                  Participants (76)
-                </p>
-                <p className='particip2'>
+                <p className="particip">Participants (76)</p>
+                <p className="particip2">
                   Select participants you want to compare
                 </p>
               </Col>
 
-              <Col md={6} className='doneBtnCol'>
-
+              <Col md={6} className="doneBtnCol">
                 <Button
                   id="addNewButtonEventDetail"
-                // onClick={() => this.setState({ addModalShow: true })}
+                  // onClick={() => this.setState({ addModalShow: true })}
                 >
                   Compare performanc
                 </Button>
-
               </Col>
 
-              <Col className='listUsers'>
-
-              <Row className='user'>
-                  <Col className='imgColEventSt'>
-                    <img className='cartImgEvent2' src={this.state.poza} />
-                    <p className='pEvents'>Harold Howard</p>
+              <Col className="listUsers">
+                <Row className="user">
+                  <Col className="imgColEventSt">
+                    <img className="cartImgEvent2" src={this.state.poza} />
+                    <p className="pEvents">Harold Howard</p>
                   </Col>
 
-                  <Col className='imgColEventDr'>
-                    <input type='checkbox'></input>
+                  <Col className="imgColEventDr">
+                    <input type="checkbox"></input>
                   </Col>
 
-                  <Col className='p2Events' md={12}>
+                  <Col className="p2Events" md={12}>
                     Male • 26 years
                   </Col>
-
                 </Row>
 
-                <Row className='user'>
-                  <Col className='imgColEventSt'>
-                    <img className='cartImgEvent2' src={this.state.poza} />
-                    <p className='pEvents'>Harold Howard</p>
+                <Row className="user">
+                  <Col className="imgColEventSt">
+                    <img className="cartImgEvent2" src={this.state.poza} />
+                    <p className="pEvents">Harold Howard</p>
                   </Col>
 
-                  <Col className='imgColEventDr'>
-                    <input type='checkbox'></input>
+                  <Col className="imgColEventDr">
+                    <input type="checkbox"></input>
                   </Col>
 
-                  <Col className='p2Events' md={12}>
+                  <Col className="p2Events" md={12}>
                     Male • 26 years
                   </Col>
-
                 </Row>
 
-                <Row className='user'>
-                  <Col className='imgColEventSt'>
-                    <img className='cartImgEvent2' src={this.state.poza} />
-                    <p className='pEvents'>Harold Howard</p>
+                <Row className="user">
+                  <Col className="imgColEventSt">
+                    <img className="cartImgEvent2" src={this.state.poza} />
+                    <p className="pEvents">Harold Howard</p>
                   </Col>
 
-                  <Col className='imgColEventDr'>
-                    <input type='checkbox'></input>
+                  <Col className="imgColEventDr">
+                    <input type="checkbox"></input>
                   </Col>
 
-                  <Col className='p2Events' md={12}>
+                  <Col className="p2Events" md={12}>
                     Male • 26 years
                   </Col>
-
                 </Row>
 
-                <Row className='user'>
-                  <Col className='imgColEventSt'>
-                    <img className='cartImgEvent2' src={this.state.poza} />
-                    <p className='pEvents'>Harold Howard</p>
+                <Row className="user">
+                  <Col className="imgColEventSt">
+                    <img className="cartImgEvent2" src={this.state.poza} />
+                    <p className="pEvents">Harold Howard</p>
                   </Col>
 
-                  <Col className='imgColEventDr'>
-                    <input type='checkbox'></input>
+                  <Col className="imgColEventDr">
+                    <input type="checkbox"></input>
                   </Col>
 
-                  <Col className='p2Events' md={12}>
+                  <Col className="p2Events" md={12}>
                     Male • 26 years
                   </Col>
-
                 </Row>
 
-                <Row className='user'>
-                  <Col className='imgColEventSt'>
-                    <img className='cartImgEvent2' src={this.state.poza} />
-                    <p className='pEvents'>Harold Howard</p>
+                <Row className="user">
+                  <Col className="imgColEventSt">
+                    <img className="cartImgEvent2" src={this.state.poza} />
+                    <p className="pEvents">Harold Howard</p>
                   </Col>
 
-                  <Col className='imgColEventDr'>
-                    <input type='checkbox'></input>
+                  <Col className="imgColEventDr">
+                    <input type="checkbox"></input>
                   </Col>
 
-                  <Col className='p2Events' md={12}>
+                  <Col className="p2Events" md={12}>
                     Male • 26 years
                   </Col>
-
                 </Row>
 
-                <Row className='user'>
-                  <Col className='imgColEventSt'>
-                    <img className='cartImgEvent2' src={this.state.poza} />
-                    <p className='pEvents'>Harold Howard</p>
+                <Row className="user">
+                  <Col className="imgColEventSt">
+                    <img className="cartImgEvent2" src={this.state.poza} />
+                    <p className="pEvents">Harold Howard</p>
                   </Col>
 
-                  <Col className='imgColEventDr'>
-                    <input type='checkbox'></input>
+                  <Col className="imgColEventDr">
+                    <input type="checkbox"></input>
                   </Col>
 
-                  <Col className='p2Events' md={12}>
+                  <Col className="p2Events" md={12}>
                     Male • 26 years
                   </Col>
-
                 </Row>
 
-                <Row className='user'>
-                  <Col className='imgColEventSt'>
-                    <img className='cartImgEvent2' src={this.state.poza} />
-                    <p className='pEvents'>Harold Howard</p>
+                <Row className="user">
+                  <Col className="imgColEventSt">
+                    <img className="cartImgEvent2" src={this.state.poza} />
+                    <p className="pEvents">Harold Howard</p>
                   </Col>
 
-                  <Col className='imgColEventDr'>
-                    <input type='checkbox'></input>
+                  <Col className="imgColEventDr">
+                    <input type="checkbox"></input>
                   </Col>
 
-                  <Col className='p2Events' md={12}>
+                  <Col className="p2Events" md={12}>
                     Male • 26 years
                   </Col>
-
                 </Row>
 
-
-                <Row className='user'>
-                  <Col className='imgColEventSt'>
-                    <img className='cartImgEvent2' src={this.state.poza} />
-                    <p className='pEvents'>Harold Howard</p>
+                <Row className="user">
+                  <Col className="imgColEventSt">
+                    <img className="cartImgEvent2" src={this.state.poza} />
+                    <p className="pEvents">Harold Howard</p>
                   </Col>
 
-                  <Col className='imgColEventDr'>
-                    <input type='checkbox'></input>
+                  <Col className="imgColEventDr">
+                    <input type="checkbox"></input>
                   </Col>
 
-                  <Col className='p2Events' md={12}>
+                  <Col className="p2Events" md={12}>
                     Male • 26 years
                   </Col>
-
                 </Row>
-            
-
               </Col>
-
             </Row>
           </Col>
 
-          <Col >
-            <div>
-
-            </div>
+          <Col>
+            <div></div>
           </Col>
 
           <Col md={12}>
-            <p className='particip2'>
-              Select participants you want to compare
-                </p>
+            <p className="particip2">Select participants you want to compare</p>
           </Col>
-
 
           {/* {this.state.addModalShow && (
             <EventsAdd
@@ -375,18 +348,7 @@ class AdminClubDetails extends React.Component {
             />
           )}
 
-          {this.state.editModalShow && (
-            <EventsEdit
-              show={this.state.editModalShow}
-              onHide={() => this.setState({ editModalShow: false })}
-              club={this.state.thisClub}
-              coach={{
-                key: this.state.thisClub.coach,
-                text: this.state.thisClub.coach,
-                value: this.state.thisClub.coach,
-              }}
-            />
-          )}
+        
 
           {this.state.addAthletesShow && (
             <AthletesAdd
@@ -394,11 +356,25 @@ class AdminClubDetails extends React.Component {
               onHide={() => this.setState({ addAthletesShow: false })}
             />
           )} */}
-
+          {this.state.editModalShow && (
+            <EventsEdit
+              show={this.state.editModalShow}
+              onHide={() => this.setState({ editModalShow: false })}
+              event={this.state.event}
+              delete={() => this.setState({ deleteModalShow: true })}
+            />
+          )}
+          {this.state.deleteModalShow && (
+            <DeleteModal
+              show={this.state.deleteModalShow}
+              onHide={() => this.setState({ deleteModalShow: false })}
+              event={this.state.event}
+            />
+          )}
         </Row>
       </Container>
     );
   }
 }
 
-export default AdminClubDetails;
+export default EventsDetails;

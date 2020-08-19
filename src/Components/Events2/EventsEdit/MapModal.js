@@ -3,7 +3,6 @@ import { Modal, Button as RButton } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-dropzone-uploader/dist/styles.css";
 import Dropzone from "react-dropzone-uploader";
-import "./EventAdd.css";
 import {
   InputGroup,
   FormControl,

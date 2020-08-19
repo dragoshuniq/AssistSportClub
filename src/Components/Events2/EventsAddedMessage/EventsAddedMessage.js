@@ -3,12 +3,7 @@ import { Modal, Button as RButton } from "react-bootstrap";
 import "../AdminClubs.css";
 
 import {
-  InputGroup,
-  FormControl,
-  Form,
   Button,
-  Checkbox,
-  Select,
   Icon,
 } from "semantic-ui-react";
 function AddedConfirmModal(props) {
@@ -32,10 +27,9 @@ function AddedConfirmModal(props) {
         <div id="iconDone">
           <Icon size="huge" name="check circle" color="black" />
         </div>
-        <h1 id="coachAddedText"> Club Added </h1>
+        <h1 id="coachAddedText"> Event Added </h1>
         <p id="confirmText">
-          Your club with name “{props.club.name}” has been succesfully added in
-          the system.
+          Event “{props.event.name}” will run on date {props.event.date.toString()}
         </p>
         <div
           id="iconDone"

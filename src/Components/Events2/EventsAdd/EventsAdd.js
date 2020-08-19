@@ -5,67 +5,67 @@ import "react-dropzone-uploader/dist/styles.css";
 import Dropzone from "react-dropzone-uploader";
 import "./EventAdd.css";
 import {
-  InputGroup,
-  FormControl,
   Form,
   Button,
-  Checkbox,
   Divider,
-  Select,
   Label,
   TextArea,
   Icon,
 } from "semantic-ui-react";
 import { Row, Col } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
-import MapContainer from "./MapContainer";
 import MapModal from "./MapModal";
 
 class EventAdd extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: new Date(),
-      time: new Date(),
-      members: [],
-      isInvite: false,
-      trainOptions: [
-        { key: "Ionel", text: "Ionel", value: "Ionel" },
-        { key: "Denis", text: "Denis", value: "Denis" },
-        { key: "Vasile", text: "Vasile", value: "Vasile" },
-      ],
-      club: {
-        id: Math.random(),
-        name: "noName",
-        email: "",
-        owner: "",
+      event: {
+        name: "",
+        date: new Date(),
+        time: new Date(),
+        members: [],
+        description: "",
+        location: { lat: 47.667138, lng: 26.27439 },
       },
-      location: { lat: 47.667138, lng: 26.27439 },
       mapModalShow: false,
+      isInvite: false,
+      location: { lat: 47.667138, lng: 26.27439 },
     };
   }
   onClickCoord(coord) {
-    this.setState({ location: coord });
+    const aux = this.state.event;
+    aux.location = coord;
+    this.setState({ location: coord, event: aux });
     console.log(this.state.location);
   }
-  onChangeEmail(id, value) {
-    const aux = this.state.mailMap;
-    aux.set(id, value);
-    this.setState({ mailMap: aux });
-  }
+
   componentWillMount() {
     console.log(this.state.date);
   }
-  onChangeClubName(value) {
-    const train = this.state.club;
+  onChangeEventName(value) {
+    const train = this.state.event;
     train.name = value;
-    this.setState({ club: train });
+    this.setState({ event: train });
   }
-  onChangeCoach(value) {
-    const train = this.state.club;
-    train.owner = value;
-    this.setState({ club: train });
+  onChangeTime(time) {
+    const train = this.state.event;
+    train.time = time;
+    this.setState({ event: train });
   }
+  onChangeDate(date) {
+    const train = this.state.event;
+    train.date = date;
+    this.setState({ event: train });
+
+  }
+
+  onChangeDescription(value) {
+    const ax = this.state.event;
+    ax.description = value;
+    this.setState({ event: ax });
+  }
+
   inviteMembersHandler() {
     this.setState({
       mailMap: new Map(),
@@ -107,7 +107,8 @@ class EventAdd extends React.Component {
   onSubmit() {
     //console.log(this.state.mailMap);
     //console.log(this.state.club);
-    this.props.addClubHandler(this.state.club);
+    //this.setState{}
+    this.props.addEventHandler(this.state.event);
     this.props.onHide();
   }
   render() {
@@ -131,7 +132,7 @@ class EventAdd extends React.Component {
                 id="field"
                 required
                 placeholder="Name"
-                onChange={(event) => this.onChangeClubName(event.target.value)}
+                onChange={(event) => this.onChangeEventName(event.target.value)}
               />
             </Form.Field>
             <Divider hidden />
@@ -143,8 +144,8 @@ class EventAdd extends React.Component {
                   <DatePicker
                     className="inputDate"
                     dateFormat="MM/dd/yyyy"
-                    selected={this.state.date}
-                    onChange={(date) => this.setState({ date: date })}
+                    selected={this.state.event.date}
+                    onChange={(date) => this.onChangeDate(date)}
                   />
                 </Form.Field>
               </Col>
@@ -152,8 +153,8 @@ class EventAdd extends React.Component {
                 <Form.Field>
                   <label id="assignACoach">Time</label>
                   <DatePicker
-                    selected={this.state.time}
-                    onChange={(time) => this.setState({ time: time })}
+                    selected={this.state.event.time}
+                    onChange={(time) => this.onChangeTime(time)}
                     showTimeSelect
                     showTimeSelectOnly
                     timeIntervals={15}
@@ -169,7 +170,10 @@ class EventAdd extends React.Component {
             <Form.Field>
               <label id="assignACoach">
                 Location
-                <label id="assignACoach" style={{color:"red"}}>   (click to choose on map)</label>
+                <label id="assignACoach" style={{ color: "red" }}>
+                  {" "}
+                  (click to choose on map)
+                </label>
               </label>
               <input
                 id="field"
