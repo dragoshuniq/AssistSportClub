@@ -26,6 +26,7 @@ class EventsDetails extends React.Component {
     super(props);
 
     this.state = {
+      poza: require('../../../poze/img1.jpg'),
       event: {
         name: "Event",
         date: new Date(),
@@ -159,7 +160,9 @@ class EventsDetails extends React.Component {
             </Button>
           </Col>
 
-          <Col className="image" md={12}></Col>
+          <Col   id="image" md={12}>
+            <Image src={this.state.poza} id='imgLeftCartEvent' />
+          </Col>
 
           <Col className="contentEvent" md={12}>
             <h3>
@@ -194,7 +197,7 @@ class EventsDetails extends React.Component {
               <Col md={6} className="doneBtnCol">
                 <Button
                   id="addNewButtonEventDetail"
-                  // onClick={() => this.setState({ addModalShow: true })}
+                // onClick={() => this.setState({ addModalShow: true })}
                 >
                   Compare performanc
                 </Button>

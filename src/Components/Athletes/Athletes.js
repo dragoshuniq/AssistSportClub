@@ -170,16 +170,30 @@ class Athletes extends Component {
             <Container fluid className={classes.back} >
 
                 {/* Header */}
-                <Row className={classes.rowTopAtleti}>
+                <Row style={{ marginRight: "5vh", marginLeft: "5vh" }}>
                     <Col>
-                        <h1 >Athletes</h1>
+                        <h1 className={classes.textTopAthlets}>Athletes</h1>
                     </Col>
                 </Row>
-                <Row>
-                    <Col md={4} >
+
+                <Row id={classes.searchAtletRow}>
+                    <Col   >
+
+                        <div>
+                            <Input
+                                fluid
+                                icon="search"
+                                iconPosition="left"
+                                placeholder="Search atlet..."
+                                id="searchAtlet"
+                                // onChange={this.searchHandler}
+                                // onChange={this.updateSearch.bind(this)}
+                                onChange={this.updateSearch.bind(this)}
+                            />
+                        </div>
 
                         {/* Search */}
-                        <Form.Row>
+                        {/* <Form.Row>
                             <Form.Group as={Col} >
                                 <InputGroup>
                                     <InputGroup.Prepend>
@@ -195,18 +209,22 @@ class Athletes extends Component {
                                     />
                                 </InputGroup>
                             </Form.Group>
-                        </Form.Row>
+                        </Form.Row> */}
 
                     </Col>
-                    <Col md={{ span: 4, offset: 4 }} className={classes.btnColAtleti} >
+                    <Col md={{ span: 4, offset: 4 }} >
                         {/* Add button */}
-                        <Button onClick={() => this.setState({ addModalShow: true })} id={classes.Button}>ADD NEW</Button>
+                        <Button
+                            onClick={() => this.setState({ addModalShow: true })}
+                            id={classes.addNewButtonAtlet}>
+                            ADD NEW
+                            </Button>
                     </Col>
                 </Row>
                 {/* END Header */}
 
                 {/* map the variable filtered  */}
-                <Row>
+                <Row className={classes.pointerAtlet}>
                     {filteredAthlets.map((el, index) => {
                         return (
                             <Col md={3}

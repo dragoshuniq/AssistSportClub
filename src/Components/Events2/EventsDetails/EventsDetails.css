@@ -1,8 +1,9 @@
-.image {
-    background-color: red;
+#image {
+    /* background-color: red; */
     height: 400px;
     margin-top: 50px;
     border-radius: 10px 10px 0px 0px;
+    padding: 0px;
 }
 
 .marginLeft {
