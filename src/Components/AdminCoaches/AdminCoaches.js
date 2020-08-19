@@ -3,7 +3,7 @@ import EditCoachModal from "./EditCoachModal";
 import DeleteCoachModal from "./DeleteCoachModal";
 import AddCoachModal from "./AddCoachModal";
 import AddedConfirmModal from "./AddedConfirmModal";
-
+import serverUrl from "../url";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 
@@ -84,27 +84,25 @@ class AdminCoaches extends React.Component {
     );
   };
   receivedData() {
-    axios
-      .get(`http://278ebb25ae31.ngrok.io/api/user/2`)
-      .then((res) => {
-        const data = res.data;
-        const slice = data.slice(
-          this.state.offset,
-          this.state.offset + this.state.postsPerPage
-        );
-        const myMap = new Map();
-        slice.map((res) => {
-          myMap.set(res.id, false);
-        });
-        this.setState({
-          totalPosts: Math.ceil(data.length / this.state.postsPerPage),
-          useArray: slice,
-          data: slice,
-          selectedElements: myMap,
-          selectAllElements: false,
-          deleteMultiple: false,
-        });
+    axios.get(serverUrl + `api/user/2`).then((res) => {
+      const data = res.data;
+      const slice = data.slice(
+        this.state.offset,
+        this.state.offset + this.state.postsPerPage
+      );
+      const myMap = new Map();
+      slice.map((res) => {
+        myMap.set(res.id, false);
       });
+      this.setState({
+        totalPosts: Math.ceil(data.length / this.state.postsPerPage),
+        useArray: slice,
+        data: slice,
+        selectedElements: myMap,
+        selectAllElements: false,
+        deleteMultiple: false,
+      });
+    });
   }
 
   /* fetchDataFromServer() {
@@ -289,7 +287,6 @@ class AdminCoaches extends React.Component {
         }}
         key={value.id}
       >
-        
         <Col xl={1} lg={1} md={1} sm={1} xs={1}>
           <Checkbox
             onChange={() => this.onCheckedHandler(value.id)}
