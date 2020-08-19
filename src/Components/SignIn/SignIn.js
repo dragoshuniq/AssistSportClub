@@ -141,17 +141,7 @@ class SignIn extends React.Component {
                                 : "")
                             }
                           />
-                          <Icon
-                            style={{ marginLeft: "3vh", alignItems: "center" }}
-                            name={this.state.isPassword ? "eye slash" : "eye"}
-                            className="iconLog"
-                            size="big"
-                            onClick={() =>
-                              this.setState({
-                                isPassword: !this.state.isPassword,
-                              })
-                            }
-                          />
+                       
                         </div>
                         <ErrorMessage
                           name="password"

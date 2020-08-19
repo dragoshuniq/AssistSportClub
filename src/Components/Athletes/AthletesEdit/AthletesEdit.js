@@ -102,7 +102,7 @@ class AthletesEdit extends Component {
                         <Form.Row>
                             <Form.Group as={Col} controlId="formGridName">
                                 <Form.Label>Name</Form.Label>
-                                <Form.Control type="name" placeholder="Enter name"
+                                <Form.Control type="name" placeholder="Enter name"  id="field"
                                     value={this.state.atlet.name}
                                     onChange={(e) => this.changeName(e)}
                                 // onChange={(event) => this.onChangeFirstName(event.target.value)}
@@ -116,6 +116,7 @@ class AthletesEdit extends Component {
                                 <Form.Label>Email Adress</Form.Label>
                                 <Form.Control type="email" placeholder="Email Adress"
                                     value={this.state.atlet.email}
+                                    id="field"
                                     // onChange={this.props.changed}
                                     onChange={(e) => this.changeEmail(e)}
                                 />
@@ -126,7 +127,7 @@ class AthletesEdit extends Component {
                         <Form.Row>
                             <Form.Group as={Col} controlId="formGridPrimarySports">
                                 <Form.Label>Primary Sports</Form.Label>
-                                <Form.Control type="primary-sports" placeholder="Enter Primary Sports"
+                                <Form.Control  id="field" type="primary-sports" placeholder="Enter Primary Sports"
                                     value={this.state.atlet.primary_sports}
                                     onChange={(e) => this.changePrimarySport(e)}
 
@@ -135,7 +136,7 @@ class AthletesEdit extends Component {
 
                             <Form.Group as={Col} controlId="formGridSecondarySports">
                                 <Form.Label>Secondary Sports</Form.Label>
-                                <Form.Control type="secondary-sports" placeholder="Secondary Sports"
+                                <Form.Control  id="field" type="secondary-sports" placeholder="Secondary Sports"
                                     value={this.state.atlet.secondary_sports}
                                     // onChange={this.props.changed}
                                     onChange={(e) => this.changeSecondarySport(e)}
@@ -152,7 +153,7 @@ class AthletesEdit extends Component {
                         <Form.Row>
                             <Form.Group as={Col} controlId="formGridGender">
                                 <Form.Label>Gender</Form.Label>
-                                <Form.Control type="gender" placeholder="Enter Gender"
+                                <Form.Control type="gender" placeholder="Enter Gender"  id="field"
                                     value={this.state.atlet.gender}
                                     onChange={(e) => this.changeGender(e)}
                                 // onChange={this.props.changed}
@@ -161,7 +162,7 @@ class AthletesEdit extends Component {
 
                             <Form.Group as={Col} controlId="formGridAge">
                                 <Form.Label>Age</Form.Label>
-                                <Form.Control type="age" placeholder="Age"
+                                <Form.Control type="age" placeholder="Age"  id="field"
                                     value={this.state.atlet.age}
                                     onChange={(e) => this.changeAge(e)}
 
@@ -173,7 +174,7 @@ class AthletesEdit extends Component {
                         <Form.Row>
                             <Form.Group as={Col} controlId="formGridHeight">
                                 <Form.Label>Height</Form.Label>
-                                <Form.Control type="height" placeholder="Enter Height"
+                                <Form.Control type="height" placeholder="Enter Height"  id="field"
                                     value={this.state.atlet.height}
                                     onChange={(e) => this.changeHeight(e)}
 
@@ -183,7 +184,7 @@ class AthletesEdit extends Component {
 
                             <Form.Group as={Col} controlId="formGridPassword">
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control type="text" placeholder="Password"
+                                <Form.Control type="text" placeholder="Password"  id="field"
                                     value={this.state.atlet.password}
                                     onChange={(e) => this.changePassword(e)}
 
@@ -200,7 +201,7 @@ class AthletesEdit extends Component {
 
                         <Form.Group as={Col} controlId="formGridAssignToClub">
                             <Form.Label>Assign To a Club</Form.Label>
-                            <Form.Control name="select" as="select" defaultValue="Choose...">
+                            <Form.Control name="select" as="select" defaultValue="Choose..."  id="field"> 
                                 {/* {this.this.props.atlet.map((el, index) => {
                                 return (
                                     <option key={index}>Choose...</option>
@@ -216,14 +217,15 @@ class AthletesEdit extends Component {
 
                         <Form.Group as={Col} controlId="formGridAvatarImage">
                             <Form.Label>Avatar Image</Form.Label>
-                            <Form.File id="formcheck-api-custom" custom>
+                            <Form.File id="formcheck-api-custom" custom > 
                                 <Form.File.Input
+                                 id="field"
                                     // isValid
                                     name="file"
                                     type="file"
                                     onChange={(e) => this.changeFile(e)}
                                 />
-                                <Form.File.Label data-browse="Button text">
+                                <Form.File.Label data-browse="Button text"  id="field">
                                     Custom file input
                         </Form.File.Label>
                                 {/* <Form.Control.Feedback type="valid">You did it!</Form.Control.Feedback> */}

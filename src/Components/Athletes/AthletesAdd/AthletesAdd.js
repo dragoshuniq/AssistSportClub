@@ -101,6 +101,7 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridName">
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control
+                                 id="field"
                                     // isValid
                                     required
                                     name="name"
@@ -114,6 +115,7 @@ class AthletesAdd extends Component {
                                 <Form.Label>Email Adress</Form.Label>
                                 <Form.Control
                                     // isValid
+                                    id="field"
                                     required
                                     name="email"
                                     type="email"
@@ -129,6 +131,7 @@ class AthletesAdd extends Component {
                                 <Form.Label>Primary Sports</Form.Label>
                                 <Form.Control
                                     required
+                                    id="field"
                                     name="primary_sports"
                                     type="text"
                                     value={this.state.details.primary_sports}
@@ -139,6 +142,7 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridSecondarySports">
                                 <Form.Label>Secondary Sports</Form.Label>
                                 <Form.Control
+                                 id="field"
                                     required
                                     name="secondary_sports"
                                     type="text"
@@ -158,6 +162,7 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridGender">
                                 <Form.Label>Gender</Form.Label>
                                 <Form.Control
+                                 id="field"
                                     required
                                     name="gender"
                                     type="text"
@@ -169,6 +174,7 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridAge">
                                 <Form.Label>Age</Form.Label>
                                 <Form.Control
+                                 id="field"
                                     required
                                     name="age"
                                     type="text"
@@ -182,6 +188,7 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridHeight">
                                 <Form.Label>Height</Form.Label>
                                 <Form.Control
+                                 id="field"
                                     required
                                     name="height"
                                     type="text"
@@ -193,6 +200,7 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridPassword">
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control
+                                 id="field"
                                     // isInvalid
                                     // required
                                     name="password"
@@ -211,7 +219,7 @@ class AthletesAdd extends Component {
 
                         <Form.Group as={Col} controlId="formGridAssignToClub">
                             <Form.Label>Assign To a Club</Form.Label>
-                            <Form.Control required name="club_name" as="select" defaultValue="club 1" onChange={this.HandlerEventADD}>
+                            <Form.Control  id="field" required name="club_name" as="select" defaultValue="club 1" onChange={this.HandlerEventADD}>
                                 <option value="club 1">Club 1</option>
                                 <option value="club 2">Club 2</option>
                                 <option value="club 3">Club 3</option>
@@ -223,13 +231,14 @@ class AthletesAdd extends Component {
                             <Form.Label>Avatar Image</Form.Label>
                             <Form.File id="formcheck-api-custom" custom>
                                 <Form.File.Input
+                                 id="field"
                                     // isValid 
                                     required
                                     name="file"
                                     type="file"
                                     onChange={this.HandlerEventADD_FILE}
                                 />
-                                <Form.File.Label data-browse="Button text">
+                                <Form.File.Label data-browse="Button text"  id="field">
                                     Custom file input
                                         </Form.File.Label>
                                 {/* <Form.Control.Feedback type="valid">You did it!</Form.Control.Feedback> */}
