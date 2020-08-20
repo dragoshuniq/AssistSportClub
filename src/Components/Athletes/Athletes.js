@@ -65,6 +65,7 @@ class Athletes extends Component {
     componentDidMount() {
         this.fetchDataFromServer();
     }
+    
 
     fetchDataFromServer() {
         fetch("https://next.json-generator.com/api/json/get/N1L44d3WK")
