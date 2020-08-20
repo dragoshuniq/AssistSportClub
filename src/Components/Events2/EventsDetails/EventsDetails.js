@@ -20,6 +20,11 @@ import {
   faClock,
   faCalendarAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import serverUrl from "../../url";
+import ApexChart from './EventsDetailsChart/EventsDetailsChart';
+import EventsDetailsFusioncharts from './EventsDetailsFusioncharts/EventsDetailsFusioncharts';
+import ApexChart2 from './EventsDetailsApexChart/EventsDetailsApexChart';
+
 
 class EventsDetails extends React.Component {
   constructor(props) {
@@ -47,30 +52,51 @@ class EventsDetails extends React.Component {
       totalPosts: 0,
       poza: require("../../../poze/img1.jpg"),
       deleteModalShow: false,
+      showListParticipants: false,
+      showChart: false,
+      userCheckBox: null
     };
 
     this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   receivedData() {
-    axios.get(`/Navigation/EventsDetails/` + this.props.id).then((res) => {
-      this.setState({ data: res.data });
-    });
-    // axios
-    //   .get(`https://next.json-generator.com/api/json/get/EJeP7rkft`)
+    // axios.get(serverUrl + `api/event/11`, {
+    //   headers: {
+    //     Authorization: localStorage.getItem("user"),
+    //   },
+    // })
     //   .then((res) => {
-    //     const data = res.data;
-    //     const slice = data.slice(
-    //       this.state.offset,
-    //       this.state.offset + this.state.postsPerPage
-    //     );
-    //     this.setState({
-    //       totalMembers: res.data.length,
-    //       totalPosts: Math.ceil(data.length / this.state.postsPerPage),
-    //       useArray: slice,
-    //       data: slice,
-    //     });
+    //     this.setState({ data: res.data });
+    //     console.log('fdsafsadjkblhjs: ', res)
+    //     console.log('fdsafsadjkblhjs: ', this.state.data)
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
     //   });
+
+    axios
+      // .get(`https://next.json-generator.com/api/json/get/EJeP7rkft`)
+      .get(`https://next.json-generator.com/api/json/get/4JmB44DzY`)
+      .then((res) => {
+
+        this.setState({
+          data: res.data
+        });
+        console.log('test!!!!!!!!!!!!!!!!!!', this.state.data)
+        // const data = res.data;
+        // const slice = data.slice(
+        //   this.state.offset,
+        //   this.state.offset + this.state.postsPerPage
+        // );
+        // this.setState({
+        //   totalMembers: res.data.length,
+        //   totalPosts: Math.ceil(data.length / this.state.postsPerPage),
+        //   useArray: slice,
+        //   data: slice,
+        // });
+
+      });
   }
 
   componentDidMount() {
@@ -122,6 +148,12 @@ class EventsDetails extends React.Component {
     });
   };
 
+  checkBoxUser =(user) => {
+    this.setState({
+      
+    })
+  }
+
   render() {
     return (
       <Container id="container">
@@ -160,7 +192,7 @@ class EventsDetails extends React.Component {
             </Button>
           </Col>
 
-          <Col   id="image" md={12}>
+          <Col id="image" md={12}>
             <Image src={this.state.poza} id='imgLeftCartEvent' />
           </Col>
 
@@ -189,151 +221,173 @@ class EventsDetails extends React.Component {
             <Row>
               <Col md={6}>
                 <p className="particip">Participants (76)</p>
-                <p className="particip2">
-                  Select participants you want to compare
-                </p>
+                {
+                  this.state.showListParticipants === true ?
+                    <p className="particip2">
+                      Select participants you want to compare
+                  </p>
+                    : null
+                }
+
               </Col>
 
               <Col md={6} className="doneBtnCol">
-                <Button
-                  id="addNewButtonEventDetail"
-                // onClick={() => this.setState({ addModalShow: true })}
-                >
-                  Compare performanc
-                </Button>
+
+                {
+                  this.state.showListParticipants === false ?
+                    <Button
+                      id="addNewButtonEventDetail"
+                      onClick={() => this.setState({ showListParticipants: !this.state.showListParticipants, showChart: true })}
+                    >
+                      Compare performanc
+                  </Button>
+                    :
+                    <Button
+                      id="addNewButtonEventDetail"
+                      onClick={() => this.setState({ showChart: true })}
+                    >
+                      Done
+                  </Button>
+                }
+
+
+
               </Col>
+
 
               <Col className="listUsers">
-                <Row className="user">
+
+
+                {
+                  this.state.data.map((el, index) => {
+                    return (
+                      <>
+                        {el.member_event.map((el_member, index_member) => {
+                          return (
+                            <>
+                              <Row className="user">
+                                <Col className="imgColEventSt">
+                                  <img className="cartImgEvent2" src={this.state.poza} />
+                                  <p className="pEvents">{el_member.name_member}</p>
+                                </Col>
+
+                                {
+                                  this.state.showListParticipants === true ?
+                                    <Col className="imgColEventDr">
+                                      <input type="checkbox" onChange={ () => this.checkBoxUser(el_member) } />
+                                    </Col>
+                                    : null
+                                }
+
+
+
+                                <Col className="p2Events" md={12}>
+                                  {el_member.gender_member}
+                                </Col>
+                              </Row>
+                            </>
+                          );
+                        })}
+                      </>
+                    );
+                  })
+                }
+
+
+
+
+
+                {/* <Row className="user">
                   <Col className="imgColEventSt">
                     <img className="cartImgEvent2" src={this.state.poza} />
                     <p className="pEvents">Harold Howard</p>
                   </Col>
 
-                  <Col className="imgColEventDr">
-                    <input type="checkbox"></input>
-                  </Col>
+                  {
+                    this.state.showListParticipants === true ?
+                      <Col className="imgColEventDr">
+                        <input type="checkbox"></input>
+                      </Col>
+                      : null
+                  }
 
                   <Col className="p2Events" md={12}>
                     Male • 26 years
                   </Col>
-                </Row>
+                </Row> */}
 
-                <Row className="user">
-                  <Col className="imgColEventSt">
-                    <img className="cartImgEvent2" src={this.state.poza} />
-                    <p className="pEvents">Harold Howard</p>
-                  </Col>
-
-                  <Col className="imgColEventDr">
-                    <input type="checkbox"></input>
-                  </Col>
-
-                  <Col className="p2Events" md={12}>
-                    Male • 26 years
-                  </Col>
-                </Row>
-
-                <Row className="user">
-                  <Col className="imgColEventSt">
-                    <img className="cartImgEvent2" src={this.state.poza} />
-                    <p className="pEvents">Harold Howard</p>
-                  </Col>
-
-                  <Col className="imgColEventDr">
-                    <input type="checkbox"></input>
-                  </Col>
-
-                  <Col className="p2Events" md={12}>
-                    Male • 26 years
-                  </Col>
-                </Row>
-
-                <Row className="user">
-                  <Col className="imgColEventSt">
-                    <img className="cartImgEvent2" src={this.state.poza} />
-                    <p className="pEvents">Harold Howard</p>
-                  </Col>
-
-                  <Col className="imgColEventDr">
-                    <input type="checkbox"></input>
-                  </Col>
-
-                  <Col className="p2Events" md={12}>
-                    Male • 26 years
-                  </Col>
-                </Row>
-
-                <Row className="user">
-                  <Col className="imgColEventSt">
-                    <img className="cartImgEvent2" src={this.state.poza} />
-                    <p className="pEvents">Harold Howard</p>
-                  </Col>
-
-                  <Col className="imgColEventDr">
-                    <input type="checkbox"></input>
-                  </Col>
-
-                  <Col className="p2Events" md={12}>
-                    Male • 26 years
-                  </Col>
-                </Row>
-
-                <Row className="user">
-                  <Col className="imgColEventSt">
-                    <img className="cartImgEvent2" src={this.state.poza} />
-                    <p className="pEvents">Harold Howard</p>
-                  </Col>
-
-                  <Col className="imgColEventDr">
-                    <input type="checkbox"></input>
-                  </Col>
-
-                  <Col className="p2Events" md={12}>
-                    Male • 26 years
-                  </Col>
-                </Row>
-
-                <Row className="user">
-                  <Col className="imgColEventSt">
-                    <img className="cartImgEvent2" src={this.state.poza} />
-                    <p className="pEvents">Harold Howard</p>
-                  </Col>
-
-                  <Col className="imgColEventDr">
-                    <input type="checkbox"></input>
-                  </Col>
-
-                  <Col className="p2Events" md={12}>
-                    Male • 26 years
-                  </Col>
-                </Row>
-
-                <Row className="user">
-                  <Col className="imgColEventSt">
-                    <img className="cartImgEvent2" src={this.state.poza} />
-                    <p className="pEvents">Harold Howard</p>
-                  </Col>
-
-                  <Col className="imgColEventDr">
-                    <input type="checkbox"></input>
-                  </Col>
-
-                  <Col className="p2Events" md={12}>
-                    Male • 26 years
-                  </Col>
-                </Row>
               </Col>
+
             </Row>
           </Col>
 
-          <Col>
-            <div></div>
-          </Col>
+          {
+            this.state.showChart === true ?
+              <>
+                <Col md={12}>
+                  <p className="particip2">Select metrics you want to be compared</p>
+                </Col>
 
-          <Col md={12}>
-            <p className="particip2">Select participants you want to compare</p>
-          </Col>
+
+
+                <Col md={12}>
+                  <Row>
+
+                    <Col md={12} className="listUsers">
+
+
+
+                      <Row className="user">
+                        <Col md={1}>
+                          <input type="checkbox"></input>
+                        </Col>
+                        <Col>
+                          <p>Heart Rate</p>
+                        </Col>
+                      </Row>
+
+                      <Row className="user">
+                        <Col md={1}>
+                          <input type="checkbox"></input>
+                        </Col>
+                        <Col>
+                          <p>Calories</p>
+                        </Col>
+                      </Row>
+
+                      <Row className="user">
+                        <Col md={1}>
+                          <input type="checkbox"></input>
+                        </Col>
+                        <Col>
+                          <p>Av. Speed</p>
+                        </Col>
+                      </Row>
+
+                      <Row className="user">
+                        <Col md={1}>
+                          <input type="checkbox"></input>
+                        </Col>
+                        <Col>
+                          <p>Distance</p>
+                        </Col>
+                      </Row>
+
+                    </Col>
+
+                  </Row>
+                </Col>
+
+                <Col md={12}>
+                  <p className="particip2">Graph</p>
+                </Col>
+
+                <Col md={12}>
+                  <ApexChart2 />
+                </Col>
+              </>
+              : null
+          }
 
           {/* {this.state.addModalShow && (
             <EventsAdd
