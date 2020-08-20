@@ -54,10 +54,11 @@ class EventsDetails extends React.Component {
       deleteModalShow: false,
       showListParticipants: false,
       showChart: false,
-      userCheckBox: null
+      userCheckBox: false
     };
 
     this.handlePageClick = this.handlePageClick.bind(this);
+    this.checkBoxUser = this.checkBoxUser.bind(this);
   }
 
   receivedData() {
@@ -148,9 +149,9 @@ class EventsDetails extends React.Component {
     });
   };
 
-  checkBoxUser =(user) => {
+  checkBoxUser = (e) => {
     this.setState({
-      
+      [e.target.name]: e.target.checked
     })
   }
 
@@ -220,7 +221,7 @@ class EventsDetails extends React.Component {
           <Col md={12}>
             <Row>
               <Col md={6}>
-                <p className="particip">Participants (76)</p>
+                <p className="particip">Participants ({this.state.data.length})</p>
                 {
                   this.state.showListParticipants === true ?
                     <p className="particip2">
@@ -274,12 +275,19 @@ class EventsDetails extends React.Component {
                                 {
                                   this.state.showListParticipants === true ?
                                     <Col className="imgColEventDr">
-                                      <input type="checkbox" onChange={ () => this.checkBoxUser(el_member) } />
+                                      <input
+                                        type="checkbox"
+                                        checked={this.state.userCheckBox}
+                                        onChange={this.checkBoxUser}
+                                        name={el_member.name_member}
+                                      />
                                     </Col>
                                     : null
                                 }
 
-
+                                {this.state.userCheckBox.toString()
+                                }
+                              
 
                                 <Col className="p2Events" md={12}>
                                   {el_member.gender_member}
@@ -383,7 +391,7 @@ class EventsDetails extends React.Component {
                 </Col>
 
                 <Col md={12}>
-                  <ApexChart2 />
+                  <ApexChart />
                 </Col>
               </>
               : null
