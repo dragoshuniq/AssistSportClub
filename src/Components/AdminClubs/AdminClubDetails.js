@@ -42,15 +42,11 @@ class AdminClubDetails extends React.Component {
       athletProfieShow: false,
       athleteEditShow: false,
       profile: {},
+      request: false,
     };
     this.handlePageClick = this.handlePageClick.bind(this);
   }
   receivedData() {
-    // axios
-    //   .get(`AdminClubDetails/` + this.props.id)
-    //   .then((res) => {
-    //     this.setState({ data: res.data });
-    //   });
     axios
       .get(`https://next.json-generator.com/api/json/get/EJeP7rkft`)
       .then((res) => {
@@ -105,20 +101,14 @@ class AdminClubDetails extends React.Component {
   };
   PostMembers = (member) => {
     return (
-      <Col
-        xl={4}
-        lg={4}
-        md={6}
-        sm={6}
-        xs={6}
-        className="cursorPointer"
-        style={{ marginTop: "5vh" }}
-        onClick={() =>
-          this.setState({ profile: member, athletProfieShow: true })
-        }
-      >
+      <Col xl={4} lg={4} md={6} sm={6} xs={6} style={{ marginTop: "5vh" }}>
         <div id="memberClubCard">
-          <Row>
+          <Row
+            className="cursorPointer"
+            onClick={() =>
+              this.setState({ profile: member, athletProfieShow: true })
+            }
+          >
             <Col xl={3} lg={3} md={3} sm={3} xs={3}>
               <Image
                 src="https://react.semantic-ui.com/images/wireframe/square-image.png"
@@ -129,7 +119,7 @@ class AdminClubDetails extends React.Component {
             <Col>
               <Row>
                 <h2 id="memberName">
-                  {member.firstName} {member.lastName} 
+                  {member.firstName} {member.lastName}
                   {/* {this.props.id} */}
                 </h2>
               </Row>
@@ -168,6 +158,27 @@ class AdminClubDetails extends React.Component {
               </Row>
             </Col>
           </Row>
+          {this.state.request && (
+            <Row>
+              <Col>
+                <Icon
+                  className="cursorPointer"
+                  onClick={() => console.log("dada")}
+                  color="green"
+                  size="large"
+                  name="plus"
+                />
+              </Col>
+              <Col>
+                <Icon
+                  className="cursorPointer"
+                  color="red"
+                  size="large"
+                  name="close"
+                />
+              </Col>
+            </Row>
+          )}
         </div>
       </Col>
     );
@@ -224,7 +235,10 @@ class AdminClubDetails extends React.Component {
               <Col xl={2} lg={2} md={2} sm={2} xs={2}>
                 <Button
                   id="membersButton"
-                  onClick={() => console.log("members")}
+                  onClick={() => {
+                    this.receivedData();
+                    this.setState({ request: false });
+                  }}
                 >
                   Memembers({this.state.totalMembers})
                 </Button>
@@ -232,7 +246,10 @@ class AdminClubDetails extends React.Component {
               <Col xl={2} lg={2} md={2} sm={2} xs={2}>
                 <Button
                   id="requestMembersButton"
-                  onClick={() => console.log("request")}
+                  onClick={() => {
+                    this.receivedData();
+                    this.setState({ request: true });
+                  }}
                 >
                   Requests
                 </Button>
