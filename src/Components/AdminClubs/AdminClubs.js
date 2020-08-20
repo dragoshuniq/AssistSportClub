@@ -47,7 +47,6 @@ class AdminClubs extends React.Component {
   componentDidMount() {
     this.receivedData();
     console.log(localStorage.getItem("role"));
-
   }
   searchHandler = (event) => {
     let value = event.target.value;
@@ -102,14 +101,14 @@ class AdminClubs extends React.Component {
     );
   };
   addClubHandler = (club) => {
-    console.log(club);
-    const localArray = this.state.data;
-    localArray.push(club);
+    //const localArray = this.state.data;
+    // localArray.push(club);
     this.setState({
-      data: localArray,
+      // data: localArray,
       addedClub: club,
       confirmModalShow: true,
     });
+    this.receivedData();
   };
   render() {
     let dynamicRender = (

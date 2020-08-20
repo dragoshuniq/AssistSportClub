@@ -20,6 +20,7 @@ class AddClubModal extends React.Component {
     super(props);
     this.state = {
       members: [],
+      mailMap: new Map(),
       isInvite: false,
       trainOptions: [
         { key: "Ionel", text: "Ionel", value: "Ionel" },
@@ -27,16 +28,17 @@ class AddClubModal extends React.Component {
         { key: "Vasile", text: "Vasile", value: "Vasile" },
       ],
       sportsOptions: [
-        { key: "Running", text: "Running", value: "Running" },
-        { key: "Cycling", text: "Cycling", value: "Cycling" },
-        { key: "Tennis", text: "Tennis", value: "Tennis" },
-        { key: "Football", text: "Football", value: "Football" },
+        { key: 1, text: "Running", value: 1 },
+        { key: 2, text: "Cycling", value: 2 },
+        { key: 3, text: "Tennis", value: 3 },
+        { key: 4, text: "Football", value: 4 },
       ],
       club: {
-        id: Math.random(),
+        //  id: Math.random(),
         name: "noName",
-        email: "",
-        owner: "",
+        ownerId: "",
+        sport_id: "",
+        invite_members: [],
       },
     };
   }
@@ -55,26 +57,46 @@ class AddClubModal extends React.Component {
           const obj = {
             key: value.id,
             text: value.first_name + " " + value.last_name,
-            value: value.first_name + " " + value.last_name,
+            value: value.id,
           };
           arr.push(obj);
         });
-        this.setState({ trainOptions: arr });
+        const amn = this.state.club;
+        amn.ownerId = 1;
+        amn.sport_id = 1;
+        this.setState({ trainOptions: arr, club: amn });
+      });
+  }
+
+  postData() {
+    const sendData = this.state.club;
+    const arr = [];
+    for (let [key, value] of this.state.mailMap) {
+      arr.push(value);
+    }
+    sendData.invite_members = arr;
+    this.setState({ club: sendData });
+    console.log(this.state.club);
+
+    axios
+      .post(serverUrl + "api/club/create", this.state.club, {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      })
+      .then((res) => {
+        console.log(res);
       });
   }
   componentDidMount() {
     this.receivedData();
   }
-  onChangeEmail(id, value) {
-    const aux = this.state.mailMap;
-    aux.set(id, value);
-    this.setState({ mailMap: aux });
-  }
-  componentWillMount() {
-    const own = this.state.club;
-    own.owner = this.state.trainOptions[0].value;
-    this.setState();
-  }
+
+  // componentWillMount() {
+  //   const own = this.state.club;
+  //   own.owner = this.state.trainOptions[0].value;
+  //   this.setState();
+  // }
   onChangeClubName(value) {
     const train = this.state.club;
     train.name = value;
@@ -82,7 +104,12 @@ class AddClubModal extends React.Component {
   }
   onChangeCoach(value) {
     const train = this.state.club;
-    train.owner = value;
+    train.ownerId = value;
+    this.setState({ club: train });
+  }
+  onChangeSport(value) {
+    const train = this.state.club;
+    train.sport_id = value;
     this.setState({ club: train });
   }
   inviteMembersHandler() {
@@ -100,7 +127,17 @@ class AddClubModal extends React.Component {
       ],
     });
   }
+  onChangeEmail(id, value) {
+    const aux = this.state.mailMap;
 
+    if (value.length !== 0) {
+      aux.set(id, value);
+    } else {
+      aux.delete(id);
+    }
+    this.setState({ mailMap: aux });
+//    console.log(this.state.mailMap);
+  }
   AddAnother = () => {
     return (
       <Label id="labelAddAnother" onClick={() => this.addChild()}>
@@ -108,8 +145,7 @@ class AddClubModal extends React.Component {
       </Label>
     );
   };
-  InviteInput = () => {
-    var id = Math.random();
+  InviteInput = (props) => {
     return (
       <Form.Field>
         <label id="assignACoach">Email Adress</label>
@@ -118,7 +154,7 @@ class AddClubModal extends React.Component {
           id="field"
           type="email"
           required
-          onChange={(e) => this.onChangeEmail(id, e.target.value)}
+          onChange={(e) => this.onChangeEmail(props.id, e.target.value)}
         />
       </Form.Field>
     );
@@ -127,6 +163,7 @@ class AddClubModal extends React.Component {
     //console.log(this.state.mailMap);
     //console.log(this.state.club);
     this.props.addClubHandler(this.state.club);
+    this.postData();
     this.props.onHide();
   }
   render() {
@@ -157,8 +194,9 @@ class AddClubModal extends React.Component {
             <Form.Field>
               <label id="assignACoach">Assign a coach</label>
               <Select
+                required
                 id="field"
-                placeholder="Coach Assign"
+                // placeholder="Coach Assign"
                 options={this.state.trainOptions}
                 defaultValue={this.state.trainOptions[0].value}
                 onChange={(e, { value }) => this.onChangeCoach(value)}
@@ -171,7 +209,7 @@ class AddClubModal extends React.Component {
                 placeholder="Sport Assign"
                 options={this.state.sportsOptions}
                 defaultValue={this.state.sportsOptions[0].value}
-                onChange={(e, { value }) => this.onChangeCoach(value)}
+                onChange={(e, { value }) => this.onChangeSport(value)}
               />
             </Form.Field>
             <div style={{ flexDirection: "row" }}>
@@ -185,7 +223,7 @@ class AddClubModal extends React.Component {
             </div>
 
             {this.state.isInvite &&
-              this.state.members.map((item) => <this.InviteInput />)}
+              this.state.members.map((item) => <this.InviteInput id={item} />)}
 
             {this.state.isInvite && <this.AddAnother />}
 
