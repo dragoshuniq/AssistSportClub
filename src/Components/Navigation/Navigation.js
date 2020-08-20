@@ -11,35 +11,24 @@ import {
   faSignOutAlt,
   faAlignJustify,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  Container,
-  Row,
-  Col,
-  Image,
-  Navbar,
-  Nav,
-  NavDropdown,
-  Form,
-  FormControl,
-  Button,
-} from "react-bootstrap";
-
+import { Container, Row, Col, Button, Image } from "react-bootstrap";
 import { Route, NavLink, Switch } from "react-router-dom";
 import AdminCoaches from "../AdminCoaches/AdminCoaches";
 // import Clubs from '../Clubs/Clubs';
 import Events2 from "../Events2/Events";
 import Athletes from "../Athletes/Athletes";
-import Login from "../Login/Login";
 import EventsDetails from "../Events2/EventsDetails/EventsDetails";
 import SignIn from "../SignIn/SignIn";
 
 import AdminClubs from "../AdminClubs/AdminClubs";
-
 import AdminClubDetails from "../AdminClubs/AdminClubDetails";
 
 class Navigation extends Component {
   state = {
-    imagine: require("../../poze/img1.jpg"),
+    imagine:
+      localStorage.getItem("img") !== null
+        ? "https://react.semantic-ui.com/images/wireframe/square-image.png"
+        : localStorage.getItem("img"),
     showAllNavigation: true,
     logout: false,
   };
@@ -50,7 +39,6 @@ class Navigation extends Component {
       color: "black",
       textDecoration: "none",
     };
-
     return (
       <>
         <Container fluid id={classes.heingLong1}>
@@ -80,25 +68,32 @@ class Navigation extends Component {
                         roundedCircle
                       />
                       <div>
-                        <p className={classes.NavTopP1}>Connie Web</p>
-                        <p className={classes.NavTopP2}>ADMINISTRATOR</p>
+                        <p className={classes.NavTopP1}>
+                          {localStorage.getItem("firstName") + "  "}
+                          {localStorage.getItem("lastName")}
+                        </p>
+                        <p className={classes.NavTopP2}>
+                          {localStorage.getItem("role")==="1"? "ADMINISTRATOR":"COACH"}
+                        </p>
                       </div>
                     </div>
                   ) : null}
 
                   <div className={classes.NavMid}>
-                    <NavLink
-                      className={classes.NavLink}
-                      activeClassName="active"
-                      activeStyle={styleActive}
-                      to="/Navigation/AdminCoaches"
-                      exact
-                    >
-                      <FontAwesomeIcon icon={faFutbol} />
-                      {this.state.showAllNavigation === true ? (
-                        <small>Coaches</small>
-                      ) : null}
-                    </NavLink>
+                    {parseInt(window.localStorage.getItem("role"), 10) === 1 ? (
+                      <NavLink
+                        className={classes.NavLink}
+                        activeClassName="active"
+                        activeStyle={styleActive}
+                        to="/Navigation/AdminCoaches"
+                        exact
+                      >
+                        <FontAwesomeIcon icon={faFutbol} />
+                        {this.state.showAllNavigation === true ? (
+                          <small>Coaches</small>
+                        ) : null}
+                      </NavLink>
+                    ) : null}
                     <NavLink
                       className={classes.NavLink}
                       activeClassName="active"
@@ -157,12 +152,24 @@ class Navigation extends Component {
 
             <Col id={classes.colRight}>
               <Switch>
-                <Route exact path="/Navigation" component={AdminCoaches} />
                 <Route
                   exact
-                  path="/Navigation/AdminCoaches"
-                  component={AdminCoaches}
+                  path="/Navigation"
+                  component={
+                    parseInt(window.localStorage.getItem("role"), 10) === 1
+                      ? AdminCoaches
+                      : Events2
+                  }
+                  // component={AdminCoaches}
                 />
+
+                {parseInt(window.localStorage.getItem("role"), 10) === 1 ? (
+                  <Route
+                    exact
+                    path="/Navigation/AdminCoaches"
+                    component={AdminCoaches}
+                  />
+                ) : null}
                 <Route path="/Navigation/Events2" component={Events2} />
                 <Route
                   path="/Navigation/EventsDetails/:id"
@@ -184,7 +191,6 @@ class Navigation extends Component {
                     />
                   )}
                 />
-
                 {/* <Route path="/Login" component={Login} /> */}
               </Switch>
             </Col>

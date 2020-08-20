@@ -29,14 +29,6 @@ class SignIn extends React.Component {
       isPassword: true,
     };
   }
-  signIn() {
-    // axios
-    // .post(`http://278ebb25ae31.ngrok.io/api/auth/login`)
-    // .then((res) => {
-    //  console.log(res);
-    //   });
-    // });
-  }
 
   render() {
     return (
@@ -94,7 +86,26 @@ class SignIn extends React.Component {
                       .then((response) => {
                         console.log(response);
                         const myStorage = window.localStorage;
-                        myStorage.setItem("user", response.data.accessToken);
+                        myStorage.setItem("role", response.data.role_id);
+                        if (myStorage.getItem("role") < 3) {
+                          myStorage.setItem("user", response.data.accessToken);
+                          myStorage.setItem(
+                            "firstName",
+                            response.data.first_name
+                          );
+                          myStorage.setItem(
+                            "lastName",
+                            response.data.last_name
+                          );
+
+                          if (response.data.profile_photo !== null)
+                            myStorage.setItem(
+                              "img",
+                              response.data.profile_photo
+                            );
+                        } else {
+                          myStorage.removeItem("role");
+                        }
                         window.location.reload(false);
                       })
                       .catch(function (error) {
@@ -141,7 +152,15 @@ class SignIn extends React.Component {
                                 : "")
                             }
                           />
-                       
+                          <Icon
+                            name={this.state.isPassword ? "eye slash" : "eye"}
+                            size="big"
+                            onClick={() =>
+                              this.setState({
+                                isPassword: !this.state.isPassword,
+                              })
+                            }
+                          />
                         </div>
                         <ErrorMessage
                           name="password"

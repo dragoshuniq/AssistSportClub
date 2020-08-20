@@ -73,7 +73,7 @@ class ApexChart2 extends Component {
                         }
                     },
                     {
-                        seriesName: 'Heart Rate',
+                        seriesName: 'Heart Rate ',
                         opposite: true,
                         axisTicks: {
                             show: true,

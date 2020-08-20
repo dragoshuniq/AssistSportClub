@@ -46,6 +46,8 @@ class AdminClubs extends React.Component {
   }
   componentDidMount() {
     this.receivedData();
+    console.log(localStorage.getItem("role"));
+
   }
   searchHandler = (event) => {
     let value = event.target.value;
@@ -70,7 +72,7 @@ class AdminClubs extends React.Component {
           <div id="clubCard">
             <div>
               <h1 id="clubCardTitle">
-                {club.name} 
+                {club.name}
                 {/* {club.id} */}
               </h1>
             </div>
