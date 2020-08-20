@@ -8,9 +8,24 @@ class ApexChart extends Component {
 
         this.state = {
 
-            series: [{
-                data: [21, 22, 10, 28, 16, 21, 13, 30, 8, 14, 20, 12],
-            }],
+            series: [
+                {
+                    name: 'Heart Rate',
+                    data: [21, 22, 10, 16],
+                },
+                {
+                    name: 'Calories',
+                    data: [14, 44, 34, 22],
+                },
+                {
+                    name: 'Av. Speed',
+                    data: [42, 21, 52, 59],
+                },
+                {
+                    name: 'Distance',
+                    data: [9, 16, 33, 4],
+                }
+            ],
             options: {
                 chart: {
                     height: 350,
@@ -39,14 +54,6 @@ class ApexChart extends Component {
                         ['John', 'Doe'],
                         ['Joe', 'Smith'],
                         ['Jake', 'Williams'],
-                        'Amber',
-                        ['Peter', 'Brown'],
-                        ['Mary', 'Evans'],
-                        ['David', 'Wilson'],
-                        ['Lily', 'Roberts'],
-                        ['test', 'test'],
-                        ['test', 'test'],
-                        ['test', 'test'],
                         ['test', 'test'],
                     ],
                     labels: {
