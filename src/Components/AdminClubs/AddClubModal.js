@@ -1,6 +1,7 @@
 import React from "react";
 import { Modal, Button as RButton } from "react-bootstrap";
 import { Formik } from "formik";
+import axios from "axios";
 import "./AdminClubs.css";
 import {
   InputGroup,
@@ -13,7 +14,7 @@ import {
   Label,
   Icon,
 } from "semantic-ui-react";
-
+import serverUrl from "../url";
 class AddClubModal extends React.Component {
   constructor(props) {
     super(props);
@@ -25,6 +26,12 @@ class AddClubModal extends React.Component {
         { key: "Denis", text: "Denis", value: "Denis" },
         { key: "Vasile", text: "Vasile", value: "Vasile" },
       ],
+      sportsOptions: [
+        { key: "Running", text: "Running", value: "Running" },
+        { key: "Cycling", text: "Cycling", value: "Cycling" },
+        { key: "Tennis", text: "Tennis", value: "Tennis" },
+        { key: "Football", text: "Football", value: "Football" },
+      ],
       club: {
         id: Math.random(),
         name: "noName",
@@ -32,6 +39,31 @@ class AddClubModal extends React.Component {
         owner: "",
       },
     };
+  }
+  receivedData() {
+    axios
+      .get(serverUrl + "api/user/search/2", {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        const datas = res.data;
+        const arr = [];
+        datas.map((value) => {
+          const obj = {
+            key: value.id,
+            text: value.first_name + " " + value.last_name,
+            value: value.first_name + " " + value.last_name,
+          };
+          arr.push(obj);
+        });
+        this.setState({ trainOptions: arr });
+      });
+  }
+  componentDidMount() {
+    this.receivedData();
   }
   onChangeEmail(id, value) {
     const aux = this.state.mailMap;
@@ -111,7 +143,7 @@ class AddClubModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Form onSubmit={()=> this.onSubmit()}>
+          <Form onSubmit={() => this.onSubmit()}>
             <Form.Field>
               <label id="assignACoach">Club's Name</label>
               <input
@@ -129,6 +161,16 @@ class AddClubModal extends React.Component {
                 placeholder="Coach Assign"
                 options={this.state.trainOptions}
                 defaultValue={this.state.trainOptions[0].value}
+                onChange={(e, { value }) => this.onChangeCoach(value)}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label id="assignACoach">Assign a sport type</label>
+              <Select
+                id="field"
+                placeholder="Sport Assign"
+                options={this.state.sportsOptions}
+                defaultValue={this.state.sportsOptions[0].value}
                 onChange={(e, { value }) => this.onChangeCoach(value)}
               />
             </Form.Field>

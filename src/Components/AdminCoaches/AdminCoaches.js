@@ -91,6 +91,7 @@ class AdminCoaches extends React.Component {
       })
       .then((res) => {
         console.log(res.data);
+
         const data = res.data;
         const slice = data.slice(
           this.state.offset,
@@ -108,6 +109,7 @@ class AdminCoaches extends React.Component {
           selectAllElements: false,
           deleteMultiple: false,
         });
+        console.log(this.state.data);
       });
   }
 
@@ -143,6 +145,7 @@ class AdminCoaches extends React.Component {
   searchHandler = (event) => {
     let value = event.target.value;
     this.setState({ searchValue: value });
+
     if (value.length !== 0) {
       const nameUpper = value.toUpperCase();
       const clubUpper = value.toUpperCase();
@@ -151,8 +154,8 @@ class AdminCoaches extends React.Component {
       const searchArray = [];
       this.state.data.map((res) => {
         if (
-          res.firstName.toUpperCase().includes(nameUpper) ||
-          res.clubs.toUpperCase().includes(clubUpper) ||
+          res.first_name.toUpperCase().includes(nameUpper) ||
+          // res.clubs.toUpperCase().includes(clubUpper) ||
           res.email.toUpperCase().includes(mailUpper)
         ) {
           searchArray.push(res);
@@ -278,7 +281,9 @@ class AdminCoaches extends React.Component {
           />
         </Col>
         <Col xl={2} lg={2} md={2} sm={2} xs={2}>
-          <h1 id="coachesDetailsInfo">{value.first_name} {value.last_name }</h1>
+          <h1 id="coachesDetailsInfo">
+            {value.first_name} {value.last_name}
+          </h1>
         </Col>
         <Col xl={4} lg={4} md={4} sm={4} xs={4}>
           <h1 id="coachesDetailsInfo">{value.email}</h1>
