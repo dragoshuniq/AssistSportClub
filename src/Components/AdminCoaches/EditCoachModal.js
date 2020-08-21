@@ -3,36 +3,81 @@ import { Modal, Button as RButton } from "react-bootstrap";
 import { Formik, Field, ErrorMessage, Form } from "formik";
 import * as Yup from "yup";
 import { Row, Col } from "react-bootstrap";
-
+import axios from "axios";
 import "./AdminCoaches.css";
+import serverUrl from "../url";
 import { Select, Divider, Button } from "semantic-ui-react";
 class EditCoachModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      coach: this.props.coach,
+      coach: {
+        first_name: "first_name",
+        last_name: "last_name",
+        email: "email",
+      },
       clubOptions: [
         { key: "swim", text: "Swim", value: "swim" },
         { key: "run", text: "Run", value: "run" },
         { key: "box", text: "Box", value: "box" },
       ],
-      localCoach: this.props.coach.clubs,
+      clubSelected: [],
     };
   }
-  componentWillMount() {
-    //this.setState({ club: this.props.club });
-    const club = this.props.coach.clubs;
-    const clubOpt = { key: club, text: club, value: club };
-    this.setState({
-      clubOptions: [clubOpt, ...this.state.clubOptions],
-      localCoach: this.props.coach.clubs,
-    });
+  // componentWillMount() {
+  //   //this.setState({ club: this.props.club });
+  //   const club = this.props.coach.clubs;
+  //   const clubOpt = { key: club, text: club, value: club };
+  //   this.setState({
+  //     clubOptions: [clubOpt, ...this.state.clubOptions],
+  //     localCoach: this.props.coach.clubs,
+  //   });
+  // }
+  componentDidMount() {
+    this.receivedData();
+  }
+  receivedData() {
+    axios
+      .get(serverUrl + `api/user/search/byid/${this.props.coach.id}`, {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      })
+      .then((res) => {
+        //console.log("data", res.data);
+        const data = res.data[0];
+        var clubs = [];
+        const coach = {
+          first_name: data.first_name,
+          last_name: data.last_name,
+          email: data.email,
+        };
+        var selected = [];
+        data._clubs.map((cl) => {
+          const clubSel = { key: cl.c_id, text: cl.c_name, value: cl.c_id };
+          clubs.push(clubSel);
+          selected.push(cl.c_id);
+        });
+        data.unused_clubs.map((cl) => {
+          const clubOpt = { key: cl.c_id, text: cl.c_name, value: cl.c_id };
+          clubs.push(clubOpt);
+        });
+        this.setState({
+          clubOptions: clubs,
+          coach: coach,
+          clubSelected: selected,
+        });
+        console.log(this.state.coach);
+      });
   }
 
-  onChangeFirstName(value) {
-    const train = this.state.coach;
-    train.name = value;
-    this.setState({ coach: train });
+  onChangeFirstName(e) {
+    var value = e.target.value;
+    // const train = this.state.coach;
+    console.log("value", value);
+    // console.log("train",train);
+    // train.first_name = value;
+    // this.setState({ coach: train });
   }
   onChangeLastName(value) {
     const train = this.state.coach;
@@ -43,6 +88,9 @@ class EditCoachModal extends React.Component {
     this.setState({ localCoach: val });
   }
   render() {
+    console.log(this.state.coach);
+    const coach = this.state.coach;
+    const selected = this.state.clubSelected;
     return (
       <Modal
         blurring
@@ -59,11 +107,11 @@ class EditCoachModal extends React.Component {
         <Modal.Body>
           {/* FORMIK */}
           <Formik
+            enableReinitialize
             initialValues={{
-              firstName: this.state.coach.name,
-              lastName: this.state.coach.name,
-              email: this.state.coach.email,
-              clubs: this.state.coach.clubs,
+              firstName: coach.first_name,
+              lastName: coach.last_name,
+              email: coach.email,
             }}
             validationSchema={Yup.object().shape({
               firstName: Yup.string().required("First Name is required"),
@@ -86,7 +134,7 @@ class EditCoachModal extends React.Component {
                 <div className="form-group">
                   <label htmlFor="firstName">First Name</label>
                   <Field
-                    placeholder="First Name"
+                    placeholder={this.state.coach.first_name}
                     id="field"
                     name="firstName"
                     type="text"
@@ -142,12 +190,13 @@ class EditCoachModal extends React.Component {
                 <div className="form-group">
                   <label id="modalLabel">Club Assign</label>
                   <Select
+                    multiple
                     fluid
                     id="field"
                     placeholder="Club Assign"
                     options={this.state.clubOptions}
                     onChange={(e, { value }) => this.onChangeClub(value)}
-                    defaultValue={this.state.clubOptions[0].value}
+                    defaultValue={selected}
                   />
                 </div>
                 <Divider />
