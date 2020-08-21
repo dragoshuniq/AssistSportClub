@@ -43,6 +43,7 @@
   margin-left: -1vw;
 }
 #clubsMembersText {
+  line-height: 24px;
   font-family: Inter;
   font-style: normal;
   font-weight: normal;

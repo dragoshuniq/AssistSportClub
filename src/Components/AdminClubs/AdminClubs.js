@@ -29,10 +29,11 @@ class AdminClubs extends React.Component {
   }
   receivedData() {
     axios
-      .get(serverUrl + "api/club", {
-        headers: {
-          Authorization: localStorage.getItem("user"),
-        },
+      // .get(serverUrl + "api/club", {
+      .get("https://next.json-generator.com/api/json/get/E1lwlJmAWY", {
+        // headers: {
+        //   Authorization: localStorage.getItem("user"),
+        // },
       })
       .then((res) => {
         console.log(res.data);
@@ -43,10 +44,12 @@ class AdminClubs extends React.Component {
           searchValue: "",
         });
       });
+    console.log(this.state.data);
   }
   componentDidMount() {
+    console.log("dada");
     this.receivedData();
-    console.log(localStorage.getItem("role"));
+    //console.log(localStorage.getItem("role"));
   }
   searchHandler = (event) => {
     let value = event.target.value;
@@ -65,6 +68,7 @@ class AdminClubs extends React.Component {
     }
   };
   PostClub = (club) => {
+    var membersSource = club.member.slice(0,4);
     return (
       <NavLink to={`/Navigation/AdminClubDetails/${club.id}`}>
         <Col xl={3} lg={3} md={6} sm={12} xs={12} style={{ marginTop: "5vh" }}>
@@ -72,7 +76,6 @@ class AdminClubs extends React.Component {
             <div>
               <h1 id="clubCardTitle">
                 {club.name}
-                {/* {club.id} */}
               </h1>
             </div>
             <Divider clearing />
@@ -84,12 +87,22 @@ class AdminClubs extends React.Component {
                 alignItems: "center",
               }}
             >
-              <Image src={club.src} size="mini" circular id="imageCircIcons" />
-              <Image src={club.src} size="mini" circular id="imageCircIcons" />
-              <Image src={club.src} size="mini" circular id="imageCircIcons" />
-              <Image src={club.src} size="mini" circular id="imageCircIcons" />
+              {membersSource.map((val) => {
+                return (
+                  <Image
+                    src={val.src}
+                    size="mini"
+                    circular
+                    id="imageCircIcons"
+                  />
+                );
+              })}
 
-              <p id="clubsMembersText">+20</p>
+              <p id="clubsMembersText">
+                {club.member.length - 4 > 0
+                  ? "+  " + (club.member.length - 4).toString()
+                  : null}
+              </p>
             </Row>
             <div style={{ marginTop: "1vh" }}>
               <h1 id="membersText">Coach</h1>
