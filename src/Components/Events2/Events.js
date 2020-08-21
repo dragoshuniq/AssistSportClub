@@ -15,6 +15,8 @@ import "./AdminClubs.css";
 import EventsAdd from "./EventsAdd/EventsAdd";
 import EventsAddedMessage from "./EventsAddedMessage/EventsAddedMessage";
 import EventsDetails from "./EventsDetails/EventsDetails";
+// import axios from "axios";
+// import serverUrl from "../url";
 
 
 class Events extends React.Component {
@@ -56,48 +58,74 @@ class Events extends React.Component {
   };
 
   receivedData() {
-    // fetch(`https://next.json-generator.com/api/json/get/E1lwlJmAWY`)
-    // fetch(`https://next.json-generator.com/api/json/get/N1jZEd3bt`)
-    //   .then((res) => res.json())
-    //   .then((result) => {
-    //     this.setState({
-    //       data: result,
-    //       useArray: result,
-    //     });
-    //     // console.log('data=',this.state.data);
-    //     this.setState({ totalPosts: Math.ceil(result.length / 4) });
-
-    //     const slice = result.slice(
-    //       this.state.offset,
-    //       this.state.offset + this.state.postsPerPage
-    //     );
-
-    //     this.setState({ useArray: slice });
-    //     this.setState({ result: slice });
-
-    //     // console.log(result);
-    //   });
-
-      axios.get('https://next.json-generator.com/api/json/get/N1jZEd3bt')
+    fetch(`https://next.json-generator.com/api/json/get/E1lwlJmAWY`)
+    fetch(`https://next.json-generator.com/api/json/get/N1jZEd3bt`)
+      .then((res) => res.json())
       .then((result) => {
-
         this.setState({
-          data: result.data,
-          useArray: result.data,
+          data: result,
+          useArray: result,
         });
-        console.log('data=',this.state.data);
-        this.setState({ totalPosts: Math.ceil(result.data.length / 4) });
+        // console.log('data=',this.state.data);
+        this.setState({ totalPosts: Math.ceil(result.length / 4) });
 
-        const slice = result.data.slice(
+        const slice = result.slice(
           this.state.offset,
           this.state.offset + this.state.postsPerPage
         );
 
         this.setState({ useArray: slice });
-        // this.setState({ result: slice });
+        this.setState({ result: slice });
 
         // console.log(result);
       });
+
+      // axios.get('https://next.json-generator.com/api/json/get/N1jZEd3bt')
+      // .then((result) => {
+
+      //   this.setState({
+      //     data: result.data,
+      //     useArray: result.data,
+      //   });
+      //   console.log('data=',this.state.data);
+      //   this.setState({ totalPosts: Math.ceil(result.data.length / 4) });
+
+      //   const slice = result.data.slice(
+      //     this.state.offset,
+      //     this.state.offset + this.state.postsPerPage
+      //   );
+
+      //   this.setState({ useArray: slice });
+      //   // this.setState({ result: slice });
+
+      //   // console.log(result);
+      // });
+
+    //   axios
+    //   .get(serverUrl + "api/user/search/3", {
+    //       headers: {
+    //           Authorization: localStorage.getItem("user"),
+    //       },
+    //   })
+    //  .then((result) => {
+
+    //     this.setState({
+    //       data: result.data,
+    //       useArray: result.data,
+    //     });
+    //     // console.log('data=',this.state.data);
+    //     // this.setState({ totalPosts: Math.ceil(result.data.length / 4) });
+
+    //     // const slice = result.data.slice(
+    //     //   this.state.offset,
+    //     //   this.state.offset + this.state.postsPerPage
+    //     // );
+
+    //     // this.setState({ useArray: slice });
+    //     // this.setState({ result: slice });
+
+    //     // console.log(result);
+    //   });
 
   }
 

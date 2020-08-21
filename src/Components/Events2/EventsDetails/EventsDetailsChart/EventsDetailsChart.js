@@ -54,7 +54,7 @@ class ApexChart extends Component {
                         ['John', 'Doe'],
                         ['Joe', 'Smith'],
                         ['Jake', 'Williams'],
-                        ['test', 'test'],
+                        ['test', 'test']
                     ],
                     labels: {
                         style: {
@@ -70,8 +70,8 @@ class ApexChart extends Component {
     }
 
 
-
     render() {
+        console.log(this.props.checked)
         return (
             <div id="chart">
                 <ReactApexChart options={this.state.options} series={this.state.series} type="bar" height={350} />

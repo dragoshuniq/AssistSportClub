@@ -12,6 +12,7 @@ class AthletesEdit extends Component {
         };
     }
 
+
     HandlerEventADD_FILE = (event) => {
 
         // const value = event.target.value;
@@ -32,7 +33,12 @@ class AthletesEdit extends Component {
         train.file = URL.createObjectURL(value.target.files[0]);
         this.setState({ atletCopie: train })
     }
-    changeName(value) {
+    changeFirstName(value) {
+        const train = this.state.atlet;
+        train.name = value.target.value;
+        this.setState({ atletCopie: train })
+    }
+    changeLastName(value) {
         const train = this.state.atlet;
         train.name = value.target.value;
         this.setState({ atletCopie: train })
@@ -100,11 +106,23 @@ class AthletesEdit extends Component {
                         {console.log(this.arrayAtletiName)} */}
                         {/* {console.log(this.props.atlet)} */}
                         <Form.Row>
+                        <Form.Group as={Col} controlId="formGridName">
+                                <Form.Label>first_name</Form.Label>
+                                <Form.Control type="first_name" placeholder="Enter name"  id="field"
+                                    value={this.state.atlet.first_name}
+                                    onChange={(e) => this.changeFirstName(e)}
+                                // onChange={(event) => this.onChangeFirstName(event.target.value)}
+                                // onChange={(event) => this.nameChangeHandlerName(event.target.value)}
+                                />
+                                {/* {console.log(this.state.searchAthletsIndexOnClick)} */}
+                                {/* {console.log(this.props.atlet)} */}
+                            </Form.Group>
+
                             <Form.Group as={Col} controlId="formGridName">
-                                <Form.Label>Name</Form.Label>
-                                <Form.Control type="name" placeholder="Enter name"  id="field"
-                                    value={this.state.atlet.name}
-                                    onChange={(e) => this.changeName(e)}
+                                <Form.Label>last_name</Form.Label>
+                                <Form.Control name="last_name" type="last_name" placeholder="Enter name"  id="field"
+                                    value={this.state.atlet.last_name}
+                                    onChange={(e) => this.changeLastName(e)}
                                 // onChange={(event) => this.onChangeFirstName(event.target.value)}
                                 // onChange={(event) => this.nameChangeHandlerName(event.target.value)}
                                 />
@@ -122,13 +140,13 @@ class AthletesEdit extends Component {
                                 />
                             </Form.Group>
                         </Form.Row>
-
+{    console.log('atlet edit: ',this.state.atletCopie)}
 
                         <Form.Row>
                             <Form.Group as={Col} controlId="formGridPrimarySports">
                                 <Form.Label>Primary Sports</Form.Label>
-                                <Form.Control  id="field" type="primary-sports" placeholder="Enter Primary Sports"
-                                    value={this.state.atlet.primary_sports}
+                                <Form.Control name='primarySport'  id="field" type="primarySport" placeholder="Enter Primary Sports"
+                                    value={this.state.atlet.primarySport}
                                     onChange={(e) => this.changePrimarySport(e)}
 
                                 />
@@ -136,8 +154,8 @@ class AthletesEdit extends Component {
 
                             <Form.Group as={Col} controlId="formGridSecondarySports">
                                 <Form.Label>Secondary Sports</Form.Label>
-                                <Form.Control  id="field" type="secondary-sports" placeholder="Secondary Sports"
-                                    value={this.state.atlet.secondary_sports}
+                                <Form.Control  id="field" name='secondarySport' type="secondarySport" placeholder="Secondary Sports"
+                                    value={parseInt(this.state.atlet.secondarySport)}
                                     // onChange={this.props.changed}
                                     onChange={(e) => this.changeSecondarySport(e)}
                                 />
@@ -177,7 +195,6 @@ class AthletesEdit extends Component {
                                 <Form.Control type="height" placeholder="Enter Height"  id="field"
                                     value={this.state.atlet.height}
                                     onChange={(e) => this.changeHeight(e)}
-
                                 // onChange={this.props.changed}
                                 />
                             </Form.Group>
