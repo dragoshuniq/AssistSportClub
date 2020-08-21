@@ -3,6 +3,10 @@ import { Container, Row, Col, Image, Navbar, Nav, NavDropdown, Form, FormControl
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoffee, faFlag, faTrophy, faRunning, faFutbol, faSignOutAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Input, Checkbox, Button as SemanticButton, Icon, Pagination, } from "semantic-ui-react";
+import axios from "axios";
+import serverUrl from "../url";
+
+
 
 import classes from './Athletes.module.css';
 import AthletesEdit from './AthletesEdit/AthletesEdit';
@@ -17,7 +21,7 @@ class Athletes extends Component {
         super(props);
 
         this.state = {
-            // imagine: require('../../poze/img1.jpg'),
+            imagine: require('../../poze/img1.jpg'),
             listaAtleti: [],
             listaAtleti2: [],
 
@@ -41,7 +45,7 @@ class Athletes extends Component {
     // paginare
     handlePageClick = (e, { activePage }) => {
         const selectedPage = activePage;
-        console.log("e.target.value", activePage);
+        // console.log("e.target.value", activePage);
 
         const offset = (selectedPage - 1) * this.state.postsPerPage;
 
@@ -65,33 +69,61 @@ class Athletes extends Component {
     componentDidMount() {
         this.fetchDataFromServer();
     }
-    
+
 
     fetchDataFromServer() {
-        fetch("https://next.json-generator.com/api/json/get/N1L44d3WK")
-            // fetch("https://next.json-generator.com/api/json/get/Nklk-DiWY")https://next.json-generator.com/api/json/get/N1L44d3WK
-            .then((res) => res.json())
+        axios
+            .get(serverUrl + "api/user/search/3",  {
+                headers: {
+                    Authorization: localStorage.getItem("user"),
+                },
+            })
             .then(
                 (result) => {
+                    
 
                     this.setState({
-                        listaAtleti: result,
-                        listaAtleti2: result
+                        listaAtleti: result.data,
+                        listaAtleti2: result.data
                     });
 
-                    this.setState({ totalPosts: Math.ceil(result.length / 6) });
+                    // this.setState({ totalPosts: Math.ceil(result.length / 6) });
 
-                    const slice = result.slice(
-                        this.state.offset,
-                        this.state.offset + this.state.postsPerPage
-                    );
+                    // const slice = result.data.slice(
+                    //     this.state.offset,
+                    //     this.state.offset + this.state.postsPerPage
+                    // );
 
-                    this.setState({ listaAtleti: slice });
-                    this.setState({ result: slice });
+                    // this.setState({ listaAtleti: slice });
+                    // this.setState({ result: slice });
 
-                    // console.log(result);
+                    console.log('data athlets: ',result.data);
                 }
             );
+        // fetch("https://next.json-generator.com/api/json/get/N1L44d3WK")
+        //     // fetch("https://next.json-generator.com/api/json/get/Nklk-DiWY")https://next.json-generator.com/api/json/get/N1L44d3WK
+        //     .then((res) => res.json())
+        //     .then(
+        //         (result) => {
+
+        //             this.setState({
+        //                 listaAtleti: result,
+        //                 listaAtleti2: result
+        //             });
+
+        //             this.setState({ totalPosts: Math.ceil(result.length / 6) });
+
+        //             const slice = result.slice(
+        //                 this.state.offset,
+        //                 this.state.offset + this.state.postsPerPage
+        //             );
+
+        //             this.setState({ listaAtleti: slice });
+        //             this.setState({ result: slice });
+
+        //             // console.log(result);
+        //         }
+        //     );
     }
 
     nameChangeHandlerName = (event) => {
@@ -124,6 +156,7 @@ class Athletes extends Component {
             } else arr.push(res);
         });
         this.setState({ arr });
+        console.log('edit atleti ... :'+atlet)
     }
 
     // add
@@ -140,31 +173,65 @@ class Athletes extends Component {
 
     // delete
     onDeleteAtleti = (idAtlet) => {
-        const listaAtletiStersi = this.state.listaAtleti.filter((el, index) => {
-            return (
-                el.id !== idAtlet
-            );
-        })
-        { console.log('lista alteti', listaAtletiStersi) }
+        // const listaAtletiStersi = this.state.listaAtleti.filter((el, index) => {
+        //     return (
+        //         el.id !== idAtlet
+        //     );
+        // })
+        // // { console.log('lista alteti', listaAtletiStersi) }
 
-        this.setState({
-            ...this.state,
-            listaAtleti: listaAtletiStersi
+        // this.setState({
+        //     ...this.state,
+        //     listaAtleti: listaAtletiStersi
+        // })
+        console.log('delete id: ',idAtlet);
+
+        axios
+        .delete(serverUrl + `api/user/${idAtlet}`,  {
+
+            // id: idAtlet
+
+            headers: {
+                Authorization: localStorage.getItem("user"),
+            },
         })
+        .then(
+            (result) => {
+
+                // this.setState({
+                //     listaAtleti: result.data,
+                //     listaAtleti2: result.data
+                // });
+
+                // this.setState({ totalPosts: Math.ceil(result.length / 6) });
+
+                // const slice = result.data.slice(
+                //     this.state.offset,
+                //     this.state.offset + this.state.postsPerPage
+                // );
+
+                // this.setState({ listaAtleti: slice });
+                // this.setState({ result: slice });
+
+                console.log('data athlets delete: ',result);
+            }
+        );
+
 
     }
 
     render() {
         const numarAtleti = this.state.listaAtleti2.length;
 
-        console.log('numar atleti', numarAtleti)
+        // console.log('numar atleti', numarAtleti)
         // filtrare search and put in a variable 
-        let filteredAthlets = this.state.listaAtleti.filter(
-            (el) => {
-                return el.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
-            }
-        );
+        // let filteredAthlets = this.state.listaAtleti.filter(
+        //     (el) => {
+        //         return el.first_name.indexOf(this.state.search) !== -1;
+        //     }
+        // );
         // END filter
+        console.log('first name athlets: ',this.state.listaAtleti.first_name)
 
         return (
 
@@ -226,7 +293,7 @@ class Athletes extends Component {
 
                 {/* map the variable filtered  */}
                 <Row className={classes.pointerAtlet}>
-                    {filteredAthlets.map((el, index) => {
+                    {this.state.listaAtleti.map((el, index) => {
                         return (
                             <Col md={3}
                                 key={index}
@@ -235,24 +302,42 @@ class Athletes extends Component {
                             >
                                 <Row className={classes.marginBotRow}>
                                     <Col md='3'>
-                                        <Image className={classes.cartImg} src={el.file} roundedCircle />
+                                        <Image className={classes.cartImg} src={el.profile_photo !== null ? this.state.imagine : el.profile_photo} roundedCircle />
                                     </Col>
                                     <Col>
-                                        <p className={classes.Name}>{el.name}</p>
+                                        <p className={classes.Name}>{el.first_name} {el.last_name}</p>
                                         <p className={classes.Gender_Years}>{el.gender} - {el.age} YEARS</p>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col md='6'>
                                         <p className={classes.primary_sport}>PRIMARY SPORTS</p>
-                                        <p className={classes.noMargin}>{el.primary_sports}</p>
+                                        <p className={classes.noMargin}>
+                                            {el.primarySport === 1 ? "running" : null}
+                                            {el.primarySport === 2 ? "cycling" : null}
+                                            {el.primarySport === 3 ? "tennis" : null}
+                                            {el.primarySport === 4 ? "football" : null}
+                                        </p>
                                     </Col>
                                     <Col md='6'>
                                         <p className={classes.secondary_sport}>SECONDARY SPORTS</p>
-                                        <p className={classes.noMargin}>{el.secondary_sports}</p>
+                                        <p className={classes.noMargin}>
+                                            {el.secondarySport === 1 ? "running" : null}
+                                            {el.secondarySport === 2 ? "cycling" : null}
+                                            {el.secondarySport === 3 ? "tennis" : null}
+                                            {el.secondarySport === 4 ? "football" : null}
+                                        </p>
                                     </Col>
                                 </Row>
                             </Col>
+
+                            // 1 running
+                            //2 cycling
+                            //3 tennis
+                            //4 football
+
+
+
 
                         );
                     })}
@@ -273,7 +358,7 @@ class Athletes extends Component {
                             onHideDelete={() => this.setState({ editModalShow: false, deleteModalShow: true })}
                         />
                     )}
-                    {console.log(this.state.searchAthletsIndexOnClick)}
+                    {/* {console.log(this.state.searchAthletsIndexOnClick)} */}
                     <AthletesAdd
                         countAtleti={numarAtleti}
                         onAdd={this.onAddAtleti}

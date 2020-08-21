@@ -41,7 +41,7 @@ class EventsDetails extends React.Component {
         location: { lat: 47.667138, lng: 26.27439 },
       },
       thisEvent: this.props.event,
-      data: [],
+      data: {},
       useArray: [],
       editModalShow: false,
       currentPage: 1,
@@ -54,11 +54,16 @@ class EventsDetails extends React.Component {
       deleteModalShow: false,
       showListParticipants: false,
       showChart: false,
-      userCheckBox: false
+      userCheckBox: false,
+      HartRateCheck: false,
+      CaloriesCheck: false,
+      SpeedCheck: false,
+      DistanceCheck: true
     };
 
     this.handlePageClick = this.handlePageClick.bind(this);
     this.checkBoxUser = this.checkBoxUser.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   receivedData() {
@@ -84,7 +89,13 @@ class EventsDetails extends React.Component {
         this.setState({
           data: res.data
         });
-        console.log('test!!!!!!!!!!!!!!!!!!', this.state.data)
+        // console.log('test!!!!!!!!!!!!!!!!!!', this.state.data);
+        // const myMap = new Map();
+        // res.data.member_event.map((result) => {
+        //   myMap.set(result.id_member, false);
+        // });
+        // c.log(myMap)
+        // console.log(this.state.data.member_event);
         // const data = res.data;
         // const slice = data.slice(
         //   this.state.offset,
@@ -100,10 +111,17 @@ class EventsDetails extends React.Component {
       });
   }
 
+
+  // componentWillReceiveProps(newprops){
+  //   if(this.props !== newprops){
+  //     console.log(this.props, newprops);
+  //   }
+  // }
   componentDidMount() {
-    console.log("props: ", this.props);
+    // console.log("props: ", this.props);
     this.receivedData();
   }
+
 
   handlePageClick = (e, { activePage }) => {
     const selectedPage = activePage;
@@ -155,7 +173,26 @@ class EventsDetails extends React.Component {
     })
   }
 
+  handleInputChange(event) {
+    const target = event.target;
+    // const value = target.name === 'isGoing' ? target.checked : target.value;
+    const value = target.checked;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+ 
+
   render() {
+
+
+
+
+
+
     return (
       <Container id="container">
         <Row>
@@ -259,47 +296,51 @@ class EventsDetails extends React.Component {
               <Col className="listUsers">
 
 
-                {
-                  this.state.data.map((el, index) => {
+                {console.log('dsafjjagsf', this.state.data.member_event)}
+
+
+                { 
+                  (this.state.data.member_event || [] ).map((el_member) => {
                     return (
                       <>
-                        {el.member_event.map((el_member, index_member) => {
-                          return (
-                            <>
-                              <Row className="user">
-                                <Col className="imgColEventSt">
-                                  <img className="cartImgEvent2" src={this.state.poza} />
-                                  <p className="pEvents">{el_member.name_member}</p>
-                                </Col>
+                        <Row className="user">
+                          <Col className="imgColEventSt">
+                            <img className="cartImgEvent2" src={this.state.poza} />
+                            <p className="pEvents">{el_member.name_member}</p>
+                          </Col>
 
-                                {
-                                  this.state.showListParticipants === true ?
-                                    <Col className="imgColEventDr">
-                                      <input
-                                        type="checkbox"
-                                        checked={this.state.userCheckBox}
-                                        onChange={this.checkBoxUser}
-                                        name={el_member.name_member}
-                                      />
-                                    </Col>
-                                    : null
-                                }
+                          {
+                            this.state.showListParticipants === true ?
+                              <Col className="imgColEventDr">
+                                <input
+                                  // type="checkbox"
+                                  // checked={this.state.userCheckBox}
+                                  // onChange={this.checkBoxUser}
+                                  // name={el_member.name_member}
+                                  name={el_member.id_member}
+                                  type="checkbox"
+                                  checked={this.state.userCheckBox}
+                                  onChange={this.handleInputChange}
+                                />
+                              </Col>
+                              : null
+                          }
 
-                                {this.state.userCheckBox.toString()
-                                }
-                              
+                          {this.state.userCheckBox.toString()
+                          }
 
-                                <Col className="p2Events" md={12}>
-                                  {el_member.gender_member}
-                                </Col>
-                              </Row>
-                            </>
-                          );
-                        })}
+
+                          <Col className="p2Events" md={12}>
+                            {el_member.gender_member}
+                          </Col>
+                        </Row>
                       </>
                     );
                   })
                 }
+
+
+
 
 
 
@@ -347,16 +388,27 @@ class EventsDetails extends React.Component {
 
                       <Row className="user">
                         <Col md={1}>
-                          <input type="checkbox"></input>
+                          <input
+                            name="HartRateCheck"
+                            type="checkbox"
+                            checked={this.state.HartRateCheck}
+                            onChange={this.handleInputChange}
+                          ></input>
                         </Col>
                         <Col>
+                        {this.state.HartRateCheck.toString()}
                           <p>Heart Rate</p>
                         </Col>
                       </Row>
 
                       <Row className="user">
                         <Col md={1}>
-                          <input type="checkbox"></input>
+                          <input
+                            name="CaloriesCheck"
+                            type="checkbox"
+                            checked={this.state.CaloriesCheck}
+                            onChange={this.handleInputChange}
+                          ></input>
                         </Col>
                         <Col>
                           <p>Calories</p>
@@ -365,16 +417,27 @@ class EventsDetails extends React.Component {
 
                       <Row className="user">
                         <Col md={1}>
-                          <input type="checkbox"></input>
+                          <input
+                            name="SpeedCheck"
+                            type="checkbox"
+                            checked={this.state.SpeedCheck}
+                            onChange={this.handleInputChange}
+                          ></input>
                         </Col>
                         <Col>
                           <p>Av. Speed</p>
+                          {this.state.SpeedCheck}
                         </Col>
                       </Row>
 
                       <Row className="user">
                         <Col md={1}>
-                          <input type="checkbox"></input>
+                          <input
+                            name="DistanceCheck"
+                            type="checkbox"
+                            checked={this.state.DistanceCheck}
+                            onChange={this.handleInputChange}
+                          ></input>
                         </Col>
                         <Col>
                           <p>Distance</p>
