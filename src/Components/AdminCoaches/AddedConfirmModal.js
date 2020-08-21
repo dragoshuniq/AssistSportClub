@@ -34,11 +34,16 @@ function AddedConfirmModal(props) {
         </div>
         <h1 id="coachAddedText"> Coach Added </h1>
         <p id="confirmText">
-          Athlete "{props.coach.name}"" was added on "{props.coach.clubs}"
+          Athlete "{props.coach.name}" was added on 
+          {props.coach.txt}
+          {/* {!!props.coach.txt.lenght > 0 ? props.coach.txt : "System"} */}
         </p>
-        <div id="iconDone"  style={{
-          marginTop: "5vh",
-        }}>
+        <div
+          id="iconDone"
+          style={{
+            marginTop: "5vh",
+          }}
+        >
           <Button id="closeButton" onClick={props.onHide}>
             CLOSE
           </Button>

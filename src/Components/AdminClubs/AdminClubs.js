@@ -29,27 +29,25 @@ class AdminClubs extends React.Component {
   }
   receivedData() {
     axios
-      // .get(serverUrl + "api/club", {
-      .get("https://next.json-generator.com/api/json/get/E1lwlJmAWY", {
-        // headers: {
-        //   Authorization: localStorage.getItem("user"),
-        // },
+      .get(serverUrl + "api/club", {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
       })
+      // .get("https://next.json-generator.com/api/json/get/E1lwlJmAWY")
       .then((res) => {
         console.log(res.data);
         const data = res.data;
-        this.setState({
-          useArray: data,
-          data: data,
-          searchValue: "",
-        });
+        // this.setState({
+        //   useArray: data,
+        //   data: data,
+        //   searchValue: "",
+        // });
       });
-    console.log(this.state.data);
+    // console.log(this.state.data);
   }
   componentDidMount() {
-    console.log("dada");
     this.receivedData();
-    //console.log(localStorage.getItem("role"));
   }
   searchHandler = (event) => {
     let value = event.target.value;
@@ -68,15 +66,13 @@ class AdminClubs extends React.Component {
     }
   };
   PostClub = (club) => {
-    var membersSource = club.member.slice(0,4);
+    var membersSource = !!club.members.slice(0, 4);
     return (
       <NavLink to={`/Navigation/AdminClubDetails/${club.id}`}>
         <Col xl={3} lg={3} md={6} sm={12} xs={12} style={{ marginTop: "5vh" }}>
           <div id="clubCard">
             <div>
-              <h1 id="clubCardTitle">
-                {club.name}
-              </h1>
+              <h1 id="clubCardTitle">{club.name}</h1>
             </div>
             <Divider clearing />
             <h1 id="membersText">MEMBERS</h1>
@@ -90,7 +86,12 @@ class AdminClubs extends React.Component {
               {membersSource.map((val) => {
                 return (
                   <Image
-                    src={val.src}
+                    src={
+                      !!val.profile_photo
+                        ? val.profile_photo
+                        : "https://react.semantic-ui.com/images/wireframe/square-image.png"
+               
+                    }
                     size="mini"
                     circular
                     id="imageCircIcons"
@@ -99,14 +100,16 @@ class AdminClubs extends React.Component {
               })}
 
               <p id="clubsMembersText">
-                {club.member.length - 4 > 0
-                  ? "+  " + (club.member.length - 4).toString()
+                {club.members.length - 4 > 0
+                  ? " +  " + (club.member.length - 4).toString()
                   : null}
               </p>
             </Row>
             <div style={{ marginTop: "1vh" }}>
               <h1 id="membersText">Coach</h1>
-              <h1 id="coachText">{club.owner}</h1>
+              <h1 id="coachText">
+                {club.ownerFirstName} {club.ownerLastName}
+              </h1>
             </div>
           </div>
         </Col>

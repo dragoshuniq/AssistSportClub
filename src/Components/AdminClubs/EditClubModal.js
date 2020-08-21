@@ -1,14 +1,7 @@
 import React from "react";
 import { Modal, Button as RButton } from "react-bootstrap";
 import "./AdminClubs.css";
-import {
-  Form,
-  Button,
-  Divider,
-  Select,
-  Label,
-  Icon,
-} from "semantic-ui-react";
+import { Form, Button, Divider, Select, Label, Icon } from "semantic-ui-react";
 class EditClubModal extends React.Component {
   constructor(props) {
     super(props);
@@ -105,6 +98,7 @@ class EditClubModal extends React.Component {
             <Form.Field>
               <label id="assignACoach">Assign a coach</label>
               <Select
+                multiple
                 id="field"
                 placeholder="Coach Assign"
                 options={this.state.trainOptions}
@@ -133,8 +127,8 @@ class EditClubModal extends React.Component {
                 <Button
                   id="deleteModalButton"
                   onClick={() => {
-                  this.props.onHide();
-                  this.props.onDelete();
+                    this.props.onHide();
+                    this.props.onDelete();
                   }}
                 >
                   Delete
@@ -150,7 +144,6 @@ class EditClubModal extends React.Component {
               </Button.Group>
             </div>
           </Form>
-         
         </Modal.Body>
       </Modal>
     );
