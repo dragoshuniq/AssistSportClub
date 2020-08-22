@@ -38,11 +38,11 @@ class AdminClubs extends React.Component {
       .then((res) => {
         console.log(res.data);
         const data = res.data;
-        // this.setState({
-        //   useArray: data,
-        //   data: data,
-        //   searchValue: "",
-        // });
+        this.setState({
+          useArray: data,
+          data: data,
+          searchValue: "",
+        });
       });
     // console.log(this.state.data);
   }
