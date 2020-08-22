@@ -6,7 +6,6 @@ import AddedConfirmModal from "./AddedConfirmModal";
 import serverUrl from "../url";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-
 import { Container, Row, Col, Button } from "react-bootstrap";
 import {
   Input,
@@ -14,6 +13,7 @@ import {
   Button as SemanticButton,
   Icon,
   Pagination,
+  Popup,
 } from "semantic-ui-react";
 import "./AdminCoaches.css";
 import DeleteMultipleModal from "./DeleteMultipleModal";
@@ -26,26 +26,8 @@ class AdminCoaches extends React.Component {
       selectAllElements: false,
       searchValue: "",
       useArray: [],
-      data: [
-        {
-          id: 1,
-          name: "Shane Steward",
-          email: "blablabla@gmail.com",
-          clubs: "swim",
-        },
-        {
-          id: 2,
-          name: "Shane Steward",
-          email: "blablabla@gmail.com",
-          clubs: "Lisadas.dsadas,",
-        },
-        {
-          id: 3,
-          name: "Shane Steward",
-          email: "blablabla@gmail.com",
-          clubs: "Lisadas.dsadas,",
-        },
-      ],
+      isSearch: false,
+      data: [],
       editIDsClubs: [],
       editModalShow: false,
       addModalShow: false,
@@ -69,31 +51,26 @@ class AdminCoaches extends React.Component {
   componentDidMount() {
     this.receivedData();
   }
-  handlePageClick = (e, { activePage }) => {
+
+  searchHandlePageClick = (e, { activePage }) => {
     const selectedPage = activePage;
 
     const offset = (selectedPage - 1) * this.state.postsPerPage;
-    // if (this.state.searchValue.length === 0) {
-    //   this.setState(
-    //     {
-    //       currentPage: selectedPage,
-    //       offset: offset,
-    //     },
-    //     () => {
-    //       this.changePage();
-    //     }
-    //   );
-    // } else {
-    //   this.setState(
-    //     {
-    //       currentPage: 1,
-    //       searchOffset: offset,
-    //     },
-    //     () => {
-    //       this.changeSearchPage();
-    //     }
-    //   );
-    // }
+
+    this.setState(
+      {
+        currentPage: selectedPage,
+        offset: offset,
+      },
+      () => {
+        this.changeSearchPage(this.state.searchArray);
+      }
+    );
+  };
+
+  handlePageClick = (e, { activePage }) => {
+    const selectedPage = activePage;
+    const offset = (selectedPage - 1) * this.state.postsPerPage;
 
     this.setState(
       {
@@ -111,10 +88,31 @@ class AdminCoaches extends React.Component {
       this.state.offset,
       this.state.offset + this.state.postsPerPage
     );
+    const myMap = new Map();
+    slice.map((res) => {
+      myMap.set(res.id, false);
+    });
 
     this.setState({
       totalPosts: Math.ceil(this.state.data.length / this.state.postsPerPage),
       useArray: slice,
+      selectedElements: myMap,
+    });
+  }
+  changeSearchPage(thisArr) {
+    const slice = thisArr.slice(
+      this.state.offset,
+      this.state.offset + this.state.postsPerPage
+    );
+    const myMap = new Map();
+    slice.map((res) => {
+      myMap.set(res.id, false);
+    });
+
+    this.setState({
+      totalPosts: Math.ceil(thisArr.length / this.state.postsPerPage),
+      useArray: slice,
+      selectedElements: myMap,
     });
   }
   receivedData() {
@@ -124,6 +122,7 @@ class AdminCoaches extends React.Component {
           Authorization: localStorage.getItem("user"),
         },
       })
+      // .get("https://next.json-generator.com/api/json/get/VyE9zEcMY")
       .then((res) => {
         console.log(res.data);
 
@@ -210,24 +209,13 @@ class AdminCoaches extends React.Component {
           searchArray.push(res);
         }
       });
-      //this.setState({ searchArrayData: searchArray });
+      this.setState({ isSearch: true, searchArray: searchArray });
       this.changeSearchPage(searchArray);
     } else {
       this.changePage();
+      this.setState({ isSearch: false });
     }
   };
-
-  changeSearchPage(thisArr) {
-    const slice = thisArr.slice(
-      this.state.searchOffset,
-      this.state.searchOffset + this.state.postsPerPage
-    );
-
-    this.setState({
-      totalPosts: Math.ceil(thisArr.length / this.state.postsPerPage),
-      useArray: slice,
-    });
-  }
 
   sortBy = (type) => {
     this.setState({ useArray: this.state.data });
@@ -436,13 +424,20 @@ class AdminCoaches extends React.Component {
                 xs={12}
                 style={{ right: "16px" }}
               >
-                <Input
-                  fluid
-                  icon="search"
-                  iconPosition="left"
-                  placeholder="Search coaches..."
-                  id="searchClubs"
-                  onChange={this.searchHandler}
+                <Popup
+                  trigger={
+                    <Input
+                      fluid
+                      icon="search"
+                      iconPosition="left"
+                      placeholder="Search coaches..."
+                      id="searchClubs"
+                      onChange={this.searchHandler}
+                    />
+                  }
+                  header="Coach Search"
+                  content="You can search coaches by First/Last Name or Email Adress"
+                  on="hover"
                 />
               </Col>
               <Col md={{ span: 2, offset: 4 }}>
@@ -528,9 +523,15 @@ class AdminCoaches extends React.Component {
               }}
             >
               <Pagination
+                pointing
+                secondary
                 defaultActivePage={1}
                 totalPages={this.state.totalPosts}
-                onPageChange={this.handlePageClick}
+                onPageChange={
+                  !this.state.isSearch
+                    ? this.handlePageClick
+                    : this.searchHandlePageClick
+                }
               />
             </Row>
           </Col>

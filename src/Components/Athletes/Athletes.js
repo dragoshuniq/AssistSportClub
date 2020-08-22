@@ -73,14 +73,14 @@ class Athletes extends Component {
 
     fetchDataFromServer() {
         axios
-            .get(serverUrl + "api/user/search/3",  {
+            .get(serverUrl + "api/user/search/3", {
                 headers: {
                     Authorization: localStorage.getItem("user"),
                 },
             })
             .then(
                 (result) => {
-                    
+
 
                     this.setState({
                         listaAtleti: result.data,
@@ -97,7 +97,7 @@ class Athletes extends Component {
                     // this.setState({ listaAtleti: slice });
                     // this.setState({ result: slice });
 
-                    console.log('data athlets: ',result.data);
+                    console.log('data athlets: ', result.data);
                 }
             );
         // fetch("https://next.json-generator.com/api/json/get/N1L44d3WK")
@@ -155,12 +155,20 @@ class Athletes extends Component {
                 arr.push(atl);
             } else arr.push(res);
         });
+<<<<<<< HEAD
+        this.setState({ listaAtleti: arr });
+=======
         this.setState({listaAtleti:  arr });
+>>>>>>> cdce50145acc13dee972db098c5aa24dc770f54b
 
 
 
 
+<<<<<<< HEAD
+        console.log('edit atleti 1 ... :' + atlet.id);
+=======
         console.log('edit atleti 1 ... :'+atlet.id);
+>>>>>>> cdce50145acc13dee972db098c5aa24dc770f54b
 
         // const sendData = this.state.listaAtleti;
         // sendData.age = parseInt(sendData.age);
@@ -180,6 +188,40 @@ class Athletes extends Component {
 
         // this.setState({ listaAtleti: sendData });
 
+<<<<<<< HEAD
+        console.log(' dsafdsaf edit ', this.state.listaAtleti);
+
+
+        axios
+            .put(serverUrl + `api/user/update/`, this.state.listaAtleti, {
+
+                // id: idAtlet
+
+                headers: {
+                    Authorization: localStorage.getItem("user"),
+                },
+            })
+            .then(
+                (result) => {
+                    // this.setState({
+                    //     listaAtleti: result.data,
+                    //     listaAtleti2: result.data
+                    // });
+
+                    // this.setState({ totalPosts: Math.ceil(result.length / 6) });
+
+                    // const slice = result.data.slice(
+                    //     this.state.offset,
+                    //     this.state.offset + this.state.postsPerPage
+                    // );
+
+                    // this.setState({ listaAtleti: slice });
+                    // this.setState({ result: slice });
+
+                    console.log('data athlets edit acumaaa: ', result);
+                }
+            );
+=======
         console.log(' dsafdsaf edit ',this.state.listaAtleti);
 
 
@@ -212,6 +254,7 @@ class Athletes extends Component {
                 console.log('data athlets edit acumaaa: ',result);
             }
         );
+>>>>>>> cdce50145acc13dee972db098c5aa24dc770f54b
 
     }
 
@@ -240,38 +283,38 @@ class Athletes extends Component {
         //     ...this.state,
         //     listaAtleti: listaAtletiStersi
         // })
-        console.log('delete id: ',idAtlet);
+        console.log('delete id: ', idAtlet);
 
         axios
-        .delete(serverUrl + `api/user/${idAtlet}`,  {
+            .delete(serverUrl + `api/user/${idAtlet}`, {
 
-            // id: idAtlet
+                // id: idAtlet
 
-            headers: {
-                Authorization: localStorage.getItem("user"),
-            },
-        })
-        .then(
-            (result) => {
+                headers: {
+                    Authorization: localStorage.getItem("user"),
+                },
+            })
+            .then(
+                (result) => {
 
-                // this.setState({
-                //     listaAtleti: result.data,
-                //     listaAtleti2: result.data
-                // });
+                    // this.setState({
+                    //     listaAtleti: result.data,
+                    //     listaAtleti2: result.data
+                    // });
 
-                // this.setState({ totalPosts: Math.ceil(result.length / 6) });
+                    // this.setState({ totalPosts: Math.ceil(result.length / 6) });
 
-                // const slice = result.data.slice(
-                //     this.state.offset,
-                //     this.state.offset + this.state.postsPerPage
-                // );
+                    // const slice = result.data.slice(
+                    //     this.state.offset,
+                    //     this.state.offset + this.state.postsPerPage
+                    // );
 
-                // this.setState({ listaAtleti: slice });
-                // this.setState({ result: slice });
+                    // this.setState({ listaAtleti: slice });
+                    // this.setState({ result: slice });
 
-                console.log('data athlets delete: ',result);
-            }
-        );
+                    console.log('data athlets delete: ', result);
+                }
+            );
 
 
     }
@@ -300,24 +343,24 @@ class Athletes extends Component {
                     </Col>
                 </Row>
 
-                <Row id={classes.searchAtletRow}>
-                    <Col   >
+                <Row >
+                    <Col>
+                        <Row id={classes.searchAtletRow}>
+                            <div className={classes.inputDiv}>
+                                <Input
+                                    fluid
+                                    icon="search"
+                                    iconPosition="left"
+                                    placeholder="Search atlet..."
+                                    id="searchAtlet"
+                                    // onChange={this.searchHandler}
+                                    // onChange={this.updateSearch.bind(this)}
+                                    onChange={this.updateSearch.bind(this)}
+                                />
+                            </div>
 
-                        <div>
-                            <Input
-                                fluid
-                                icon="search"
-                                iconPosition="left"
-                                placeholder="Search atlet..."
-                                id="searchAtlet"
-                                // onChange={this.searchHandler}
-                                // onChange={this.updateSearch.bind(this)}
-                                onChange={this.updateSearch.bind(this)}
-                            />
-                        </div>
-
-                        {/* Search */}
-                        {/* <Form.Row>
+                            {/* Search */}
+                            {/* <Form.Row>
                             <Form.Group as={Col} >
                                 <InputGroup>
                                     <InputGroup.Prepend>
@@ -335,14 +378,15 @@ class Athletes extends Component {
                             </Form.Group>
                         </Form.Row> */}
 
-                    </Col>
-                    <Col md={{ span: 4, offset: 4 }} >
-                        {/* Add button */}
-                        <Button
-                            onClick={() => this.setState({ addModalShow: true })}
-                            id={classes.addNewButtonAtlet}>
-                            ADD NEW
+
+
+                            {/* Add button */}
+                            <Button
+                                onClick={() => this.setState({ addModalShow: true })}
+                                id={classes.addNewButtonAtlet}>
+                                ADD NEW
                             </Button>
+                        </Row>
                     </Col>
                 </Row>
                 {/* END Header */}
@@ -434,9 +478,10 @@ class Athletes extends Component {
                     />
 
                 </Row>
-                <Row>
+                <Row className={classes.test1}>
                     <Col className={classes.centerPaginationAtlet}>
                         <Pagination
+                            className={classes.test2}
                             defaultActivePage={1}
                             totalPages={this.state.totalPosts}
                             onPageChange={this.handlePageClick}

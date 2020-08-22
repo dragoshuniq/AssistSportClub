@@ -34,7 +34,7 @@ class AdminClubs extends React.Component {
           Authorization: localStorage.getItem("user"),
         },
       })
-      // .get("https://next.json-generator.com/api/json/get/E1lwlJmAWY")
+      // .get("https://next.json-generator.com/api/json/get/VyE9zEcMY")
       .then((res) => {
         console.log(res.data);
         const data = res.data;
