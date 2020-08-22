@@ -136,6 +136,7 @@ class SignIn extends React.Component {
                       <div className="form-group">
                         <label htmlFor="password">Password</label>
                         <div
+                          className='divPassword'
                           style={{
                             flexDirection: "row",
                             display: "flex",
@@ -154,8 +155,9 @@ class SignIn extends React.Component {
                             }
                           />
                           <Icon
+                            className="icon"
                             name={this.state.isPassword ? "eye slash" : "eye"}
-                            size="big"
+                            size="tinny"
                             onClick={() =>
                               this.setState({
                                 isPassword: !this.state.isPassword,

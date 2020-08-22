@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import {
   Input,
@@ -15,8 +14,9 @@ import "./AdminClubs.css";
 import EventsAdd from "./EventsAdd/EventsAdd";
 import EventsAddedMessage from "./EventsAddedMessage/EventsAddedMessage";
 import EventsDetails from "./EventsDetails/EventsDetails";
-// import axios from "axios";
-// import serverUrl from "../url";
+import axios from "axios";
+import serverUrl from "../url";
+import moment from 'moment';
 
 
 class Events extends React.Component {
@@ -24,6 +24,8 @@ class Events extends React.Component {
     super(props);
 
     this.state = {
+      imagine: require('../../poze/img1.jpg'),
+
       data: [],
       useArray: [],
       addModalShow: false,
@@ -33,6 +35,7 @@ class Events extends React.Component {
       postsPerPage: 4,
       offset: 0,
       pageCount: 0,
+      
       totalPosts: -1,
     };
 
@@ -58,74 +61,77 @@ class Events extends React.Component {
   };
 
   receivedData() {
-    fetch(`https://next.json-generator.com/api/json/get/E1lwlJmAWY`)
-    fetch(`https://next.json-generator.com/api/json/get/N1jZEd3bt`)
-      .then((res) => res.json())
-      .then((result) => {
-        this.setState({
-          data: result,
-          useArray: result,
-        });
-        // console.log('data=',this.state.data);
-        this.setState({ totalPosts: Math.ceil(result.length / 4) });
-
-        const slice = result.slice(
-          this.state.offset,
-          this.state.offset + this.state.postsPerPage
-        );
-
-        this.setState({ useArray: slice });
-        this.setState({ result: slice });
-
-        // console.log(result);
-      });
-
-      // axios.get('https://next.json-generator.com/api/json/get/N1jZEd3bt')
-      // .then((result) => {
-
-      //   this.setState({
-      //     data: result.data,
-      //     useArray: result.data,
-      //   });
-      //   console.log('data=',this.state.data);
-      //   this.setState({ totalPosts: Math.ceil(result.data.length / 4) });
-
-      //   const slice = result.data.slice(
-      //     this.state.offset,
-      //     this.state.offset + this.state.postsPerPage
-      //   );
-
-      //   this.setState({ useArray: slice });
-      //   // this.setState({ result: slice });
-
-      //   // console.log(result);
-      // });
-
-    //   axios
-    //   .get(serverUrl + "api/user/search/3", {
-    //       headers: {
-    //           Authorization: localStorage.getItem("user"),
-    //       },
-    //   })
-    //  .then((result) => {
-
+    // fetch(`https://next.json-generator.com/api/json/get/E1lwlJmAWY`)
+    // fetch(`https://next.json-generator.com/api/json/get/N1jZEd3bt`)
+    //   .then((res) => res.json())
+    //   .then((result) => {
     //     this.setState({
-    //       data: result.data,
-    //       useArray: result.data,
+    //       data: result,
+    //       useArray: result,
     //     });
     //     // console.log('data=',this.state.data);
-    //     // this.setState({ totalPosts: Math.ceil(result.data.length / 4) });
+    //     this.setState({ totalPosts: Math.ceil(result.length / 4) });
 
-    //     // const slice = result.data.slice(
-    //     //   this.state.offset,
-    //     //   this.state.offset + this.state.postsPerPage
-    //     // );
+    //     const slice = result.slice(
+    //       this.state.offset,
+    //       this.state.offset + this.state.postsPerPage
+    //     );
 
-    //     // this.setState({ useArray: slice });
-    //     // this.setState({ result: slice });
+    //     this.setState({ useArray: slice });
+    //     this.setState({ result: slice });
 
     //     // console.log(result);
     //   });
+
+    //api
+
+    // axios.get('https://next.json-generator.com/api/json/get/N1jZEd3bt')
+    // .then((result) => {
+
+    //   this.setState({
+    //     data: result.data,
+    //     useArray: result.data,
+    //   });
+    //   console.log('data=',this.state.data);
+    //   this.setState({ totalPosts: Math.ceil(result.data.length / 4) });
+
+    //   const slice = result.data.slice(
+    //     this.state.offset,
+    //     this.state.offset + this.state.postsPerPage
+    //   );
+
+    //   this.setState({ useArray: slice });
+    //   // this.setState({ result: slice });
+
+    //   // console.log(result);
+    // });
+
+    axios
+      .get(serverUrl + "api/event", {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      })
+      .then((result) => {
+
+        this.setState({
+          data: result.data,
+          useArray: result.data,
+        });
+        console.log('events ..... ', result.data)
+        // console.log('data=',this.state.data);
+        // this.setState({ totalPosts: Math.ceil(result.data.length / 4) });
+
+        // const slice = result.data.slice(
+        //   this.state.offset,
+        //   this.state.offset + this.state.postsPerPage
+        // );
+
+        // this.setState({ useArray: slice });
+        // this.setState({ result: slice });
+
+        // console.log(result);
+      });
 
   }
 
@@ -174,7 +180,7 @@ class Events extends React.Component {
       <Container fluid id="containerAdminCoaches">
         <Row>
           <Col xl={12} lg={12} md={12} sm={12} xs={12}>
-            
+
             <Row style={{ marginRight: "5vh", marginLeft: "5vh" }}>
               <Col>
                 <h1 id="coachesText">Events</h1>
@@ -194,7 +200,7 @@ class Events extends React.Component {
                     placeholder="Search clubs..."
                     id="searchClubs"
                     onChange={this.searchHandler}
-                    // onChange={this.updateSearch.bind(this)}
+                  // onChange={this.updateSearch.bind(this)}
                   />
                 </div>
               </Col>
@@ -210,7 +216,7 @@ class Events extends React.Component {
 
             <Row
               id="rowBtnGroup"
-              // style={{ marginRight: "5vh", marginLeft: "5vh" }}
+            // style={{ marginRight: "5vh", marginLeft: "5vh" }}
             >
               <Col>
                 <Button id="onGoingBtn">
@@ -233,38 +239,38 @@ class Events extends React.Component {
             >
               {
 
-
+                //api/event/id
                 this.state.useArray.map((value, index) => {
                   return (
 
                     <NavLink className='navLinkCart' to={`/Navigation/EventsDetails/${value.id}`}>
                       <Col className='cartCol' xl={3} lg={3} md={6} sm={12} xs={12} >
-                        {console.log('valu: ', value)}
+                        {/* {console.log('valu: ', value)} */}
 
                         <Row className='rowCart'>
 
                           <Col id='cartLeftEvent' md={5} >
-                            <Image src={value.src} id='imgLeftCartEvent' />
+                            <Image src={value.event_cover !== null ? this.state.imagine : value.event_cover} id='imgLeftCartEvent' />
                           </Col>
 
                           <Col className='cartRight'>
 
                             <Row id='rowRightCart'>
 
-                              <h3 className='marginLeft' >Running for Life</h3>
-                              {value.name}
+                              <h3 className='marginLeft1' >{value.name}</h3>
+
                               <p>
-                                Ad enim sit commodo laborum mollit. Incididunt Lorem exercitation ad occaecat reprehenderit id.
+                                {value.description}
                               </p>
 
                               <p className='participants'>
                                 participants
                               </p>
 
-                              <small className='marginLeft'>20.06.2020</small>
-                              <small>20.06.2020</small>
+                              <small className='marginLeft'>{moment(value.date).format('MM.DD.YYYY')}</small>
+                              <small>{moment(value.date).format('h:mm a')}</small>
 
-                              <p className='width'>Suceava Fortress, Main Enter</p>
+                              <p className='width'>{value.location}</p>
 
                               <img src={value.src} size="mini" circular id="imageCircIcons" />
                               <img src={value.src} size="mini" circular id="imageCircIcons" />

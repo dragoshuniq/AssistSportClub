@@ -119,6 +119,9 @@ class EditCoachModal extends React.Component {
     this.setState({ localClubs: val });
   }
   render() {
+    console.log(this.state.coach);
+    const coach = this.state.coach;
+    const selected = this.state.clubSelected;
     return (
       <Modal
         blurring
