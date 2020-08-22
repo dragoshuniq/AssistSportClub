@@ -68,6 +68,11 @@ class AddCoachModal extends React.Component {
       })
       .then((res) => {
         console.log(res);
+        this.props.addCoachHandler(this.state.coach);
+        this.props.onHide();
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }
 
@@ -110,8 +115,6 @@ class AddCoachModal extends React.Component {
               this.setState({ coach: trainer });
 
               this.postData();
-              this.props.addCoachHandler(this.state.coach);
-              this.props.onHide();
             }}
             render={({ errors, status, touched }) => (
               <Form>

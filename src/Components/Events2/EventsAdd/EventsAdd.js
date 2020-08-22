@@ -3,6 +3,7 @@ import { Modal, Button as RButton } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-dropzone-uploader/dist/styles.css";
 import Dropzone from "react-dropzone-uploader";
+import moment from "moment";
 import "./EventAdd.css";
 import {
   Form,
@@ -46,7 +47,6 @@ class EventAdd extends React.Component {
       })
       .then((res) => {
         console.log(res);
-    
       });
   }
   componentDidMount() {
@@ -59,7 +59,7 @@ class EventAdd extends React.Component {
       link: img.meta.previewUrl,
     };
     this.setState({ event: aux });
-    //console.log(this.state.event);
+    console.log(this.state.event);
   }
   onClickCoord(coord) {
     const aux = this.state.event;
@@ -88,11 +88,17 @@ class EventAdd extends React.Component {
   }
   postData() {
     const loc = this.state.event;
+    loc.sportType = "Football";
+    loc.date = loc.date.toString();
+
+    loc.time = moment(loc.time).format("h:mm:ss");
+    loc.invite_emails = [];
+    loc.clubId = 13;
     loc.location =
       loc.location.lat.toString() + "," + loc.location.lng.toString();
     this.setState({ event: loc });
     axios
-      .get(serverUrl + "api/event/create", this.state.event, {
+      .post(serverUrl + "api/event/create", this.state.event, {
         headers: {
           Authorization: localStorage.getItem("user"),
         },
@@ -104,7 +110,7 @@ class EventAdd extends React.Component {
 
   onChangeDescription(value) {
     const ax = this.state.event;
-    ax.description = value;
+    ax.description = value.target.value;
     this.setState({ event: ax });
   }
 
@@ -153,6 +159,7 @@ class EventAdd extends React.Component {
     //this.setState{}
     this.props.addEventHandler(this.state.event);
     this.props.onHide();
+    this.postData();
   }
   render() {
     return (
@@ -237,7 +244,11 @@ class EventAdd extends React.Component {
 
             <Form.Field>
               <label id="assignACoach">Details</label>
-              <TextArea placeholder="Details" id="field" />
+              <TextArea
+                placeholder="Details"
+                id="field"
+                onChange={(val) => this.onChangeDescription(val)}
+              />
             </Form.Field>
 
             <div style={{ flexDirection: "row" }}>

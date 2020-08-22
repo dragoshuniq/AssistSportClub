@@ -38,11 +38,11 @@ class AdminClubs extends React.Component {
       .then((res) => {
         console.log(res.data);
         const data = res.data;
-        // this.setState({
-        //   useArray: data,
-        //   data: data,
-        //   searchValue: "",
-        // });
+        this.setState({
+          useArray: data,
+          data: data,
+          searchValue: "",
+        });
       });
     // console.log(this.state.data);
   }
@@ -66,13 +66,14 @@ class AdminClubs extends React.Component {
     }
   };
   PostClub = (club) => {
-    var membersSource = !!club.members.slice(0, 4);
+    var membersSource = club.members.slice(0, 4);
     return (
       <NavLink to={`/Navigation/AdminClubDetails/${club.id}`}>
         <Col xl={3} lg={3} md={6} sm={12} xs={12} style={{ marginTop: "5vh" }}>
           <div id="clubCard">
             <div>
               <h1 id="clubCardTitle">{club.name}</h1>
+              {/* club.name.length > 11 ?  */}
             </div>
             <Divider clearing />
             <h1 id="membersText">MEMBERS</h1>
@@ -83,22 +84,23 @@ class AdminClubs extends React.Component {
                 alignItems: "center",
               }}
             >
-              {membersSource.map((val) => {
-                return (
-                  <Image
-                    src={
-                      !!val.profile_photo
-                        ? val.profile_photo
-                        : "https://react.semantic-ui.com/images/wireframe/square-image.png"
-               
-                    }
-                    size="mini"
-                    circular
-                    id="imageCircIcons"
-                  />
-                );
-              })}
-
+                {membersSource.map((val) => {
+                  return (
+                    <Image
+                      src={
+                        !!val.profile_photo
+                          ? val.profile_photo
+                          : "https://react.semantic-ui.com/images/wireframe/square-image.png"
+                      }
+                      size="mini"
+                      circular
+                      id="imageCircIcons"
+                    />
+                  );
+                })}
+                {membersSource.length === 0 ? (
+                    <h1 id="noMembers">No Members</h1>
+                ) : null}
               <p id="clubsMembersText">
                 {club.members.length - 4 > 0
                   ? " +  " + (club.member.length - 4).toString()
@@ -108,7 +110,7 @@ class AdminClubs extends React.Component {
             <div style={{ marginTop: "1vh" }}>
               <h1 id="membersText">Coach</h1>
               <h1 id="coachText">
-                {club.ownerFirstName} {club.ownerLastName}
+                {club.owner.first_name} {club.owner.last_name}
               </h1>
             </div>
           </div>
@@ -124,7 +126,8 @@ class AdminClubs extends React.Component {
       addedClub: club,
       confirmModalShow: true,
     });
-    this.receivedData();
+
+    //this.receivedData();
   };
   render() {
     let dynamicRender = (
@@ -191,7 +194,10 @@ class AdminClubs extends React.Component {
           {this.state.confirmModalShow && (
             <AddedConfirmModal
               show={this.state.confirmModalShow}
-              onHide={() => this.setState({ confirmModalShow: false })}
+              onHide={() => {
+                this.setState({ confirmModalShow: false });
+                window.location.reload(false);
+              }}
               club={this.state.addedClub}
             />
           )}
