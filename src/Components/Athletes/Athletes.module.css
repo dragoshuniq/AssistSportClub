@@ -68,8 +68,8 @@
 
 .test {
     /* display: flex;
-    justify-content: flex-end;
-    background-color: red; */
+    justify-content: flex-end;*/
+    background-color: red;
     /* margin-top: 0px; */
     /* margin-bottom: 0px; */
     /* height: 100%; */
@@ -87,12 +87,7 @@
     margin-bottom: 0px;
 }
 
-@media only screen and (max-width: 992px) {
-    #Button {
-        width: 100%;
-        margin: 0px;
-    }
-}
+
 
 .Name {
     font-size: 23px;
@@ -112,9 +107,24 @@
     margin-bottom: 0px;
 }
 
+/* ------------------------------------------------------------------------------------------------ */
+
 .centerPaginationAtlet {
     display: flex;
     justify-content: center;
+}
+
+.test1 {
+    /* background-color: blue; */
+    /* height: 100%; */
+    /* position: absolute;
+    right: 40%;
+    bottom: 50px; */
+}
+
+.test2 {
+    /* position: absolute; */
+    /* bottom:  1px; */
 }
 
 .textTopAthlets {
@@ -146,12 +156,17 @@
     height: 100%;
     align-items: center;
     justify-content: center;
+ 
+}
+.inputDiv{
+    width: 400px;
+    display: inline-block;
 }
 
 #addNewButtonAtlet {
     width: 177px;
     height: 46px;
-    top: 298px;
+    /* top: 298px; */
     background: #1a1a1a;
     border-radius: 8px;
     font-family: Inter;
@@ -161,5 +176,23 @@
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: #44dabd;
-    float: right;
-  }
+    /* float: right; */
+}
+
+
+@media only screen and (max-width: 992px) {
+    #addNewButtonAtlet {
+        width: 100%;
+        margin: 0px;
+        /* background-color: red; */
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .test1 {
+        position: absolute;
+        right: 40%;
+        bottom: 50px;
+    }
+ 
+}

@@ -26,6 +26,7 @@ class AdminCoaches extends React.Component {
       selectAllElements: false,
       searchValue: "",
       useArray: [],
+      isSearch: false,
       data: [
         {
           id: 1,
@@ -69,31 +70,26 @@ class AdminCoaches extends React.Component {
   componentDidMount() {
     this.receivedData();
   }
-  handlePageClick = (e, { activePage }) => {
+
+  searchHandlePageClick = (e, { activePage }) => {
     const selectedPage = activePage;
 
     const offset = (selectedPage - 1) * this.state.postsPerPage;
-    // if (this.state.searchValue.length === 0) {
-    //   this.setState(
-    //     {
-    //       currentPage: selectedPage,
-    //       offset: offset,
-    //     },
-    //     () => {
-    //       this.changePage();
-    //     }
-    //   );
-    // } else {
-    //   this.setState(
-    //     {
-    //       currentPage: 1,
-    //       searchOffset: offset,
-    //     },
-    //     () => {
-    //       this.changeSearchPage();
-    //     }
-    //   );
-    // }
+
+    this.setState(
+      {
+        currentPage: selectedPage,
+        offset: offset,
+      },
+      () => {
+        this.changeSearchPage(this.state.searchArray);
+      }
+    );
+  };
+
+  handlePageClick = (e, { activePage }) => {
+    const selectedPage = activePage;
+    const offset = (selectedPage - 1) * this.state.postsPerPage;
 
     this.setState(
       {
@@ -111,19 +107,41 @@ class AdminCoaches extends React.Component {
       this.state.offset,
       this.state.offset + this.state.postsPerPage
     );
+    const myMap = new Map();
+    slice.map((res) => {
+      myMap.set(res.id, false);
+    });
 
     this.setState({
       totalPosts: Math.ceil(this.state.data.length / this.state.postsPerPage),
       useArray: slice,
+      selectedElements: myMap,
+    });
+  }
+  changeSearchPage(thisArr) {
+    const slice = thisArr.slice(
+      this.state.offset,
+      this.state.offset + this.state.postsPerPage
+    );
+    const myMap = new Map();
+    slice.map((res) => {
+      myMap.set(res.id, false);
+    });
+
+    this.setState({
+      totalPosts: Math.ceil(thisArr.length / this.state.postsPerPage),
+      useArray: slice,
+      selectedElements: myMap,
     });
   }
   receivedData() {
     axios
-      .get(serverUrl + "api/user/search/2", {
-        headers: {
-          Authorization: localStorage.getItem("user"),
-        },
-      })
+      // .get(serverUrl + "api/user/search/2", {
+      //   headers: {
+      //     Authorization: localStorage.getItem("user"),
+      //   },
+      // })
+      .get("https://next.json-generator.com/api/json/get/VyE9zEcMY")
       .then((res) => {
         console.log(res.data);
 
@@ -210,24 +228,13 @@ class AdminCoaches extends React.Component {
           searchArray.push(res);
         }
       });
-      //this.setState({ searchArrayData: searchArray });
+      this.setState({ isSearch: true, searchArray: searchArray });
       this.changeSearchPage(searchArray);
     } else {
       this.changePage();
+      this.setState({ isSearch: false });
     }
   };
-
-  changeSearchPage(thisArr) {
-    const slice = thisArr.slice(
-      this.state.searchOffset,
-      this.state.searchOffset + this.state.postsPerPage
-    );
-
-    this.setState({
-      totalPosts: Math.ceil(thisArr.length / this.state.postsPerPage),
-      useArray: slice,
-    });
-  }
 
   sortBy = (type) => {
     this.setState({ useArray: this.state.data });
@@ -528,9 +535,15 @@ class AdminCoaches extends React.Component {
               }}
             >
               <Pagination
+                pointing
+                secondary
                 defaultActivePage={1}
                 totalPages={this.state.totalPosts}
-                onPageChange={this.handlePageClick}
+                onPageChange={
+                  !this.state.isSearch
+                    ? this.handlePageClick
+                    : this.searchHandlePageClick
+                }
               />
             </Row>
           </Col>
