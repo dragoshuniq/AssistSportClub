@@ -22,6 +22,8 @@ class EditCoachModal extends React.Component {
         { key: "box", text: "Box", value: "box" },
       ],
       clubSelected: [],
+      localClubs: [],
+      _clubs: [],
     };
   }
   // componentWillMount() {
@@ -36,6 +38,36 @@ class EditCoachModal extends React.Component {
   componentDidMount() {
     this.receivedData();
   }
+
+  updateData() {
+    ///if clubs are not updated, use the same
+    var IDcl =
+      this.state.localClubs.length > 0
+        ? this.state.localClubs
+        : this.props._clubs;
+
+    const coach = this.state.coach;
+    coach._clubs = this.state._clubs;
+    coach.clubs = IDcl;
+    coach.user_id = this.props.coach.id;
+    console.log(coach);
+
+    this.props.edit(coach);
+    this.props.onHide();
+    axios
+      .put(serverUrl + "api/user/update/coach/up", coach, {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   receivedData() {
     axios
       .get(serverUrl + `api/user/search/byid/${this.props.coach.id}`, {
@@ -44,8 +76,8 @@ class EditCoachModal extends React.Component {
         },
       })
       .then((res) => {
-        //console.log("data", res.data);
-        const data = res.data[0];
+        // console.log("data", res.data);
+        const data = res.data;
         var clubs = [];
         const coach = {
           first_name: data.first_name,
@@ -65,9 +97,8 @@ class EditCoachModal extends React.Component {
         this.setState({
           clubOptions: clubs,
           coach: coach,
-          clubSelected: selected,
         });
-        console.log(this.state.coach);
+        // console.log(this.state.coach);
       });
   }
 
@@ -84,8 +115,8 @@ class EditCoachModal extends React.Component {
     train.name = value;
     this.setState({ coach: train });
   }
-  onChangeClub(val) {
-    this.setState({ localCoach: val });
+  onChangeClub(e, val) {
+    this.setState({ localClubs: val });
   }
   render() {
     console.log(this.state.coach);
@@ -109,9 +140,9 @@ class EditCoachModal extends React.Component {
           <Formik
             enableReinitialize
             initialValues={{
-              firstName: coach.first_name,
-              lastName: coach.last_name,
-              email: coach.email,
+              firstName: this.props.coach.first_name,
+              lastName: this.props.coach.last_name,
+              email: this.props.coach.email,
             }}
             validationSchema={Yup.object().shape({
               firstName: Yup.string().required("First Name is required"),
@@ -122,12 +153,12 @@ class EditCoachModal extends React.Component {
             })}
             onSubmit={(fields) => {
               const trainer = this.state.coach;
-              trainer.name = fields.firstName + " " + fields.lastName;
+              trainer.first_name = fields.firstName;
+              trainer.last_name = fields.lastName;
               trainer.email = fields.email;
-              trainer.clubs = this.state.localCoach;
+              trainer._clubs = this.state.clubSelected;
               this.setState({ coach: trainer });
-              this.props.edit(this.state.coach);
-              this.props.onHide();
+              this.updateData();
             }}
             render={({ errors, status, touched }) => (
               <Form>
@@ -195,8 +226,8 @@ class EditCoachModal extends React.Component {
                     id="field"
                     placeholder="Club Assign"
                     options={this.state.clubOptions}
-                    onChange={(e, { value }) => this.onChangeClub(value)}
-                    defaultValue={selected}
+                    onChange={(e, { value }) => this.onChangeClub(e, value)}
+                    defaultValue={this.props._clubs}
                   />
                 </div>
                 <Divider />

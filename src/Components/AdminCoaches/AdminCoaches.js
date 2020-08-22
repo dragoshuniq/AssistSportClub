@@ -46,6 +46,7 @@ class AdminCoaches extends React.Component {
           clubs: "Lisadas.dsadas,",
         },
       ],
+      editIDsClubs: [],
       editModalShow: false,
       addModalShow: false,
       deleteModalShow: false,
@@ -60,6 +61,7 @@ class AdminCoaches extends React.Component {
       pageCount: 0,
       totalPosts: -1,
       deleteMultiple: false,
+      searchOffset: 0,
     };
     this.handlePageClick = this.handlePageClick.bind(this);
   }
@@ -71,6 +73,27 @@ class AdminCoaches extends React.Component {
     const selectedPage = activePage;
 
     const offset = (selectedPage - 1) * this.state.postsPerPage;
+    // if (this.state.searchValue.length === 0) {
+    //   this.setState(
+    //     {
+    //       currentPage: selectedPage,
+    //       offset: offset,
+    //     },
+    //     () => {
+    //       this.changePage();
+    //     }
+    //   );
+    // } else {
+    //   this.setState(
+    //     {
+    //       currentPage: 1,
+    //       searchOffset: offset,
+    //     },
+    //     () => {
+    //       this.changeSearchPage();
+    //     }
+    //   );
+    // }
 
     this.setState(
       {
@@ -78,10 +101,22 @@ class AdminCoaches extends React.Component {
         offset: offset,
       },
       () => {
-        this.receivedData();
+        this.changePage();
       }
     );
   };
+
+  changePage() {
+    const slice = this.state.data.slice(
+      this.state.offset,
+      this.state.offset + this.state.postsPerPage
+    );
+
+    this.setState({
+      totalPosts: Math.ceil(this.state.data.length / this.state.postsPerPage),
+      useArray: slice,
+    });
+  }
   receivedData() {
     axios
       .get(serverUrl + "api/user/search/2", {
@@ -104,7 +139,7 @@ class AdminCoaches extends React.Component {
         this.setState({
           totalPosts: Math.ceil(data.length / this.state.postsPerPage),
           useArray: slice,
-          data: slice,
+          data: data,
           selectedElements: myMap,
           selectAllElements: false,
           deleteMultiple: false,
@@ -154,6 +189,7 @@ class AdminCoaches extends React.Component {
         arr.push(coach);
       } else arr.push(res);
     });
+    console.log(coach);
     this.setState({ data: arr });
   };
 
@@ -162,25 +198,37 @@ class AdminCoaches extends React.Component {
     this.setState({ searchValue: value });
 
     if (value.length !== 0) {
-      const nameUpper = value.toUpperCase();
-      const clubUpper = value.toUpperCase();
-      const mailUpper = value.toUpperCase();
+      const Upper = value.toUpperCase();
 
       const searchArray = [];
       this.state.data.map((res) => {
         if (
-          res.first_name.toUpperCase().includes(nameUpper) ||
-          // res.clubs.toUpperCase().includes(clubUpper) ||
-          res.email.toUpperCase().includes(mailUpper)
+          res.first_name.toUpperCase().includes(Upper) ||
+          res.last_name.toUpperCase().includes(Upper) ||
+          res.email.toUpperCase().includes(Upper)
         ) {
           searchArray.push(res);
         }
       });
-      this.setState({ useArray: searchArray });
+      //this.setState({ searchArrayData: searchArray });
+      this.changeSearchPage(searchArray);
     } else {
-      this.setState({ useArray: this.state.data });
+      this.changePage();
     }
   };
+
+  changeSearchPage(thisArr) {
+    const slice = thisArr.slice(
+      this.state.searchOffset,
+      this.state.searchOffset + this.state.postsPerPage
+    );
+
+    this.setState({
+      totalPosts: Math.ceil(thisArr.length / this.state.postsPerPage),
+      useArray: slice,
+    });
+  }
+
   sortBy = (type) => {
     this.setState({ useArray: this.state.data });
     var items = this.state.data;
@@ -288,7 +336,11 @@ class AdminCoaches extends React.Component {
   }
   PostComponent = (value) => {
     var str = [];
-    value._clubs.map((rs) => str.push(rs));
+    var useClubId = [];
+    value._clubs.map((rs) => {
+      str.push(rs.c_name);
+      useClubId.push(rs.c_id);
+    });
     var useStr = str.slice(0, 2);
     return (
       <Row
@@ -334,6 +386,7 @@ class AdminCoaches extends React.Component {
                   this.setState({
                     editModalShow: true,
                     coachToEdit: value,
+                    editIDsClubs: useClubId,
                   })
                 }
               />
@@ -367,7 +420,6 @@ class AdminCoaches extends React.Component {
         })}
       </div>
     );
-
     return (
       <Container fluid id="containerAdminCoaches">
         <Row style={{ marginRight: "5vh", marginLeft: "5vh" }}>
@@ -491,6 +543,7 @@ class AdminCoaches extends React.Component {
               coach={this.state.coachToEdit}
               edit={this.editCoachHandler}
               delete={(coach) => this.deleteCoachFromEdit(coach)}
+              _clubs={this.state.editIDsClubs}
             />
           )}
         </Row>
