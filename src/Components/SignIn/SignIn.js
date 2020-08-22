@@ -89,6 +89,7 @@ class SignIn extends React.Component {
                         myStorage.setItem("role", response.data.role_id);
                         if (myStorage.getItem("role") < 3) {
                           myStorage.setItem("user", response.data.accessToken);
+                          myStorage.setItem("user_id", response.data.id);
                           myStorage.setItem(
                             "firstName",
                             response.data.first_name
@@ -103,10 +104,10 @@ class SignIn extends React.Component {
                               "img",
                               response.data.profile_photo
                             );
+                          window.location.reload(false);
                         } else {
                           myStorage.removeItem("role");
                         }
-                        window.location.reload(false);
                       })
                       .catch(function (error) {
                         console.log(error);
@@ -135,6 +136,7 @@ class SignIn extends React.Component {
                       <div className="form-group">
                         <label htmlFor="password">Password</label>
                         <div
+                          className='divPassword'
                           style={{
                             flexDirection: "row",
                             display: "flex",
@@ -153,8 +155,9 @@ class SignIn extends React.Component {
                             }
                           />
                           <Icon
+                            className="icon"
                             name={this.state.isPassword ? "eye slash" : "eye"}
-                            size="big"
+                            size="tinny"
                             onClick={() =>
                               this.setState({
                                 isPassword: !this.state.isPassword,

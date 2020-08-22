@@ -195,6 +195,10 @@ label {
   display: block;
   width: 100%;
 }
+.marginLeft1{
+  margin-left: 0px;
+  width: 100%;
+}
 .marginLeft{
   margin-left: 0px;
 }

@@ -155,8 +155,64 @@ class Athletes extends Component {
                 arr.push(atl);
             } else arr.push(res);
         });
-        this.setState({ arr });
-        console.log('edit atleti ... :'+atlet)
+        this.setState({listaAtleti:  arr });
+
+
+
+
+        console.log('edit atleti 1 ... :'+atlet.id);
+
+        // const sendData = this.state.listaAtleti;
+        // sendData.age = parseInt(sendData.age);
+        // sendData.primary_sport_id = parseInt(sendData.primary_sport_id);
+        // sendData.secondary_sport_id = parseInt(sendData.secondary_sport_id);
+        // sendData.weight = parseInt(sendData.weight);
+        // sendData.height = parseInt(sendData.height);
+
+        // sendData.id = parseInt(sendData.id);
+        // const arr = [];
+        // for (let [key, value] of this.state.mailMap) {
+        //     arr.push(value);
+        // }
+        // sendData.clubs = arr;
+
+        // console.log('send data edit : ',sendData);
+
+        // this.setState({ listaAtleti: sendData });
+
+        console.log(' dsafdsaf edit ',this.state.listaAtleti);
+
+
+        axios
+        .put(serverUrl + `api/user/update/`, this.state.listaAtleti , {
+
+            // id: idAtlet
+
+            headers: {
+                Authorization: localStorage.getItem("user"),
+            },
+        })
+        .then(
+            (result) => {
+                // this.setState({
+                //     listaAtleti: result.data,
+                //     listaAtleti2: result.data
+                // });
+
+                // this.setState({ totalPosts: Math.ceil(result.length / 6) });
+
+                // const slice = result.data.slice(
+                //     this.state.offset,
+                //     this.state.offset + this.state.postsPerPage
+                // );
+
+                // this.setState({ listaAtleti: slice });
+                // this.setState({ result: slice });
+
+                console.log('data athlets edit acumaaa: ',result);
+            }
+        );
+
     }
 
     // add
@@ -231,7 +287,7 @@ class Athletes extends Component {
         //     }
         // );
         // END filter
-        console.log('first name athlets: ',this.state.listaAtleti.first_name)
+        // console.log('first name athlets: ',this.state.listaAtleti.first_name)
 
         return (
 

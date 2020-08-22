@@ -136,7 +136,7 @@ class AddClubModal extends React.Component {
       aux.delete(id);
     }
     this.setState({ mailMap: aux });
-//    console.log(this.state.mailMap);
+    //    console.log(this.state.mailMap);
   }
   AddAnother = () => {
     return (
@@ -153,7 +153,7 @@ class AddClubModal extends React.Component {
           placeholder="Email Adress"
           id="field"
           type="email"
-          required
+         // required
           onChange={(e) => this.onChangeEmail(props.id, e.target.value)}
         />
       </Form.Field>

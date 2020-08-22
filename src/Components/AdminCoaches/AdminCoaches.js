@@ -109,17 +109,32 @@ class AdminCoaches extends React.Component {
           selectAllElements: false,
           deleteMultiple: false,
         });
-        console.log(this.state.data);
+        // console.log(this.state.data);
       });
   }
 
   deleteMultipleHandler = () => {
+    var arr = [];
     var localData = this.state.useArray;
     for (let [key, value] of this.state.selectedElements) {
       if (value) {
+        arr.push(key);
         localData = localData.filter((item) => item.id !== key);
       }
     }
+
+    try {
+      axios
+        .post(serverUrl + "api/user/delete/all", {
+          user_id: arr,
+        })
+        .then((res) => {
+          console.log(res);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+
     this.setState({
       useArray: localData,
       deleteMultiple: false,
@@ -127,9 +142,9 @@ class AdminCoaches extends React.Component {
     });
   };
   addCoachHandler = (coach) => {
-    const localArray = this.state.data;
-    localArray.push(coach);
-    this.setState({ data: localArray });
+    // const localArray = this.state.data;
+    // localArray.push(coach);
+    // this.setState({ data: localArray });
     this.setState({ addedCoach: coach, confirmModalShow: true });
   };
   editCoachHandler = (coach) => {
@@ -171,8 +186,8 @@ class AdminCoaches extends React.Component {
     var items = this.state.data;
     if (type === "name") {
       items.sort(function (a, b) {
-        var nameA = a.name.toUpperCase();
-        var nameB = b.name.toUpperCase();
+        var nameA = a.first_name.toUpperCase();
+        var nameB = b.first_name.toUpperCase();
         if (nameA < nameB) {
           return -1;
         }
@@ -195,27 +210,36 @@ class AdminCoaches extends React.Component {
         return 0;
       });
     } else {
-      items.sort(function (a, b) {
-        var clubsA = a.clubs.toUpperCase();
-        var clubsB = b.clubs.toUpperCase();
-        if (clubsA < clubsB) {
-          return -1;
-        }
-        if (clubsA > clubsB) {
-          return 1;
-        }
-        return 0;
-      });
+      // items.sort(function (a, b) {
+      //   var clubsA = a.clubs.toUpperCase();
+      //   var clubsB = b.clubs.toUpperCase();
+      //   if (clubsA < clubsB) {
+      //     return -1;
+      //   }
+      //   if (clubsA > clubsB) {
+      //     return 1;
+      //   }
+      //   return 0;
+      // });
     }
     this.setState({ useArray: items });
   };
   deleteCoach(id) {
     try {
-      const filteredData = this.state.useArray.filter((item) => item.id !== id);
-      this.setState({ useArray: filteredData });
+      var arr = [];
+      arr.push(id);
+      axios
+        .post(serverUrl + "api/user/delete/all", {
+          user_id: arr,
+        })
+        .then((res) => {
+          console.log(res);
+        });
     } catch (error) {
       console.log(error);
     }
+    const filteredData = this.state.useArray.filter((item) => item.id !== id);
+    this.setState({ useArray: filteredData });
   }
 
   deleteCoachFromEdit(coach) {
@@ -263,6 +287,9 @@ class AdminCoaches extends React.Component {
     });
   }
   PostComponent = (value) => {
+    var str = [];
+    value._clubs.map((rs) => str.push(rs));
+    var useStr = str.slice(0, 2);
     return (
       <Row
         style={{
@@ -289,7 +316,12 @@ class AdminCoaches extends React.Component {
           <h1 id="coachesDetailsInfo">{value.email}</h1>
         </Col>
         <Col xl={4} lg={4} md={4} sm={4} xs={4}>
-          <h1 id="coachesDetailsInfo">{value.clubs}</h1>
+          <h1 id="coachesDetailsInfo">
+            {useStr.map((ax) => {
+              return ax + ", ";
+            })}
+            {str.length - 2 > 0 ? "...+ " + (str.length - 2) : null}
+          </h1>
         </Col>
 
         <Col xl={1} lg={1} md={1} sm={1} xs={1}>
@@ -494,7 +526,10 @@ class AdminCoaches extends React.Component {
           {this.state.confirmModalShow && (
             <AddedConfirmModal
               show={this.state.confirmModalShow}
-              onHide={() => this.setState({ confirmModalShow: false })}
+              onHide={() => {
+                this.setState({ confirmModalShow: false });
+                window.location.reload(false);
+              }}
               coach={this.state.addedCoach}
             />
           )}

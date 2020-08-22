@@ -15,6 +15,8 @@ import {
 import { Row, Col } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import MapModal from "./MapModal";
+import axios from "axios";
+import serverUrl from "../../url";
 
 class EventAdd extends React.Component {
   constructor(props) {
@@ -24,40 +26,80 @@ class EventAdd extends React.Component {
         name: "",
         date: new Date(),
         time: new Date(),
-        members: [],
+        invite_emails: [],
         description: "",
         location: { lat: 47.667138, lng: 26.27439 },
+        event_cover: {},
       },
       mapModalShow: false,
       isInvite: false,
       location: { lat: 47.667138, lng: 26.27439 },
     };
   }
+
+  receivedData() {
+    axios
+      .get(serverUrl + "api/club/owner/null", {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      })
+      .then((res) => {
+        console.log(res);
+    
+      });
+  }
+  componentDidMount() {
+    this.receivedData();
+  }
+  handleChangeStatus(img) {
+    const aux = this.state.event;
+    aux.event_cover = {
+      type: img.meta.type,
+      link: img.meta.previewUrl,
+    };
+    this.setState({ event: aux });
+    //console.log(this.state.event);
+  }
   onClickCoord(coord) {
     const aux = this.state.event;
     aux.location = coord;
     this.setState({ location: coord, event: aux });
-    console.log(this.state.location);
+    // console.log(this.state.location);
   }
 
-  componentWillMount() {
-    console.log(this.state.date);
-  }
   onChangeEventName(value) {
     const train = this.state.event;
     train.name = value;
+
     this.setState({ event: train });
   }
   onChangeTime(time) {
     const train = this.state.event;
     train.time = time;
+    console.log(time);
     this.setState({ event: train });
   }
   onChangeDate(date) {
     const train = this.state.event;
     train.date = date;
+    console.log(date);
     this.setState({ event: train });
-
+  }
+  postData() {
+    const loc = this.state.event;
+    loc.location =
+      loc.location.lat.toString() + "," + loc.location.lng.toString();
+    this.setState({ event: loc });
+    axios
+      .get(serverUrl + "api/event/create", this.state.event, {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      });
   }
 
   onChangeDescription(value) {
@@ -76,7 +118,7 @@ class EventAdd extends React.Component {
   addChild() {
     this.setState({
       members: [
-        ...this.state.members,
+        ...this.state.invite_emails,
         { id: Math.random(), email: "Another mail".concat(Math.random()) },
       ],
     });
@@ -104,6 +146,7 @@ class EventAdd extends React.Component {
       </Form.Field>
     );
   };
+
   onSubmit() {
     //console.log(this.state.mailMap);
     //console.log(this.state.club);
@@ -217,7 +260,7 @@ class EventAdd extends React.Component {
               <label id="assignACoach">Event Cover</label>
               <Dropzone
                 //  getUploadParams={getUploadParams}
-                //onChangeStatus={handleChangeStatus}
+                onChangeStatus={(val) => this.handleChangeStatus(val)}
                 //  onSubmit={handleSubmit}
                 multiple={false}
                 //inputContent="or drag&drop here"

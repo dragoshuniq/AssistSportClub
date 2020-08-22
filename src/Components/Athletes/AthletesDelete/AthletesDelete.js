@@ -30,6 +30,7 @@ function AthletesDelete(props) {
                         () => {
                             props.delete(props.idAtletStergere);
                             props.onHide();
+                            console.log(props.idAtletStergere)
                         }
                     }
                     id={classes.BtnDelete}>Delete</Button>
