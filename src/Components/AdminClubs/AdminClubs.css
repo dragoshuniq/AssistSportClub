@@ -19,7 +19,7 @@
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
-  font-size: 2.5vw;
+  font-size: 2vw;
   line-height: 32px;
   justify-content: center;
   align-items: center;
@@ -100,7 +100,6 @@
 #memberClubCard {
   /* Auto Layout */
 
-
   width: 340px;
   height: 161px;
   background: #ffffff;
@@ -111,7 +110,6 @@
   flex: none;
   order: 0;
   align-self: center;
-
 }
 #membersButton {
   width: 170px;
@@ -303,4 +301,16 @@ label {
   order: 0;
   align-self: center;
   margin: 0px 10px;
+}
+
+#noMembers {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+  color: #000000;
+  justify-content: center;
+  display: flex;
+  width: 100%;
 }

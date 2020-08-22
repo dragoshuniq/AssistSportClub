@@ -9,6 +9,7 @@ import {
   Pagination,
   Image,
 } from "semantic-ui-react";
+import serverUrl from "../url";
 import AthletProfile from "./AthletProfile";
 import AthletesAdd from "../Athletes/AthletesAdd/AthletesAdd";
 import "./AdminClubs.css";
@@ -47,21 +48,28 @@ class AdminClubDetails extends React.Component {
     this.handlePageClick = this.handlePageClick.bind(this);
   }
   receivedData() {
-    axios
-      .get(`https://next.json-generator.com/api/json/get/EJeP7rkft`)
-      .then((res) => {
-        const data = res.data;
-        const slice = data.slice(
-          this.state.offset,
-          this.state.offset + this.state.postsPerPage
-        );
-        this.setState({
-          totalMembers: res.data.length,
-          totalPosts: Math.ceil(data.length / this.state.postsPerPage),
-          useArray: slice,
-          data: slice,
-        });
+    axios.get(serverUrl + `api/club/${this.props.id}`).then((res) => {
+      console.log(res.data);
+      const data = res.data;
+      const slice = data.members.slice(
+        this.state.offset,
+        this.state.offset + this.state.postsPerPage
+      );
+
+      // const pending = data.pending.slice(
+      //   this.state.offset,
+      //   this.state.offset + this.state.postsPerPage
+      // );
+
+      this.setState({
+        totalMembers: data.members.length,
+        requestMembers: data.pending.length,
+        totalPosts: Math.ceil(data.length / this.state.postsPerPage),
+        useArray: slice,
+        members: slice,
+        // pending: pending,
       });
+    });
   }
   componentDidMount() {
     this.receivedData();
@@ -119,7 +127,7 @@ class AdminClubDetails extends React.Component {
             <Col>
               <Row>
                 <h2 id="memberName">
-                  {member.firstName} {member.lastName}
+                  {member.first_name} {member.last_name}
                   {/* {this.props.id} */}
                 </h2>
               </Row>
@@ -251,7 +259,7 @@ class AdminClubDetails extends React.Component {
                     this.setState({ request: true });
                   }}
                 >
-                  Requests
+                  Requests ({this.state.requestMembers})
                 </Button>
               </Col>
             </Row>

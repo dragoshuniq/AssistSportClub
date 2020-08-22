@@ -86,6 +86,11 @@ class AddClubModal extends React.Component {
       })
       .then((res) => {
         console.log(res);
+        this.props.addClubHandler(this.state.club);
+        this.props.onHide();
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }
   componentDidMount() {
@@ -153,7 +158,7 @@ class AddClubModal extends React.Component {
           placeholder="Email Adress"
           id="field"
           type="email"
-         // required
+          // required
           onChange={(e) => this.onChangeEmail(props.id, e.target.value)}
         />
       </Form.Field>
@@ -162,9 +167,7 @@ class AddClubModal extends React.Component {
   onSubmit() {
     //console.log(this.state.mailMap);
     //console.log(this.state.club);
-    this.props.addClubHandler(this.state.club);
     this.postData();
-    this.props.onHide();
   }
   render() {
     return (
