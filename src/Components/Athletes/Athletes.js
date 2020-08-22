@@ -155,12 +155,20 @@ class Athletes extends Component {
                 arr.push(atl);
             } else arr.push(res);
         });
+<<<<<<< HEAD
         this.setState({ listaAtleti: arr });
+=======
+        this.setState({listaAtleti:  arr });
+>>>>>>> cdce50145acc13dee972db098c5aa24dc770f54b
 
 
 
 
+<<<<<<< HEAD
         console.log('edit atleti 1 ... :' + atlet.id);
+=======
+        console.log('edit atleti 1 ... :'+atlet.id);
+>>>>>>> cdce50145acc13dee972db098c5aa24dc770f54b
 
         // const sendData = this.state.listaAtleti;
         // sendData.age = parseInt(sendData.age);
@@ -180,6 +188,7 @@ class Athletes extends Component {
 
         // this.setState({ listaAtleti: sendData });
 
+<<<<<<< HEAD
         console.log(' dsafdsaf edit ', this.state.listaAtleti);
 
 
@@ -212,6 +221,40 @@ class Athletes extends Component {
                     console.log('data athlets edit acumaaa: ', result);
                 }
             );
+=======
+        console.log(' dsafdsaf edit ',this.state.listaAtleti);
+
+
+        axios
+        .put(serverUrl + `api/user/update/`, this.state.listaAtleti , {
+
+            // id: idAtlet
+
+            headers: {
+                Authorization: localStorage.getItem("user"),
+            },
+        })
+        .then(
+            (result) => {
+                // this.setState({
+                //     listaAtleti: result.data,
+                //     listaAtleti2: result.data
+                // });
+
+                // this.setState({ totalPosts: Math.ceil(result.length / 6) });
+
+                // const slice = result.data.slice(
+                //     this.state.offset,
+                //     this.state.offset + this.state.postsPerPage
+                // );
+
+                // this.setState({ listaAtleti: slice });
+                // this.setState({ result: slice });
+
+                console.log('data athlets edit acumaaa: ',result);
+            }
+        );
+>>>>>>> cdce50145acc13dee972db098c5aa24dc770f54b
 
     }
 

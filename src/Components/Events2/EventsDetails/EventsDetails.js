@@ -24,6 +24,7 @@ import serverUrl from "../../url";
 import ApexChart from './EventsDetailsChart/EventsDetailsChart';
 import EventsDetailsFusioncharts from './EventsDetailsFusioncharts/EventsDetailsFusioncharts';
 import ApexChart2 from './EventsDetailsApexChart/EventsDetailsApexChart';
+import moment from 'moment';
 
 
 class EventsDetails extends React.Component {
@@ -58,7 +59,7 @@ class EventsDetails extends React.Component {
       HartRateCheck: false,
       CaloriesCheck: false,
       SpeedCheck: false,
-      DistanceCheck: true
+      DistanceCheck: false
     };
 
     this.handlePageClick = this.handlePageClick.bind(this);
@@ -82,33 +83,33 @@ class EventsDetails extends React.Component {
     //   });
 
     axios
-      // .get(`https://next.json-generator.com/api/json/get/EJeP7rkft`)
-      .get(`https://next.json-generator.com/api/json/get/4JmB44DzY`)
-      .then((res) => {
+      .get(serverUrl + `api/event/${this.props.id}`, {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      })
+      .then((result) => {
 
         this.setState({
-          data: res.data
+          data: result.data,
+          useArray: result.data,
         });
-        // console.log('test!!!!!!!!!!!!!!!!!!', this.state.data);
-        // const myMap = new Map();
-        // res.data.member_event.map((result) => {
-        //   myMap.set(result.id_member, false);
-        // });
-        // c.log(myMap)
-        // console.log(this.state.data.member_event);
-        // const data = res.data;
-        // const slice = data.slice(
+
+        console.log('events details !!!!!! ..... ', result.data);
+        // console.log('data=',this.state.data);
+        // this.setState({ totalPosts: Math.ceil(result.data.length / 4) });
+
+        // const slice = result.data.slice(
         //   this.state.offset,
         //   this.state.offset + this.state.postsPerPage
         // );
-        // this.setState({
-        //   totalMembers: res.data.length,
-        //   totalPosts: Math.ceil(data.length / this.state.postsPerPage),
-        //   useArray: slice,
-        //   data: slice,
-        // });
 
+        // this.setState({ useArray: slice });
+        // this.setState({ result: slice });
+
+        // console.log(result);
       });
+
   }
 
 
@@ -184,7 +185,7 @@ class EventsDetails extends React.Component {
     });
   }
 
- 
+
 
   render() {
 
@@ -200,7 +201,7 @@ class EventsDetails extends React.Component {
             <p>
               {" "}
               <b>
-                <span className="spanEvent">Events &#62;</span> Running For Life
+                <span className="spanEvent">Events &#62;</span> {this.state.useArray.name}
               </b>
             </p>
             {this.props.id}
@@ -208,18 +209,17 @@ class EventsDetails extends React.Component {
 
           <Col md={12} className="topEventsGroup">
             <div>
-              <p className="pRunningEvets">Running for Life</p>
+              <p className="pRunningEvets">{this.state.useArray.name}</p>
               <p className="p2EventsIcon">
+
                 <span>
-                  {" "}
-                  <FontAwesomeIcon icon={faCalendarAlt} /> 20.06.2020
-                </span>{" "}
-                | <FontAwesomeIcon icon={faClock} /> <span> 09:00 AM </span> |{" "}
-                <span>
-                  {" "}
-                  <FontAwesomeIcon icon={faMapMarkerAlt} /> Suceava Fortress,
-                  Main Enter
+                  <FontAwesomeIcon icon={faCalendarAlt} /> {moment(this.state.useArray.date).format('MM.DD.YYYY')}
                 </span>
+                | <FontAwesomeIcon icon={faClock} /> <span> {moment(this.state.useArray.date).format('h:mm a')} </span> |
+                <span>
+                  <FontAwesomeIcon icon={faMapMarkerAlt} /> {this.state.useArray.location}
+                </span>
+
               </p>
             </div>
             <Button
@@ -236,22 +236,10 @@ class EventsDetails extends React.Component {
 
           <Col className="contentEvent" md={12}>
             <h3>
-              Est amet incididunt proident proident ipsum incididunt non sint
-              cillum amet ullamco proident ut.
+              {this.state.useArray.description}
             </h3>
             <p>
-              Est amet incididunt proident proident ipsum incididunt non sint
-              cillum amet ullamco proident ut. Consectetur irure quis
-              adipisicing occaecat eiusmod esse nostrud mollit et. Excepteur
-              anim aliquip consequat sint ad ut enim mollit. Amet esse
-              adipisicing aute reprehenderit labore enim exercitation. Dolor
-              laboris irure exercitation elit. Labore labore pariatur deserunt
-              Lorem veniam Lorem incididunt labore sint. Ut laboris ex in
-              nostrud irure fugiat duis nisi non deserunt et. Labore sunt culpa
-              cupidatat non irure duis ipsum nulla dolor in ipsum sint aliqua.
-              Labore ipsum adipisicing id aliquip id qui duis. Laborum ut
-              consectetur esse aliquip anim consectetur dolore mollit anim quis
-              consequat anim proident.
+              {this.state.useArray.description}
             </p>
           </Col>
 
@@ -288,10 +276,7 @@ class EventsDetails extends React.Component {
                   </Button>
                 }
 
-
-
               </Col>
-
 
               <Col className="listUsers">
 
@@ -299,8 +284,8 @@ class EventsDetails extends React.Component {
                 {console.log('dsafjjagsf', this.state.data.member_event)}
 
 
-                { 
-                  (this.state.data.member_event || [] ).map((el_member) => {
+                {
+                  (this.state.useArray.members || []).map((el_member) => {
                     return (
                       <>
                         <Row className="user">
@@ -396,7 +381,7 @@ class EventsDetails extends React.Component {
                           ></input>
                         </Col>
                         <Col>
-                        {this.state.HartRateCheck.toString()}
+                          {this.state.HartRateCheck.toString()}
                           <p>Heart Rate</p>
                         </Col>
                       </Row>
