@@ -7,6 +7,7 @@ import axios from "axios";
 import serverUrl from "../url";
 import "./AdminCoaches.css";
 import { Select, Divider, Button } from "semantic-ui-react";
+import AlertMessage from "../AlertMessage";
 class AddCoachModal extends React.Component {
   constructor(props) {
     super(props);
@@ -23,6 +24,8 @@ class AddCoachModal extends React.Component {
         clubs: [],
       },
       textClubs: [],
+      isAllertMessage: false,
+      error: "",
     };
   }
 
@@ -73,6 +76,8 @@ class AddCoachModal extends React.Component {
       })
       .catch((error) => {
         console.log(error);
+        //this.props.onHide();
+        this.setState({ error: error.message, isAllertMessage: true });
       });
   }
 
@@ -201,6 +206,11 @@ class AddCoachModal extends React.Component {
             )}
           />
         </Modal.Body>
+        <Modal.Footer>
+          {this.state.isAllertMessage && (
+            <AlertMessage error={this.state.error} />
+          )}
+        </Modal.Footer>
       </Modal>
     );
   }
