@@ -6,7 +6,6 @@ import AddedConfirmModal from "./AddedConfirmModal";
 import serverUrl from "../url";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-
 import { Container, Row, Col, Button } from "react-bootstrap";
 import {
   Input,
@@ -14,6 +13,7 @@ import {
   Button as SemanticButton,
   Icon,
   Pagination,
+  Popup,
 } from "semantic-ui-react";
 import "./AdminCoaches.css";
 import DeleteMultipleModal from "./DeleteMultipleModal";
@@ -47,6 +47,7 @@ class AdminCoaches extends React.Component {
           clubs: "Lisadas.dsadas,",
         },
       ],
+      // data: [],
       editIDsClubs: [],
       editModalShow: false,
       addModalShow: false,
@@ -136,12 +137,12 @@ class AdminCoaches extends React.Component {
   }
   receivedData() {
     axios
-      // .get(serverUrl + "api/user/search/2", {
-      //   headers: {
-      //     Authorization: localStorage.getItem("user"),
-      //   },
-      // })
-      .get("https://next.json-generator.com/api/json/get/VyE9zEcMY")
+      .get(serverUrl + "api/user/search/2", {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      })
+      // .get("https://next.json-generator.com/api/json/get/VyE9zEcMY")
       .then((res) => {
         console.log(res.data);
 
@@ -443,13 +444,20 @@ class AdminCoaches extends React.Component {
                 xs={12}
                 style={{ right: "16px" }}
               >
-                <Input
-                  fluid
-                  icon="search"
-                  iconPosition="left"
-                  placeholder="Search coaches..."
-                  id="searchClubs"
-                  onChange={this.searchHandler}
+                <Popup
+                  trigger={
+                    <Input
+                      fluid
+                      icon="search"
+                      iconPosition="left"
+                      placeholder="Search coaches..."
+                      id="searchClubs"
+                      onChange={this.searchHandler}
+                    />
+                  }
+                  header="Coach Search"
+                  content="You can search coaches by First/Last Name or Email Adress"
+                  on="hover"
                 />
               </Col>
               <Col md={{ span: 2, offset: 4 }}>

@@ -155,12 +155,16 @@ class Athletes extends Component {
                 arr.push(atl);
             } else arr.push(res);
         });
+ 
         this.setState({ listaAtleti: arr });
+ 
 
 
 
 
+ 
         console.log('edit atleti 1 ... :' + atlet.id);
+ 
 
         // const sendData = this.state.listaAtleti;
         // sendData.age = parseInt(sendData.age);
@@ -179,7 +183,7 @@ class Athletes extends Component {
         // console.log('send data edit : ',sendData);
 
         // this.setState({ listaAtleti: sendData });
-
+ 
         console.log(' dsafdsaf edit ', this.state.listaAtleti);
 
 
@@ -212,6 +216,41 @@ class Athletes extends Component {
                     console.log('data athlets edit acumaaa: ', result);
                 }
             );
+ 
+
+
+        axios
+            .put(serverUrl + `api/user/update/`, this.state.listaAtleti, {
+
+                // id: idAtlet
+
+                headers: {
+                    Authorization: localStorage.getItem("user"),
+                },
+            })
+            .then(
+                (result) => {
+                    // this.setState({
+                    //     listaAtleti: result.data,
+                    //     listaAtleti2: result.data
+                    // });
+
+                    // this.setState({ totalPosts: Math.ceil(result.length / 6) });
+
+                    // const slice = result.data.slice(
+                    //     this.state.offset,
+                    //     this.state.offset + this.state.postsPerPage
+                    // );
+
+                    // this.setState({ listaAtleti: slice });
+                    // this.setState({ result: slice });
+
+ 
+ 
+                console.log('data athlets edit acumaaa: ',result);
+            }
+        );
+ 
 
     }
 
