@@ -27,7 +27,7 @@ function AthletProfile(props) {
           <Divider hidden />
           <Row className="centerElements">
             <p id="profileName">
-              {props.profile.firstName} {props.profile.lastName}
+              {props.profile.first_name} {props.profile.last_name}
             </p>
           </Row>
           <Row className="centerElements">

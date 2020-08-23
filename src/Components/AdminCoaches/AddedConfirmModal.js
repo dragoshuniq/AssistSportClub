@@ -34,9 +34,9 @@ function AddedConfirmModal(props) {
         </div>
         <h1 id="coachAddedText"> Coach Added </h1>
         <p id="confirmText">
-          Athlete "{props.coach.name}" was added on 
-          {props.coach.txt}
-          {/* {!!props.coach.txt.lenght > 0 ? props.coach.txt : "System"} */}
+          Athlete "{props.coach.name}" was added on Data Base
+      
+          {/* {props.coach.txt.lenght > 0 ? props.coach.txt.lenght : " Data Base"} */}
         </p>
         <div
           id="iconDone"

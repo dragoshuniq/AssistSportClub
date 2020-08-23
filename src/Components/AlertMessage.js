@@ -14,9 +14,9 @@ class AlertMessage extends React.Component {
   render() {
     return (
       <Alert
-        style={{ width: "100vh" }}
+        style={{ width: "100%" }}
         variant="danger"
-        onClose={() => this.setState({ isAllertAddError: false })}
+        onClose={() => this.props.closeAlert()}
         dismissible
       >
         <Alert.Heading style={{ display: "flex", justifyContent: "center" }}>
