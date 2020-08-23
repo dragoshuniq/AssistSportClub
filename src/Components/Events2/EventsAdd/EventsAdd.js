@@ -11,6 +11,7 @@ import {
   Divider,
   Label,
   TextArea,
+  Select,
   Icon,
 } from "semantic-ui-react";
 import { Row, Col } from "react-bootstrap";
@@ -31,6 +32,7 @@ class EventAdd extends React.Component {
         description: "",
         location: { lat: 47.667138, lng: 26.27439 },
         event_cover: {},
+        club: "",
       },
       mapModalShow: false,
       isInvite: false,
@@ -55,12 +57,21 @@ class EventAdd extends React.Component {
   handleChangeStatus(img) {
     const aux = this.state.event;
     aux.event_cover = {
-      type: img.meta.type,
+      type: img.file.type,
       link: img.meta.previewUrl,
     };
+
+    let file = img.file;
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      this.setState({
+        base64: reader.result,
+      });
+    };
     this.setState({ event: aux });
-    console.log(this.state.event);
   }
+
   onClickCoord(coord) {
     const aux = this.state.event;
     aux.location = coord;
@@ -77,13 +88,11 @@ class EventAdd extends React.Component {
   onChangeTime(time) {
     const train = this.state.event;
     train.time = time;
-    console.log(time);
     this.setState({ event: train });
   }
   onChangeDate(date) {
     const train = this.state.event;
     train.date = date;
-    console.log(date);
     this.setState({ event: train });
   }
   postData() {
@@ -152,7 +161,11 @@ class EventAdd extends React.Component {
       </Form.Field>
     );
   };
-
+  onChangeClub(e, val) {
+    const train = this.state.event;
+    train.club = val;
+    this.setState({ event: train });
+  }
   onSubmit() {
     //console.log(this.state.mailMap);
     //console.log(this.state.club);
@@ -185,7 +198,26 @@ class EventAdd extends React.Component {
                 onChange={(event) => this.onChangeEventName(event.target.value)}
               />
             </Form.Field>
-            <Divider hidden />
+            <Form.Field>
+              <label id="assignACoach">Assign Event to a Club</label>
+              <Select
+                fluid
+                id="field"
+                placeholder="Club Assign"
+                options={this.state.clubOptions}
+                onChange={(e, { value }) => this.onChangeClub(e, value)}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label id="assignACoach">Choose a Sport</label>
+              <Select
+                fluid
+                id="field"
+                placeholder="Sport"
+                options={this.state.clubOptions}
+                onChange={(e, { value }) => this.onChangeClub(e, value)}
+              />
+            </Form.Field>
 
             <Row>
               <Col>
@@ -196,6 +228,7 @@ class EventAdd extends React.Component {
                     dateFormat="MM/dd/yyyy"
                     selected={this.state.event.date}
                     onChange={(date) => this.onChangeDate(date)}
+                    minDate={new Date()}
                   />
                 </Form.Field>
               </Col>
@@ -270,11 +303,10 @@ class EventAdd extends React.Component {
             <Form.Field>
               <label id="assignACoach">Event Cover</label>
               <Dropzone
-                //  getUploadParams={getUploadParams}
-                onChangeStatus={(val) => this.handleChangeStatus(val)}
-                //  onSubmit={handleSubmit}
+                onChangeStatus={(val) => {
+                  this.handleChangeStatus(val);
+                }}
                 multiple={false}
-                //inputContent="or drag&drop here"
                 accept="image/*"
                 maxFiles="1"
                 styles={{

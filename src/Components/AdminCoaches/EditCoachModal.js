@@ -7,6 +7,8 @@ import axios from "axios";
 import "./AdminCoaches.css";
 import serverUrl from "../url";
 import { Select, Divider, Button } from "semantic-ui-react";
+import AlertMessage from "../AlertMessage";
+
 class EditCoachModal extends React.Component {
   constructor(props) {
     super(props);
@@ -16,6 +18,8 @@ class EditCoachModal extends React.Component {
         last_name: "last_name",
         email: "email",
       },
+      isAllertMessage: false,
+      error: "",
       clubOptions: [
         { key: "swim", text: "Swim", value: "swim" },
         { key: "run", text: "Run", value: "run" },
@@ -50,10 +54,8 @@ class EditCoachModal extends React.Component {
     coach._clubs = this.state._clubs;
     coach.clubs = IDcl;
     coach.user_id = this.props.coach.id;
-    console.log(coach);
 
-    this.props.edit(coach);
-    this.props.onHide();
+   
     axios
       .put(serverUrl + "api/user/update/coach/up", coach, {
         headers: {
@@ -62,9 +64,13 @@ class EditCoachModal extends React.Component {
       })
       .then((res) => {
         console.log(res);
+        this.props.edit(coach);
+        this.props.onHide();
       })
       .catch((error) => {
         console.log(error);
+        this.setState({ error: error.message, isAllertMessage: true });
+
       });
   }
 
@@ -256,6 +262,13 @@ class EditCoachModal extends React.Component {
             )}
           />
         </Modal.Body>
+        <Modal.Footer>
+          {this.state.isAllertMessage && (
+            <AlertMessage error={this.state.error} 
+            closeAlert={() => this.setState({ isAllertMessage: false })}
+            />
+          )}
+        </Modal.Footer>
       </Modal>
     );
   }
