@@ -161,6 +161,7 @@
 .inputDiv{
     width: 400px;
     display: inline-block;
+    margin-left: 20px;
 }
 
 #addNewButtonAtlet {
@@ -183,8 +184,13 @@
 @media only screen and (max-width: 992px) {
     #addNewButtonAtlet {
         width: 100%;
-        margin: 0px;
+        margin-top: 10px;
         /* background-color: red; */
+    }
+    .inputDiv{
+        width: 100%;
+        display: inline-block;
+        margin-left: 10px;
     }
 }
 

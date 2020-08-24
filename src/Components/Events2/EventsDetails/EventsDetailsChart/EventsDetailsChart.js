@@ -11,7 +11,7 @@ class ApexChart extends Component {
             series: [
                 {
                     name: 'Heart Rate',
-                    data: [21, 22, 10, 16],
+                    data: [10, 22, 10, 16],
                 },
                 {
                     name: 'Calories',
@@ -66,14 +66,43 @@ class ApexChart extends Component {
             },
 
 
+
+
         };
     }
 
+    modifica = () => {
+
+        const max = 90;
+        const min = 30;
+        const newSeries = [];
+
+        this.state.series.forEach(s => {
+            const data = s.data.map(() => {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            });
+            newSeries.push({ data: data });
+        });
+
+        console.log('viteza: ',Math.floor(Math.random() * (max - min + 1)) + min)
+
+        this.setState({
+            series: newSeries,
+            options: {
+                xaxis: {
+                    categories: this.props.name,
+
+                }
+            },
+        })
+    }
 
     render() {
-        console.log(this.props.checked)
         return (
             <div id="chart">
+                {console.log('data: ', this.props.data)}
+                <button onClick={() => this.modifica()}>update</button>
+                {console.log('props: ', this.props.name)}
                 <ReactApexChart options={this.state.options} series={this.state.series} type="bar" height={350} />
             </div>
         );
