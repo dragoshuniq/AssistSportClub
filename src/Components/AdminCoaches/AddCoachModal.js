@@ -75,9 +75,8 @@ class AddCoachModal extends React.Component {
         this.props.addCoachHandler(this.state.coach);
         this.props.onHide();
       })
-      .catch((error, response) => {
-        console.log(error.response.data.message);
-        // debugger
+      .catch((error) => {
+        //console.log(error.response.data.message);
         //this.props.onHide();
         this.setState({ error: error.response.data.message, isAllertMessage: true });
       });

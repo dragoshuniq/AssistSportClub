@@ -152,6 +152,7 @@ class EventAdd extends React.Component {
       })
       .then((res) => {
         console.log(res);
+        window.location.reload(false);
       });
   }
 
@@ -219,6 +220,7 @@ class EventAdd extends React.Component {
     const train = this.state.event;
     train.sportType = val;
     this.setState({ event: train });
+    console.log(this.state.event.sportType)
   }
   onSubmit() {
     //console.log(this.state.mailMap);

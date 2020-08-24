@@ -277,14 +277,15 @@ class AdminClubDetails extends React.Component {
           <Col>
             <Row>
               <Col>
-                <Row>
+                <Row id='test'>
                   <Col xl={2} lg={2} md={2} sm={2} xs={2}>
                     <h1 style={{ fontSize: "2vw" }} id="coachesText">
                       {this.state.club.name}
                     </h1>
                   </Col>
-                  <Col id="alignPencil">
+                  <Col md={1} id="alignPencil">
                     <Icon
+                      id='iconClubT'
                       name="pencil alternate"
                       size="large"
                       onClick={() => this.setState({ editModalShow: true })}

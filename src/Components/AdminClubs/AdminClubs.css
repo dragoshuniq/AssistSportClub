@@ -79,11 +79,21 @@
 }
 
 #alignPencil {
-  justify-content: center;
-  align-content: center;
-  align-items: center;
+ 
+ 
   margin-top: 4vh;
+  /* background: blue; */
+  display: flex;
+  justify-content: flex-start;
+  justify-items: flex-start;
+  justify-self: flex-start;
+  float: left;
 }
+#iconClubT{
+  color: #000000;
+  float: left;
+}
+
 #coachTextDetails {
   font-family: Inter;
   font-style: normal;
@@ -314,3 +324,8 @@ label {
   display: flex;
   width: 100%;
 }
+
+#test{
+  /* background: red; */
+}
+

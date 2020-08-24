@@ -442,7 +442,7 @@ class AdminCoaches extends React.Component {
                 md={4}
                 sm={12}
                 xs={12}
-                style={{ right: "16px" }}
+                style={{ right: "6px" }}
               >
                 <Popup
                   trigger={

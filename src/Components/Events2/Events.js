@@ -366,7 +366,7 @@ class Events extends React.Component {
                               <small className='marginLeft'>{moment(value.date).format('MM.DD.YYYY')}</small>
                               <small>{moment(value.date).format('h:mm a')}</small>
 
-                              <p className='width'>{value.location}</p>
+                              {/* <p className='width'>{value.location}</p>
 
                               {
                                 value.members.map((el, index) => {
@@ -379,7 +379,7 @@ class Events extends React.Component {
                                   )
                                 })
 
-                              }
+                              } */}
 
                               {/* <img src={value.src} size="mini" circular id="imageCircIcons" />
                               <img src={value.src} size="mini" circular id="imageCircIcons" />
