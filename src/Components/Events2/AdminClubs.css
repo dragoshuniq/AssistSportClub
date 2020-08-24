@@ -18,6 +18,7 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #44dabd;
+  margin-right: 3vh;
 }
 
 #searchClubs {
@@ -134,34 +135,41 @@ label {
   border: 1px solid grey;
   margin-right: 5px;
 }
+
 #futureBtn {
   background-color: #FFFFFF;
   color: #8E9296;
   border: 1px solid grey;
   margin-right: 5px;
 }
+
 #pastBtn {
   background-color: #FFFFFF;
   color: #8E9296;
   border: 1px solid grey;
 }
-#rowBtnGroup{
-  margin-top: 20px ;
-  margin-left: 40px ;
+
+#rowBtnGroup {
+  margin-top: 20px;
+  margin-left: 1vh;
 }
 
-
-.rowCart{
+.rowCart {
   width: 550px;
   height: 100%;
   border-radius: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
-.rowRightEvent{
+
+#rowRightEvent {
   display: flex;
   justify-content: space-between;
+  margin-top: 5vh;
+  /* margin-right: 5vh; */
+  padding-left: 5vh;
 }
-.navLinkCart{
+
+.navLinkCart {
   padding: 0px;
   margin-right: 30px;
   margin-bottom: 30px;
@@ -170,85 +178,88 @@ label {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   text-decoration: none;
   color: black;
+  background-color: white;
 }
-.navLinkCart:hover{
+
+.navLinkCart:hover {
   color: black;
 }
 
 /* left card */
-#cartLeftEvent{
+
+#cartLeftEvent {
   padding: 0px;
   margin: 0px;
 }
-#imgLeftCartEvent{
+
+#imgLeftCartEvent {
   height: 100%;
   width: 100%;
   margin: 0px;
   padding: 0px;
 }
 
-.cartRight{
+.cartRight {
   padding: 20px;
 }
-.participants{
+
+.participants {
   color: #8E9296;
   display: block;
   width: 100%;
 }
-.marginLeft1{
+
+.marginLeft1 {
   margin-left: 0px;
   width: 100%;
 }
-.marginLeft{
+
+.marginLeft {
   margin-left: 0px;
 }
-#rowRightCart{
+
+#rowRightCart {
   display: flex;
   flex-direction: row;
   margin-left: 5%;
   margin-right: 5%;
   align-items: center;
-} 
-.cartCol{
+}
+
+.cartCol {
   border-radius: 10px;
 }
-.width{
+
+.width {
   width: 100%;
 }
-.centerPagination{
+
+.centerPagination {
   display: flex;
   justify-content: center;
 }
 
 #searchEventRow {
   margin-top: 5vh;
-  margin-left: 5vh;
+  margin-left: 1.5vh;
   margin-right: 5vh;
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
-.inputDiv{
+
+#rowLTitle{
+  margin-left: 1vh;
+  /* margin-right: 5vh; */
+}
+
+.inputDiv {
   width: 400px;
   display: inline-block;
   margin-left: 20px;
-
 }
 
-#addNewButtonEvent {
-  width: 177px;
-  height: 46px;
-  /* top: 298px; */
-  background: #1a1a1a;
-  border-radius: 8px;
-  font-family: Inter;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 14px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #44dabd;
-  /* float: right; */
-}
+ 
 
 #searchEvents {
   background: #ffffff;
@@ -258,28 +269,26 @@ label {
   height: 100%;
   align-items: center;
   justify-content: center;
-
 }
-
 
 @media only screen and (max-width: 992px) {
   #addNewButtonEvent {
-      width: 100%;
-      margin-top: 10px;
-      /* background-color: red; */
+    width: 100%;
+    margin-top: 10px;
+    margin-right: 1vh;
+    /* background-color: red; */
   }
-  .inputDiv{
-      width: 100%;
-      display: inline-block;
-      margin-left: 10px;
+  .inputDiv {
+    width: 100%;
+    display: inline-block;
+    margin-left: 10px;
   }
 }
 
 @media only screen and (min-width: 992px) {
   .test1 {
-      position: absolute;
-      right: 40%;
-      bottom: 50px;
+    position: absolute;
+    right: 40%;
+    bottom: 50px;
   }
-
 }

@@ -54,6 +54,7 @@ class EventAdd extends React.Component {
   componentDidMount() {
     this.receivedData();
   }
+
   handleChangeStatus(img) {
     const aux = this.state.event;
     aux.event_cover = {
@@ -69,6 +70,7 @@ class EventAdd extends React.Component {
         base64: reader.result,
       });
     };
+    
     this.setState({ event: aux });
   }
 

@@ -3,6 +3,7 @@ import { Container, Row, Col, Image, Navbar, Nav, NavDropdown, FormControl, Inpu
 import classes from './AthletesAdd.module.css';
 import axios from "axios";
 import serverUrl from "../../url";
+import Dropzone from "react-dropzone-uploader";
 
 
 // import * as Yup from "yup";
@@ -42,6 +43,16 @@ class AthletesAdd extends Component {
             profile_photo: ''
         },
         mailMap: new Map(),
+        event: {
+            name: "",
+            date: new Date(),
+            time: new Date(),
+            invite_emails: [],
+            description: "",
+            location: { lat: 47.667138, lng: 26.27439 },
+            profile_photo: {},
+            club: "",
+        },
     }
 
     postData() {
@@ -51,17 +62,18 @@ class AthletesAdd extends Component {
         sendData.secondary_sport_id = parseInt(sendData.secondary_sport_id);
         sendData.weight = parseInt(sendData.weight);
         sendData.height = parseInt(sendData.height);
+        sendData.profile_photo = { type: "Buffer", data: [] };
         // sendData.id = parseInt(sendData.id);
         // const arr = [];
         // for (let [key, value] of this.state.mailMap) {
         //     arr.push(value);
         // }
         // sendData.clubs = arr;
-        console.log('send data add : ',sendData);
+        console.log('send data add : ', sendData);
 
         this.setState({ atletUser: sendData });
 
-        console.log(' dsafdsaf add ',this.state.atletUser);
+        console.log(' dsafdsaf add ', this.state.atletUser);
 
         axios
             .post(serverUrl + "api/user/create", this.state.atletUser, {
@@ -70,7 +82,7 @@ class AthletesAdd extends Component {
                 },
             })
             .then((res) => {
-                console.log('data add: ',res);
+                console.log('data add: ', res);
             });
     }
 
@@ -124,6 +136,30 @@ class AthletesAdd extends Component {
         this.postData();
     }
 
+    handleChangeStatus(img) {
+        const aux = this.state.event;
+        aux.profile_photo = {
+            type: img.file.type,
+            link: img.meta.previewUrl,
+        };
+
+        let file = img.file;
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            this.setState({
+                base64: reader.result,
+            });
+        };
+
+        this.setState({ event: aux });
+    }
+
+    changeFile(value) {
+        const train = this.state.atlet;
+        train.file = URL.createObjectURL(value.target.files[0]);
+        this.setState({ atlet: train })
+    }
 
     render() {
 
@@ -175,6 +211,9 @@ class AthletesAdd extends Component {
                                     placeholder="Enter name" />
                             </Form.Group>
 
+                        </Form.Row>
+
+                        <Form.Row>
                             <Form.Group as={Col} controlId="formGridEmailAdress">
                                 <Form.Label>Email Adress</Form.Label>
                                 <Form.Control
@@ -189,16 +228,15 @@ class AthletesAdd extends Component {
                             </Form.Group>
                         </Form.Row>
 
-
                         <Form.Row>
                             <Form.Group as={Col} controlId="formGridPrimarySports">
                                 <Form.Label>Primary Sports</Form.Label>
                                 <Form.Control
                                     // required
                                     id="field"
-                                    name="primary_sport_id"
+                                    name="primarySport"
                                     type="text"
-                                    value={this.state.atletUser.primary_sport_id}
+                                    value={this.state.atletUser.primarySport}
                                     onChange={this.HandlerEventADD}
                                     placeholder="Enter Primary Sports" />
                             </Form.Group>
@@ -208,9 +246,9 @@ class AthletesAdd extends Component {
                                 <Form.Control
                                     id="field"
                                     // required
-                                    name="secondary_sport_id"
+                                    name="secondarySport"
                                     type="text"
-                                    value={this.state.atletUser.secondary_sport_id}
+                                    value={this.state.atletUser.secondarySport}
                                     onChange={this.HandlerEventADD}
                                     placeholder="Secondary Sports" />
                             </Form.Group>
@@ -249,7 +287,7 @@ class AthletesAdd extends Component {
                         </Form.Row>
 
                         <Form.Row>
-                        <Form.Group as={Col} controlId="formGridHeight">
+                            <Form.Group as={Col} controlId="formGridHeight">
                                 <Form.Label>Height</Form.Label>
                                 <Form.Control
                                     id="field"
@@ -265,20 +303,23 @@ class AthletesAdd extends Component {
                                 <Form.Label>Width</Form.Label>
                                 <Form.Control
                                     id="field"
-                                    // required
+                                    required
                                     name="weight"
                                     type="number"
                                     value={this.state.atletUser.weight}
                                     onChange={this.HandlerEventADD}
                                     placeholder="Enter Height" />
                             </Form.Group>
+                        </Form.Row>
+
+                        <Form.Row>
 
                             <Form.Group as={Col} controlId="formGridPassword">
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control
                                     id="field"
                                     // isInvalid
-                                    // required
+                                    required
                                     name="password"
                                     type="text"
                                     value={this.state.atletUser.password}
@@ -291,7 +332,7 @@ class AthletesAdd extends Component {
                                 <Form.Control
                                     id="field"
                                     // isInvalid
-                                    // required
+                                    required
                                     name="confirm_password"
                                     type="text"
                                     value={this.state.atletUser.confirm_password}
@@ -320,37 +361,64 @@ class AthletesAdd extends Component {
                         <Form.Group as={Col} controlId="formGridAvatarImage">
                             <Form.Label>Avatar Image</Form.Label>
                             <Form.File id="formcheck-api-custom" custom>
+
                                 <Form.File.Input
                                     id="field"
                                     // isValid 
-                                    // required
+                                    required
                                     name="profile_photo"
                                     type="file"
+
                                     onChange={this.HandlerEventADD_FILE}
                                 />
                                 <Form.File.Label data-browse="Button text" id="field">
                                     Custom file input
-                                        </Form.File.Label>
+                                </Form.File.Label>
+
                                 {/* <Form.Control.Feedback type="valid">You did it!</Form.Control.Feedback> */}
+
+                                {/* <Dropzone
+                                    onChangeStatus={(val) => {
+                                        this.handleChangeStatus(val);
+                                    }}
+                                    multiple={false}
+                                    accept="image/*"
+                                    maxFiles="1"
+                                    styles={{
+                                        dropzone: { minHeight: 50, maxHeight: 50 },
+                                    }}
+                                /> */}
                             </Form.File>
                         </Form.Group>
 
 
-                        <Button onClick={this.props.onHide} id={classes.BtnClose}>
-                            Close
-                        </Button>
-                        <Button
-                            type='submit'
-                            // onClick={() => {
-                            //     // this.props.onHideAdded();
-                            //     this.props.onAdd(this.state.details);
-                            //     this.incrementID();
-                            //     this.props.onHide();
-                            // }
-                            // }
-                            id={classes.BtnSave}>
-                            Save
-                        </Button>
+                        <div id={classes.botMod}>
+                            <Button.Group fluid>
+                                <Button id="canceModalButton" onClick={this.props.onHide}>
+                                    Close
+                                </Button>
+                                <Button.Or />
+                                <Button id="addModalButton" type="submit">
+                                    Save
+                                </Button>
+                            </Button.Group>
+
+                            {/* <Button onClick={this.props.onHide} id={classes.BtnClose}>
+                                Close
+                            </Button>
+                            <Button
+                                type='submit'
+                                // onClick={() => {
+                                //     // this.props.onHideAdded();
+                                //     this.props.onAdd(this.state.details);
+                                //     this.incrementID();
+                                //     this.props.onHide();
+                                // }
+                                // }
+                                id={classes.BtnSave}>
+                                Save
+                        </Button> */}
+                        </div>
 
                     </Form>
                     {/* )}

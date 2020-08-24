@@ -1,15 +1,46 @@
 #BtnClose {
-    background: #FFFFFF;
+    /* background: #FFFFFF;
     border: 1px solid #8E9296;
     color: #1A1A1A;
     border: none;
     background: #F5F5F7;
+    border-radius: 8px; */
+    width: 177px;
+    height: 46px;
+    top: 298px;
+    background: #F5F5F7;
     border-radius: 8px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #44dabd;
 }
 
 #BtnSave {
-    color: #44DABD;
+    /* color: #44DABD;
     background: #1A1A1A;
     border-radius: 8px;
-    border: none;
+    border: none; */
+    /* margin-right: 50px; */
+    width: 177px;
+    height: 46px;
+    top: 298px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #44dabd;
+}
+
+#botMod {
+    float: right;
 }
