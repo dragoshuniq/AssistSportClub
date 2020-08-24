@@ -105,7 +105,7 @@ class AthletesEdit extends Component {
         // train.primarySport = val.target.value;
 
         this.setState({ primarySports: val });
-        console.log('val....',val)
+        // console.log('val....',val)
     }
 
 
@@ -118,9 +118,9 @@ class AthletesEdit extends Component {
                 },
             })
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 const datas = res.data;
-                console.log(res.data);
+                // console.log(res.data);
                 const arr = [];
                 datas.map((cut) =>
                     arr.push({
@@ -148,10 +148,10 @@ class AthletesEdit extends Component {
 
         // this.setState({ atlet: sendData });
 
-        console.log('aaaaaaaaaaaaaa!!!!!!!!!!: ', this.state.atlet);
+        // console.log('aaaaaaaaaaaaaa!!!!!!!!!!: ', this.state.atlet);
 
 
-        console.log('modificari edit 14:50 : ', this.state.atlet.id)
+        // console.log('modificari edit 14:50 : ', this.state.atlet.id)
         axios
             .put(serverUrl + `api/user/update/athlete/${this.state.atlet.id}`, this.state.atlet, {
 
@@ -200,7 +200,7 @@ class AthletesEdit extends Component {
                 </Modal.Header>
                 <Modal.Body className="show-grid">
                     {
-                        console.log('tot atletul : ', this.state.atlet)
+                        // console.log('tot atletul : ', this.state.atlet)
                     }
                     <Form>
 
@@ -213,6 +213,7 @@ class AthletesEdit extends Component {
                         {console.log(this.arrayAtletiName)} */}
                         {/* {console.log(this.props.atlet)} */}
                         <Form.Row>
+
                             <Form.Group as={Col} controlId="formGridName">
                                 <Form.Label>first_name</Form.Label>
                                 <Form.Control name="first_name" type="text" placeholder="Enter name" id="field"
@@ -237,6 +238,16 @@ class AthletesEdit extends Component {
                                 {/* {console.log(this.props.atlet)} */}
                             </Form.Group>
 
+                            {console.log('afla: ', this.state.atlet.id)}
+
+
+
+                        </Form.Row>
+
+                        <Form.Row>
+
+                            {console.log('afla: ', this.state.atlet.id)}
+
                             <Form.Group as={Col} controlId="formGridEmailAdress">
                                 <Form.Label>Email Adress</Form.Label>
                                 <Form.Control type="email" placeholder="Email Adress"
@@ -246,6 +257,7 @@ class AthletesEdit extends Component {
                                     onChange={(e) => this.changeEmail(e)}
                                 />
                             </Form.Group>
+
                         </Form.Row>
                         {/* {console.log('atlet edit: ', this.state.atletCopie)} */}
 
@@ -253,16 +265,33 @@ class AthletesEdit extends Component {
                             <Form.Group as={Col} controlId="formGridPrimarySports">
                                 <Form.Label>Primary Sports</Form.Label>
                                 <Form.Control name='primarySport' id="field" type="text" placeholder="Enter Primary Sports"
-                                    value={this.state.atlet.primarySport}
+                                    value={
+                                        // this.state.atlet.primarySport === 1 ? 'Running'
+                                        //     : this.state.atlet.primarySport === 2 ? 'Cycling'
+                                        //         : this.state.atlet.primarySport === 3 ? 'Tennis'
+                                        //             : this.state.atlet.primarySport === 4 ? 'Football'
+                                        //                 : null
+                                        this.state.atlet.primarySport
+                                    }
                                     onChange={(e) => this.changePrimarySport(e)}
-
+                                //Running
+                                //Cycling
+                                //Tennis
+                                //Football
                                 />
                             </Form.Group>
 
                             <Form.Group as={Col} controlId="formGridSecondarySports">
                                 <Form.Label>Secondary Sports</Form.Label>
                                 <Form.Control id="field" name='secondarySport' type="text" placeholder="Secondary Sports"
-                                    value={this.state.atlet.secondarySport}
+                                    value={
+                                        this.state.atlet.secondarySport
+                                        // this.state.atlet.secondarySport === 1 ? 'Running'
+                                        //     : this.state.atlet.secondarySport === 2 ? 'Cycling'
+                                        //         : this.state.atlet.secondarySport === 3 ? 'Tennis'
+                                        //             : this.state.atlet.secondarySport === 4 ? 'Football'
+                                        //                 : null
+                                    }
                                     // onChange={this.props.changed}
                                     onChange={(e) => this.changeSecondarySport(e)}
                                 />
@@ -312,6 +341,7 @@ class AthletesEdit extends Component {
                         </Form.Row>
 
                         <Form.Row>
+
                             <Form.Group as={Col} controlId="formGridHeight">
                                 <Form.Label>Height</Form.Label>
                                 <Form.Control name='height' type="text" placeholder="Enter Height" id="field"
@@ -329,6 +359,10 @@ class AthletesEdit extends Component {
                                 // onChange={this.props.changed}
                                 />
                             </Form.Group>
+
+                        </Form.Row>
+
+                        <Form.Row>
 
                             <Form.Group as={Col} controlId="formGridPassword">
                                 <Form.Label>Password</Form.Label>

@@ -153,7 +153,7 @@ class Athletes extends Component {
 
     fetchDataFromServer() {
         axios
-            .get(serverUrl + "api/user/search/3", {
+            .get(serverUrl + "api/user/search/athlete/3", {
                 headers: {
                     Authorization: localStorage.getItem("user"),
                 },
@@ -200,7 +200,7 @@ class Athletes extends Component {
                     selectAllElements: false,
                     deleteMultiple: false,
                 });
-                // console.log(this.state.data);
+                console.log(res.data);
             });
 
 
@@ -386,7 +386,7 @@ class Athletes extends Component {
         axios
             .delete(serverUrl + `api/user/${idAtlet}`, {
 
-                // id: idAtlet
+               
 
                 headers: {
                     Authorization: localStorage.getItem("user"),
@@ -420,23 +420,21 @@ class Athletes extends Component {
     render() {
         const numarAtleti = this.state.listaAtleti2.length;
 
-        // console.log('numar atleti', numarAtleti)
-        // filtrare search and put in a variable 
-        // let filteredAthlets = this.state.listaAtleti.filter(
-        //     (el) => {
-        //         return el.first_name.indexOf(this.state.search) !== -1;
-        //     }
-        // );
-        // END filter
-        // console.log('first name athlets: ',this.state.listaAtleti.first_name)
+        var mystring = 'merge rau totul o sa fie rau rau rau';
+        var b64 = btoa(mystring);
+        console.log('mmm: ',b64);
+        var unicode = atob(b64);
+        console.log('kkk: ',unicode);
+
+      
 
         return (
 
             <Container fluid className={classes.back} >
-                {/* {console.log(this.state.searchValue)} */}
+             
 
                 {/* Header */}
-                <Row style={{ marginRight: "5vh", marginLeft: "5vh" }}>
+                <Row id={classes.rowLTitle}>
                     <Col>
                         <h1 className={classes.textTopAthlets}>Athletes</h1>
                     </Col>
@@ -454,9 +452,7 @@ class Athletes extends Component {
                                             iconPosition="left"
                                             placeholder="Search atlet..."
                                             id={classes.searchAtlet}
-                                            // onChange={this.searchHandler}
-                                            // onChange={this.updateSearch.bind(this)}
-                                            // onChange={this.updateSearch.bind(this)}
+                                           
                                             onChange={this.searchHandler}
                                         />
                                     }
@@ -465,27 +461,6 @@ class Athletes extends Component {
                                     on="hover"
                                 />
                             </div>
-
-                            {/* Search */}
-                            {/* <Form.Row>
-                            <Form.Group as={Col} >
-                                <InputGroup>
-                                    <InputGroup.Prepend>
-                                        <InputGroup.Text >
-                                            <FontAwesomeIcon icon={faSearch} />
-                                        </InputGroup.Text>
-                                    </InputGroup.Prepend>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Input placeholder"
-                                        value={this.state.search}
-                                        onChange={this.updateSearch.bind(this)}
-                                    />
-                                </InputGroup>
-                            </Form.Group>
-                        </Form.Row> */}
-
-{console.log('data atleti: ',this.state.listaAtleti)}
 
                             {/* Add button */}
                             <Button
@@ -502,7 +477,7 @@ class Athletes extends Component {
                 <Row className={classes.pointerAtlet}>
                     {this.state.listaAtleti2.map((el, index) => {
                         return (
-                            <Col md={3}
+                            <div  
                                 key={index}
                                 className={classes.cart}
                                 onClick={() => this.setState({ editModalShow: true, searchAthletsIndexOnClick: el })}
@@ -516,27 +491,31 @@ class Athletes extends Component {
                                         <p className={classes.Gender_Years}>{el.gender} - {el.age} YEARS</p>
                                     </Col>
                                 </Row>
+
                                 <Row>
                                     <Col md='6'>
                                         <p className={classes.primary_sport}>PRIMARY SPORTS</p>
                                         <p className={classes.noMargin}>
-                                            {el.primarySport === 1 ? "running" : null}
+                                            {/* {el.primarySport === 1 ? "running" : null}
                                             {el.primarySport === 2 ? "cycling" : null}
                                             {el.primarySport === 3 ? "tennis" : null}
-                                            {el.primarySport === 4 ? "football" : null}
+                                            {el.primarySport === 4 ? "football" : null} */}
+                                            {el.primarySport}
                                         </p>
                                     </Col>
                                     <Col md='6'>
                                         <p className={classes.secondary_sport}>SECONDARY SPORTS</p>
                                         <p className={classes.noMargin}>
-                                            {el.secondarySport === 1 ? "running" : null}
+                                            {/* {el.secondarySport === 1 ? "running" : null}
                                             {el.secondarySport === 2 ? "cycling" : null}
                                             {el.secondarySport === 3 ? "tennis" : null}
-                                            {el.secondarySport === 4 ? "football" : null}
+                                            {el.secondarySport === 4 ? "football" : null} */}
+                                            {el.secondarySport}
                                         </p>
                                     </Col>
                                 </Row>
-                            </Col>
+
+                            </div>
 
                             // 1 running
                             //2 cycling
@@ -585,7 +564,7 @@ class Athletes extends Component {
                     />
 
                 </Row>
-                <Row className={classes.test1}>
+                <Row className={classes.paginationTop}>
                     <Col className={classes.centerPaginationAtlet}>
                         <Pagination
                             // pointing

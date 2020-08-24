@@ -84,6 +84,7 @@ class EventAdd extends React.Component {
   componentDidMount() {
     this.receivedData();
   }
+
   handleChangeStatus(img) {
     const aux = this.state.event;
 

@@ -11,6 +11,7 @@ import AlertMessage from "../AlertMessage";
 class AddCoachModal extends React.Component {
   constructor(props) {
     super(props);
+    
     this.state = {
       clubOptions: [
         { key: 1, text: "Swim", value: 1 },
