@@ -27,27 +27,27 @@ class AdminCoaches extends React.Component {
       searchValue: "",
       useArray: [],
       isSearch: false,
-      data: [
-        {
-          id: 1,
-          name: "Shane Steward",
-          email: "blablabla@gmail.com",
-          clubs: "swim",
-        },
-        {
-          id: 2,
-          name: "Shane Steward",
-          email: "blablabla@gmail.com",
-          clubs: "Lisadas.dsadas,",
-        },
-        {
-          id: 3,
-          name: "Shane Steward",
-          email: "blablabla@gmail.com",
-          clubs: "Lisadas.dsadas,",
-        },
-      ],
-      // data: [],
+      // data: [
+      //   {
+      //     id: 1,
+      //     name: "Shane Steward",
+      //     email: "blablabla@gmail.com",
+      //     clubs: "swim",
+      //   },
+      //   {
+      //     id: 2,
+      //     name: "Shane Steward",
+      //     email: "blablabla@gmail.com",
+      //     clubs: "Lisadas.dsadas,",
+      //   },
+      //   {
+      //     id: 3,
+      //     name: "Shane Steward",
+      //     email: "blablabla@gmail.com",
+      //     clubs: "Lisadas.dsadas,",
+      //   },
+      // ],
+      data: [],
       editIDsClubs: [],
       editModalShow: false,
       addModalShow: false,
@@ -72,7 +72,9 @@ class AdminCoaches extends React.Component {
     this.receivedData();
   }
 
-  searchHandlePageClick = (e, { activePage }) => {
+  
+  
+  HandlePageClick = (e, { activePage }) => {
     const selectedPage = activePage;
 
     const offset = (selectedPage - 1) * this.state.postsPerPage;
@@ -118,7 +120,9 @@ class AdminCoaches extends React.Component {
       useArray: slice,
       selectedElements: myMap,
     });
+   
   }
+
   changeSearchPage(thisArr) {
     const slice = thisArr.slice(
       this.state.offset,
@@ -135,6 +139,7 @@ class AdminCoaches extends React.Component {
       selectedElements: myMap,
     });
   }
+
   receivedData() {
     axios
       .get(serverUrl + "api/user/search/2", {
@@ -313,6 +318,7 @@ class AdminCoaches extends React.Component {
     }
     this.verifySelectedAll();
   }
+
   verifySelectedAll() {
     const aux = this.state.selectedElements;
     let count = 0;
@@ -330,6 +336,7 @@ class AdminCoaches extends React.Component {
       this.setState({ deleteMultiple: false });
     }
   }
+
   selectAll() {
     const aux = this.state.selectedElements;
 

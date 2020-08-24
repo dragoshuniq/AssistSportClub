@@ -8,7 +8,7 @@ import {
   Icon,
   Divider,
   Pagination,
-  Image,
+  Image
 } from "semantic-ui-react";
 import "./EventsDetails.css";
 // import EventsEdit from "../EventsEdit/EventsEdit";
@@ -55,11 +55,17 @@ class EventsDetails extends React.Component {
       deleteModalShow: false,
       showListParticipants: false,
       showChart: false,
+
       userCheckBox: false,
       HartRateCheck: false,
       CaloriesCheck: false,
       SpeedCheck: false,
-      DistanceCheck: false
+      DistanceCheck: false,
+
+      selectedElements: [],
+      selectedElementsID: [],
+      selectedElementsName: [],
+      detrimischart: []
     };
 
     this.handlePageClick = this.handlePageClick.bind(this);
@@ -67,20 +73,10 @@ class EventsDetails extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
+
+
   receivedData() {
-    // axios.get(serverUrl + `api/event/11`, {
-    //   headers: {
-    //     Authorization: localStorage.getItem("user"),
-    //   },
-    // })
-    //   .then((res) => {
-    //     this.setState({ data: res.data });
-    //     console.log('fdsafsadjkblhjs: ', res)
-    //     console.log('fdsafsadjkblhjs: ', this.state.data)
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+
 
     axios
       .get(serverUrl + `api/event/${this.props.id}`, {
@@ -90,43 +86,80 @@ class EventsDetails extends React.Component {
       })
       .then((result) => {
 
+        const myMapID = new Map();
+        result.data.members.map((el_member) => {
+          myMapID.set(el_member.id, false);
+        });
+
+        const myMapName = new Map();
+        result.data.members.map((el_member) => {
+          myMapName.set(el_member.id, el_member.first_name);
+        });
+
+     
+
         this.setState({
           data: result.data,
           useArray: result.data,
+          selectedElements: myMapID,
+          selectedElementsID: myMapID,
+          selectedElementsName: myMapName,
         });
 
-        console.log('events details !!!!!! ..... ', result.data);
-        // console.log('data=',this.state.data);
-        // this.setState({ totalPosts: Math.ceil(result.data.length / 4) });
+        // console.log('myMapID: ',this.state.selectedElementsID)
+        // console.log('myMapName: ',this.state.selectedElementsName)
+        // console.log('ia id: ',this.state.selectedElementsID.get(20) )
+        // console.log('ia nume: ',this.state.selectedElementsName.get(21) )
 
-        // const slice = result.data.slice(
-        //   this.state.offset,
-        //   this.state.offset + this.state.postsPerPage
-        // );
+        // this.state.selectedElementsName.map( (el) => {
+        //   return(console.log(el));
+        // } )
 
-        // this.setState({ useArray: slice });
-        // this.setState({ result: slice });
+        // for (let [key, value] of this.state.selectedElementsName) {
+        //   console.log(value);
+        // }
 
-        // console.log(result);
+        // console.log('events details !!!!!! ..... ', result.data);
+        // console.log('events details !!!!!! ..... ', this.state.selectedElementsName);
       });
+    //https://next.json-generator.com/api/json/get/4JmB44DzY
+
+    // axios
+    //   .get(`https://next.json-generator.com/api/json/get/4JmB44DzY`)
+    //   .then((result) => {
+
+    //     const myMap = new Map();
+    //     (result.data.members || []).map((el_member) => {
+    //       myMap.set(el_member.id_member, false);
+    //     });
+
+
+
+
+
+    //     this.setState({
+    //       data: result.data,
+    //       useArray: result.data,
+    //       selectedElements: myMap
+    //     });
+
+    //     // console.log('events details !!!!!! ..... ', this.state.selectedElements);
+    //     // console.log('events details !!!!!! ..... ', result.data);
+
+    //   });
 
   }
 
 
-  // componentWillReceiveProps(newprops){
-  //   if(this.props !== newprops){
-  //     console.log(this.props, newprops);
-  //   }
-  // }
   componentDidMount() {
-    // console.log("props: ", this.props);
+
     this.receivedData();
   }
 
 
   handlePageClick = (e, { activePage }) => {
     const selectedPage = activePage;
-    //console.log("e.target.value", activePage);
+
 
     const offset = (selectedPage - 1) * this.state.postsPerPage;
 
@@ -179,10 +212,70 @@ class EventsDetails extends React.Component {
     // const value = target.name === 'isGoing' ? target.checked : target.value;
     const value = target.checked;
     const name = target.name;
-
+console.log('name: ', name)
     this.setState({
       [name]: value
     });
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////////////////// checkbox
+  onCheckedHandler(id) {
+
+    // const myMapName = new Map();
+    // this.state.data.members.map((el_member) => {
+    //   myMapName.set(el_member.id, el_member.first_name);
+    // });
+    // selectedElementsName: myMapName,
+    // console.log('dsaffasafs', myMapName)
+
+    const aux = this.state.selectedElements;
+    const auxName = this.state.selectedElementsName;
+    console.log('aux id : ', aux)
+    var arr1 = [];
+    if (!aux.get(id)) {
+
+      aux.set(id, !aux.get(id));
+      console.log('ce i asta ma? (fare true) ', auxName.get(id))
+      this.state.detrimischart.push(auxName.get(id))
+      this.setState({
+        selectedElements: aux,
+        // detrimischart: arr1
+      });
+
+      // this.state.detrimischart.pop()
+      
+    } else if (aux.get(id)) {
+      
+      aux.set(id, !aux.get(id));
+      console.log('ce i asta ma2? (fare false) ', auxName.get(id))
+      this.state.detrimischart.pop(auxName.get(id))
+      this.setState({
+        selectedElements: aux,
+        // detrimischart: auxName.get(id)
+      });
+    }
+    // this.state.detrimischart.push(auxName.get(id))
+
+    // console.log('da: ', this.state.selectedElements)
+    // this.verifySelectedAll();
+  }
+
+  verifySelectedAll() {
+    const aux = this.state.selectedElements;
+    let count = 0;
+    for (let [key, value] of aux) {
+      if (value) {
+        count++;
+      }
+    }
+    // if (count === this.state.selectedElements.size) {
+    //   this.setState({ selectAllElements: true });
+    // }
+    // if (count > 1) {
+    //   this.setState({ deleteMultiple: true });
+    // } else {
+    //   this.setState({ deleteMultiple: false });
+    // }
   }
 
 
@@ -271,6 +364,7 @@ class EventsDetails extends React.Component {
                     <Button
                       id="addNewButtonEventDetail"
                       onClick={() => this.setState({ showChart: true })}
+
                     >
                       Done
                   </Button>
@@ -281,7 +375,7 @@ class EventsDetails extends React.Component {
               <Col className="listUsers">
 
 
-                {console.log('dsafjjagsf', this.state.data.member_event)}
+                {/* {console.log('dsafjjagsf', this.state.data.member_event)} */}
 
 
                 {
@@ -291,32 +385,38 @@ class EventsDetails extends React.Component {
                         <Row className="user">
                           <Col className="imgColEventSt">
                             <img className="cartImgEvent2" src={this.state.poza} />
-                            <p className="pEvents">{el_member.name_member}</p>
+                            <p className="pEvents">{el_member.first_name}</p>
                           </Col>
 
                           {
                             this.state.showListParticipants === true ?
-                              <Col className="imgColEventDr">
-                                <input
+                              <Col md={1} className="imgColEventDr">
+                                {/* <input
                                   // type="checkbox"
                                   // checked={this.state.userCheckBox}
                                   // onChange={this.checkBoxUser}
                                   // name={el_member.name_member}
-                                  name={el_member.id_member}
+                                  name={el_member.name_member}
                                   type="checkbox"
-                                  checked={this.state.userCheckBox}
+                                  // checked={this.state.userCheckBox}
+                                  checked={el_member.isChecked}
                                   onChange={this.handleInputChange}
+                                /> */}
+                                {console.log('arata tot-----: ',el_member)}
+                                <Checkbox
+                                  onChange={() => this.onCheckedHandler(el_member.id)}
+                                  checked={this.state.selectedElements.get(el_member.id)}
                                 />
                               </Col>
                               : null
                           }
+                          {/* {console.log(el_member)} */}
+                          {/* {console.log(this.state.selectedElements)} */}
 
-                          {this.state.userCheckBox.toString()
-                          }
 
 
                           <Col className="p2Events" md={12}>
-                            {el_member.gender_member}
+                            {el_member.gender} - {el_member.age}
                           </Col>
                         </Row>
                       </>
@@ -325,10 +425,11 @@ class EventsDetails extends React.Component {
                 }
 
 
+                {/* {console.log('events details !!!!!! ..... ', this.state.data)} */}
 
 
 
-
+                {console.log('miracol ', this.state.detrimischart)}
 
 
                 {/* <Row className="user">
@@ -428,7 +529,7 @@ class EventsDetails extends React.Component {
                           <p>Distance</p>
                         </Col>
                       </Row>
-
+                      {this.state.selectedElements}
                     </Col>
 
                   </Row>
@@ -439,7 +540,7 @@ class EventsDetails extends React.Component {
                 </Col>
 
                 <Col md={12}>
-                  <ApexChart />
+                  <ApexChart name={this.state.detrimischart} data={33} />
                 </Col>
               </>
               : null
