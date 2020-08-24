@@ -69,10 +69,10 @@ class SignIn extends React.Component {
                     email: "",
                   }}
                   validationSchema={Yup.object().shape({
-                    password: Yup.string().required("Password is required"),
                     email: Yup.string()
                       .email("Email is invalid")
                       .required("Email is required"),
+                    password: Yup.string().required("Password is required"),
                   })}
                   onSubmit={(fields) => {
                     const user = this.state.user;
@@ -136,7 +136,7 @@ class SignIn extends React.Component {
                       <div className="form-group">
                         <label htmlFor="password">Password</label>
                         <div
-                          className='divPassword'
+                          className="divPassword"
                           style={{
                             flexDirection: "row",
                             display: "flex",

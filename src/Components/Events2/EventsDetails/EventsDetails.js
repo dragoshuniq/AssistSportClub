@@ -8,7 +8,7 @@ import {
   Icon,
   Divider,
   Pagination,
-  Image
+  Image,
 } from "semantic-ui-react";
 import "./EventsDetails.css";
 // import EventsEdit from "../EventsEdit/EventsEdit";
@@ -57,7 +57,6 @@ class EventsDetails extends React.Component {
       deleteModalShow: false,
       showListParticipants: false,
       showChart: false,
-
       userCheckBox: false,
       HartRateCheck: false,
       CaloriesCheck: false,
@@ -127,6 +126,7 @@ class EventsDetails extends React.Component {
       },
 
 
+      DistanceCheck: false
     };
 
     this.handlePageClick = this.handlePageClick.bind(this);
@@ -164,7 +164,19 @@ class EventsDetails extends React.Component {
 
 
   receivedData() {
-
+    // axios.get(serverUrl + `api/event/11`, {
+    //   headers: {
+    //     Authorization: localStorage.getItem("user"),
+    //   },
+    // })
+    //   .then((res) => {
+    //     this.setState({ data: res.data });
+    //     console.log('fdsafsadjkblhjs: ', res)
+    //     console.log('fdsafsadjkblhjs: ', this.state.data)
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
 
     axios
       .get(serverUrl + `api/event/${this.props.id}`, {
@@ -189,65 +201,40 @@ class EventsDetails extends React.Component {
         this.setState({
           data: result.data,
           useArray: result.data,
-          selectedElements: myMapID,
-          selectedElementsID: myMapID,
-          selectedElementsName: myMapName,
         });
 
-        // console.log('myMapID: ',this.state.selectedElementsID)
-        // console.log('myMapName: ',this.state.selectedElementsName)
-        // console.log('ia id: ',this.state.selectedElementsID.get(20) )
-        // console.log('ia nume: ',this.state.selectedElementsName.get(21) )
+        console.log('events details !!!!!! ..... ', result.data);
+        // console.log('data=',this.state.data);
+        // this.setState({ totalPosts: Math.ceil(result.data.length / 4) });
 
-        // this.state.selectedElementsName.map( (el) => {
-        //   return(console.log(el));
-        // } )
+        // const slice = result.data.slice(
+        //   this.state.offset,
+        //   this.state.offset + this.state.postsPerPage
+        // );
 
-        // for (let [key, value] of this.state.selectedElementsName) {
-        //   console.log(value);
-        // }
+        // this.setState({ useArray: slice });
+        // this.setState({ result: slice });
 
-        // console.log('events details !!!!!! ..... ', result.data);
-        // console.log('events details !!!!!! ..... ', this.state.selectedElementsName);
+        // console.log(result);
       });
-    //https://next.json-generator.com/api/json/get/4JmB44DzY
-
-    // axios
-    //   .get(`https://next.json-generator.com/api/json/get/4JmB44DzY`)
-    //   .then((result) => {
-
-    //     const myMap = new Map();
-    //     (result.data.members || []).map((el_member) => {
-    //       myMap.set(el_member.id_member, false);
-    //     });
-
-
-
-
-
-    //     this.setState({
-    //       data: result.data,
-    //       useArray: result.data,
-    //       selectedElements: myMap
-    //     });
-
-    //     // console.log('events details !!!!!! ..... ', this.state.selectedElements);
-    //     // console.log('events details !!!!!! ..... ', result.data);
-
-    //   });
 
   }
 
 
+  // componentWillReceiveProps(newprops){
+  //   if(this.props !== newprops){
+  //     console.log(this.props, newprops);
+  //   }
+  // }
   componentDidMount() {
-
+    // console.log("props: ", this.props);
     this.receivedData();
   }
 
 
   handlePageClick = (e, { activePage }) => {
     const selectedPage = activePage;
-
+    //console.log("e.target.value", activePage);
 
     const offset = (selectedPage - 1) * this.state.postsPerPage;
 
@@ -453,7 +440,6 @@ class EventsDetails extends React.Component {
                     <Button
                       id="addNewButtonEventDetail"
                       onClick={() => this.setState({ showChart: true })}
-
                     >
                       Done
                   </Button>
@@ -473,23 +459,22 @@ class EventsDetails extends React.Component {
                         <Row className="user">
                           <Col className="imgColEventSt">
                             <img className="cartImgEvent2" src={this.state.poza} />
-                            <p className="pEvents">{el_member.first_name}</p>
+                            <p className="pEvents">{el_member.name_member}</p>
                           </Col>
 
                           {
                             this.state.showListParticipants === true ?
-                              <Col md={1} className="imgColEventDr">
-                                {/* <input
+                              <Col className="imgColEventDr">
+                                <input
                                   // type="checkbox"
                                   // checked={this.state.userCheckBox}
                                   // onChange={this.checkBoxUser}
                                   // name={el_member.name_member}
-                                  name={el_member.name_member}
+                                  name={el_member.id_member}
                                   type="checkbox"
-                                  // checked={this.state.userCheckBox}
-                                  checked={el_member.isChecked}
+                                  checked={this.state.userCheckBox}
                                   onChange={this.handleInputChange}
-                                /> */}
+                                /> 
                                 {/* {console.log('arata tot-----: ', el_member)} */}
                                 <Checkbox
                                   onChange={() => this.onCheckedHandler(el_member.id)}
@@ -498,13 +483,13 @@ class EventsDetails extends React.Component {
                               </Col>
                               : null
                           }
-                          {/* {console.log(el_member)} */}
-                          {/* {console.log(this.state.selectedElements)} */}
 
+                          {this.state.userCheckBox.toString()
+                          }
 
 
                           <Col className="p2Events" md={12}>
-                            {el_member.gender} - {el_member.age}
+                            {el_member.gender_member}
                           </Col>
                         </Row>
                       </>
@@ -513,7 +498,6 @@ class EventsDetails extends React.Component {
                 }
 
 
-                {/* {console.log('events details !!!!!! ..... ', this.state.data)} */}
 
 
 
@@ -617,7 +601,7 @@ class EventsDetails extends React.Component {
                           <p>Distance</p>
                         </Col>
                       </Row>
-                      {this.state.selectedElements}
+
                     </Col>
 
                   </Row>

@@ -393,17 +393,7 @@ class AthletesAdd extends Component {
 
 
                         <div id={classes.botMod}>
-                            <Button.Group fluid>
-                                <Button id="canceModalButton" onClick={this.props.onHide}>
-                                    Close
-                                </Button>
-                                <Button.Or />
-                                <Button id="addModalButton" type="submit">
-                                    Save
-                                </Button>
-                            </Button.Group>
-
-                            {/* <Button onClick={this.props.onHide} id={classes.BtnClose}>
+                            <Button onClick={this.props.onHide} id={classes.BtnClose}>
                                 Close
                             </Button>
                             <Button
@@ -417,7 +407,7 @@ class AthletesAdd extends Component {
                                 // }
                                 id={classes.BtnSave}>
                                 Save
-                        </Button> */}
+                        </Button>
                         </div>
 
                     </Form>

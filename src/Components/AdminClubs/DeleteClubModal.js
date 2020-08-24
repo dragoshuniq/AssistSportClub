@@ -1,8 +1,23 @@
 import React from "react";
 import { Modal, Button as RButton } from "react-bootstrap";
-import "./AdminClubs.css";
-
+import axios from "axios";
+import { NavLink } from "react-router-dom";
+import serverUrl from "../url";
 function DeleteClubModal(props) {
+  function deleteData() {
+    axios
+      .delete(serverUrl + `api/club/${props.club.id}`, {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      })
+      .then((res) => {
+        console.log(res).then(props.onHide());
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   return (
     <Modal
       {...props}
@@ -26,14 +41,16 @@ function DeleteClubModal(props) {
         <RButton id="canceModalButton" variant="light" onClick={props.onHide}>
           Cancel
         </RButton>
+        <NavLink exact to='/Navigation/AdminClubs'>
         <RButton
           id="addModalButton"
           onClick={() => {
-            props.onHide();
+            deleteData();
           }}
         >
           Delete
         </RButton>
+        </NavLink>
       </Modal.Footer>
     </Modal>
   );

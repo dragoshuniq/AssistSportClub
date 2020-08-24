@@ -22,10 +22,7 @@ class AdminClubDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      thisClub: {
-        name: "Club Name",
-        coach: "Coach name",
-      },
+      club: {},
       data: [],
       useArray: [],
       usePending: [],
@@ -61,6 +58,7 @@ class AdminClubDetails extends React.Component {
         this.state.offset,
         this.state.offset + this.state.postsPerPage
       );
+      console.log(res.data);
 
       this.setState({
         totalMembers: data.members.length,
@@ -71,6 +69,7 @@ class AdminClubDetails extends React.Component {
         members: slice,
         pending: pending,
         data: data.members,
+        club: data,
       });
     });
   }
@@ -281,7 +280,7 @@ class AdminClubDetails extends React.Component {
                 <Row>
                   <Col xl={2} lg={2} md={2} sm={2} xs={2}>
                     <h1 style={{ fontSize: "2vw" }} id="coachesText">
-                      {this.state.thisClub.name}
+                      {this.state.club.name}
                     </h1>
                   </Col>
                   <Col id="alignPencil">
@@ -298,7 +297,8 @@ class AdminClubDetails extends React.Component {
                     Coach
                   </h1>
                   <h1 id="membersText" style={{ color: "black" }}>
-                    {this.state.thisClub.coach}
+                    {this.state.club.ownerFirstName}{" "}
+                    {this.state.club.ownerLastName}
                   </h1>
                 </div>
               </Col>
@@ -380,11 +380,14 @@ class AdminClubDetails extends React.Component {
               show={this.state.editModalShow}
               onDelete={() => this.setState({ deleteClubModalShow: true })}
               onHide={() => this.setState({ editModalShow: false })}
-              club={this.state.thisClub}
+              club={this.state.club}
               coach={{
-                key: this.state.thisClub.coach,
-                text: this.state.thisClub.coach,
-                value: this.state.thisClub.coach,
+                key: this.state.club.owner_id,
+                text:
+                  this.state.club.ownerFirstName +
+                  " " +
+                  this.state.club.ownerLastName,
+                value: this.state.club.owner_id,
               }}
             />
           )}
@@ -396,7 +399,7 @@ class AdminClubDetails extends React.Component {
           )}
           {this.state.deleteClubModalShow && (
             <DeleteClubModal
-              club={this.state.thisClub}
+              club={this.state.club}
               show={this.state.deleteClubModalShow}
               onHide={() => this.setState({ deleteClubModalShow: false })}
             />

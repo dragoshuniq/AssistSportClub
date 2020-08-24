@@ -23,32 +23,50 @@ class EventsEdit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      event: {
-        name: "",
-        date: new Date(),
-        time: new Date(),
-        members: [],
-        description: "",
-        location: { lat: 47.667138, lng: 26.27439 },
-      },
+      mailMap: new Map(),
+      clubOptions: [
+        { key: 1, text: "Cl1", value: "Cl1" },
+        { key: 2, text: "Cl2", value: "Cl2" },
+        { key: 3, text: "Cl13", value: "Cl3" },
+      ],
+      members: [],
       mapModalShow: false,
       isInvite: false,
       location: { lat: 47.667138, lng: 26.27439 },
+      sportsOptions: [
+        { key: 1, text: "Running", value: "Running" },
+        { key: 2, text: "Cycling", value: "Cycling" },
+        { key: 3, text: "Tennis", value: "Tennis" },
+        { key: 4, text: "Football", value: "Football" },
+      ],
+      event: { ...this.props.event },
     };
   }
   receivedData() {
+    const obj = {
+      role_id: parseInt(localStorage.getItem("role")),
+      user_id: parseInt(localStorage.getItem("user_id")),
+    };
+    console.log(obj);
     axios
-      .get(serverUrl + "api/club/owner/null", {
+      .post(serverUrl + "api/club/list", obj, {
         headers: {
           Authorization: localStorage.getItem("user"),
         },
       })
       .then((res) => {
         console.log(res);
+        const arr = [];
+        res.data.map((value) => {
+          const obj = {
+            key: value.id,
+            text: value.name,
+            value: value.id,
+          };
+          arr.push(obj);
+        });
+        this.setState({ clubOptions: arr });
       });
-  }
-  componentDidMount() {
-    this.receivedData();
   }
   handleChangeStatus(img) {
     const aux = this.state.event;
@@ -91,25 +109,42 @@ class EventsEdit extends React.Component {
     train.date = date;
     this.setState({ event: train });
   }
+  onChangeEmail(id, value) {
+    const aux = this.state.mailMap;
+
+    if (value.length !== 0) {
+      aux.set(id, value);
+    } else {
+      aux.delete(id);
+    }
+    this.setState({ state: aux });
+  }
   postData() {
     const loc = this.state.event;
-    loc.sportType = "Football";
     loc.date = loc.date.toString();
-
     loc.time = moment(loc.time).format("h:mm:ss");
-    loc.invite_emails = [];
-    loc.clubId = 13;
+
+    const arr = [];
+    for (let [key, value] of this.state.mailMap) {
+      arr.push(value);
+    }
+    loc.invite_members = arr;
+
     loc.location =
-      loc.location.lat.toString() + "," + loc.location.lng.toString();
+      this.state.location.lat.toString() +
+      "," +
+      this.state.location.lng.toString();
     this.setState({ event: loc });
     axios
-      .post(serverUrl + "api/event/create", this.state.event, {
+      .put(serverUrl + `api/event/${this.props.event.id}`, this.state.event, {
         headers: {
           Authorization: localStorage.getItem("user"),
         },
       })
       .then((res) => {
         console.log(res);
+        this.props.onHide();
+        window.location.reload(false);
       });
   }
 
@@ -157,20 +192,31 @@ class EventsEdit extends React.Component {
       </Form.Field>
     );
   };
-  onChangeClub(e, val) {
+  onChangeSport(e, val) {
     const train = this.state.event;
-    train.club = val;
+    train.sportType = val;
     this.setState({ event: train });
   }
+  onChangeClub(e, val) {
+    const train = this.state.event;
+    train.clubId = val;
+    this.setState({ event: train });
+  }
+  componentDidMount() {
+    this.receivedData();
+    //this.setState({ event: this.props.event });
+  }
+
   onSubmit() {
     //console.log(this.state.mailMap);
     //console.log(this.state.club);
     //this.setState{}
-    this.props.addEventHandler(this.state.event);
-    this.props.onHide();
+    //    this.props.addEventHandler(this.state.event);
     this.postData();
   }
   render() {
+    console.log(this.props.event);
+
     return (
       <Modal
         {...this.props}
@@ -190,6 +236,7 @@ class EventsEdit extends React.Component {
               <input
                 id="field"
                 required
+                value={this.state.event.name}
                 placeholder="Name"
                 onChange={(event) => this.onChangeEventName(event.target.value)}
               />
@@ -201,6 +248,7 @@ class EventsEdit extends React.Component {
                 id="field"
                 placeholder="Club Assign"
                 options={this.state.clubOptions}
+                defaultValue={this.state.clubOptions[0].value}
                 onChange={(e, { value }) => this.onChangeClub(e, value)}
               />
             </Form.Field>
@@ -210,8 +258,9 @@ class EventsEdit extends React.Component {
                 fluid
                 id="field"
                 placeholder="Sport"
-                options={this.state.clubOptions}
-                onChange={(e, { value }) => this.onChangeClub(e, value)}
+                defaultValue={this.state.sportsOptions[0].value}
+                options={this.state.sportsOptions}
+                onChange={(e, { value }) => this.onChangeSport(e, value)}
               />
             </Form.Field>
 
@@ -222,7 +271,7 @@ class EventsEdit extends React.Component {
                   <DatePicker
                     className="inputDate"
                     dateFormat="MM/dd/yyyy"
-                    selected={this.state.event.date}
+                    selected={new Date(this.state.event.date)}
                     onChange={(date) => this.onChangeDate(date)}
                     minDate={new Date()}
                   />
@@ -232,7 +281,7 @@ class EventsEdit extends React.Component {
                 <Form.Field>
                   <label id="assignACoach">Time</label>
                   <DatePicker
-                    selected={this.state.event.time}
+                    selected={new Date(this.state.event.date)}
                     onChange={(time) => this.onChangeTime(time)}
                     showTimeSelect
                     showTimeSelectOnly
@@ -276,6 +325,7 @@ class EventsEdit extends React.Component {
               <TextArea
                 placeholder="Details"
                 id="field"
+                value={this.state.event.description}
                 onChange={(val) => this.onChangeDescription(val)}
               />
             </Form.Field>
@@ -313,12 +363,16 @@ class EventsEdit extends React.Component {
             <Divider />
             <div className="form-group">
               <Button.Group fluid>
+                <Button id="deleteModalButton" onClick={this.props.delete}>
+                  Delete
+                </Button>
+                <Button.Or />
                 <Button id="canceModalButton" onClick={this.props.onHide}>
                   Cancel
                 </Button>
                 <Button.Or />
                 <Button id="addModalButton" type="submit">
-                  ADD NEW
+                  SAVE
                 </Button>
               </Button.Group>
             </div>
