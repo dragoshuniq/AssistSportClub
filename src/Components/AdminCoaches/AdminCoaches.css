@@ -181,3 +181,27 @@ left: 46%; */
   }
 
 }
+
+#scrollTable{
+  overflow-x:auto;
+}
+
+#addNewButtonClub2 {
+  width: 177px;
+  height: 46px;
+  left: 1007px;
+  top: 298px;
+  background: #1a1a1a;
+  border-radius: 8px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #44dabd;
+  width: 100%;
+  margin-top: 20px;
+}
+ 

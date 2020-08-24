@@ -171,6 +171,7 @@
   height: 100%;
   align-items: center;
   justify-content: center;
+  margin-left: 1.2vh ;
 }
 #memberName {
   font-family: Inter;
@@ -329,3 +330,13 @@ label {
   /* background: red; */
 }
 
+@media only screen and (max-width: 992px) {
+
+  #addNewButtonClub {
+    width: 100%;
+   margin-top: 10px;
+  }
+
+  
+
+}
