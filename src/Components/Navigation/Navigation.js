@@ -139,7 +139,7 @@ class Navigation extends Component {
                         window.location.reload(false);
                       }}
                     >
-                      {console.log("logout = ", this.state.logout)}
+                      {/* {console.log("logout = ", this.state.logout)} */}
                       <FontAwesomeIcon icon={faSignOutAlt} />
                       {this.state.showAllNavigation === true ? (
                         <small>LOGOUT</small>

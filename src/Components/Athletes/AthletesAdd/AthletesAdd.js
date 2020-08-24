@@ -197,7 +197,7 @@ class AthletesAdd extends Component {
                                     // required
                                     id="field"
                                     name="primary_sport_id"
-                                    type="number"
+                                    type="text"
                                     value={this.state.atletUser.primary_sport_id}
                                     onChange={this.HandlerEventADD}
                                     placeholder="Enter Primary Sports" />
@@ -209,7 +209,7 @@ class AthletesAdd extends Component {
                                     id="field"
                                     // required
                                     name="secondary_sport_id"
-                                    type="number"
+                                    type="text"
                                     value={this.state.atletUser.secondary_sport_id}
                                     onChange={this.HandlerEventADD}
                                     placeholder="Secondary Sports" />
