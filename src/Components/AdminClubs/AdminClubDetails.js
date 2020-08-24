@@ -28,6 +28,7 @@ class AdminClubDetails extends React.Component {
       },
       data: [],
       useArray: [],
+      usePending: [],
       addModalShow: false,
       confirmModalShow: false,
       editModalShow: false,
@@ -56,28 +57,77 @@ class AdminClubDetails extends React.Component {
         this.state.offset + this.state.postsPerPage
       );
 
-      // const pending = data.pending.slice(
-      //   this.state.offset,
-      //   this.state.offset + this.state.postsPerPage
-      // );
+      const pending = data.pending.slice(
+        this.state.offset,
+        this.state.offset + this.state.postsPerPage
+      );
 
       this.setState({
         totalMembers: data.members.length,
         requestMembers: data.pending.length,
         totalPosts: Math.ceil(data.length / this.state.postsPerPage),
         useArray: slice,
+        usePending: pending,
         members: slice,
-        // pending: pending,
+        pending: pending,
+        data: data.members,
       });
     });
   }
   componentDidMount() {
     this.receivedData();
   }
-
+  changePage() {
+    const slice = this.state.data.slice(
+      this.state.offset,
+      this.state.offset + this.state.postsPerPage
+    );
+    if (this.state.isPending)
+      this.setState({
+        totalPosts: Math.ceil(this.state.data.length / this.state.postsPerPage),
+        pending: slice,
+      });
+    else {
+      this.setState({
+        totalPosts: Math.ceil(this.state.data.length / this.state.postsPerPage),
+        useArray: slice,
+      });
+    }
+  }
+  changeSearchPage(thisArr) {
+    const slice = thisArr.slice(
+      this.state.offset,
+      this.state.offset + this.state.postsPerPage
+    );
+    if (this.state.isPending)
+      this.setState({
+        totalPosts: Math.ceil(thisArr.length / this.state.postsPerPage),
+        usePending: slice,
+      });
+    else {
+      this.setState({
+        totalPosts: Math.ceil(thisArr.length / this.state.postsPerPage),
+        useArray: slice,
+      });
+    }
+  }
   handlePageClick = (e, { activePage }) => {
     const selectedPage = activePage;
-    //console.log("e.target.value", activePage);
+    const offset = (selectedPage - 1) * this.state.postsPerPage;
+
+    this.setState(
+      {
+        currentPage: selectedPage,
+        offset: offset,
+      },
+      () => {
+        this.changePage();
+      }
+    );
+  };
+
+  searchHandlePageClick = (e, { activePage }) => {
+    const selectedPage = activePage;
 
     const offset = (selectedPage - 1) * this.state.postsPerPage;
 
@@ -87,10 +137,11 @@ class AdminClubDetails extends React.Component {
         offset: offset,
       },
       () => {
-        this.receivedData();
+        this.changeSearchPage(this.state.searchArray);
       }
     );
   };
+
   searchHandler = (event) => {
     let value = event.target.value;
     this.setState({ searchValue: value });
@@ -98,13 +149,18 @@ class AdminClubDetails extends React.Component {
       const ath = value.toUpperCase();
       const searchArray = [];
       this.state.data.map((res) => {
-        if (res.name.toUpperCase().includes(ath)) {
+        if (
+          res.first_name.toUpperCase().includes(ath) ||
+          res.last_name.toUpperCase().includes(ath)
+        ) {
           searchArray.push(res);
         }
       });
-      this.setState({ useArray: searchArray });
+      this.setState({ isSearch: true, searchArray: searchArray });
+      this.changeSearchPage(searchArray);
     } else {
-      this.setState({ useArray: this.state.data });
+      this.changePage();
+      this.setState({ isSearch: false });
     }
   };
   PostMembers = (member) => {
@@ -200,11 +256,19 @@ class AdminClubDetails extends React.Component {
       confirmModalShow: true,
     });
   };
+
   render() {
     let dynamicRender = (
       <div id="dynamicRender">
         {this.state.useArray.map((value, index) => {
-          return <div>{this.PostMembers(value)}</div>;
+          return <div> {this.PostMembers(value)}</div>;
+        })}
+      </div>
+    );
+    let dynamicPending = (
+      <div id="dynamicRender">
+        {this.state.usePending.map((value, index) => {
+          return <div> {this.PostMembers(value)}</div>;
         })}
       </div>
     );
@@ -244,8 +308,10 @@ class AdminClubDetails extends React.Component {
                 <Button
                   id="membersButton"
                   onClick={() => {
-                    this.receivedData();
-                    this.setState({ request: false });
+                    this.setState({
+                      data: this.state.members,
+                      isPending: false,
+                    });
                   }}
                 >
                   Memembers({this.state.totalMembers})
@@ -255,8 +321,10 @@ class AdminClubDetails extends React.Component {
                 <Button
                   id="requestMembersButton"
                   onClick={() => {
-                    this.receivedData();
-                    this.setState({ request: true });
+                    this.setState({
+                      data: this.state.pending,
+                      isPending: true,
+                    });
                   }}
                 >
                   Requests ({this.state.requestMembers})
@@ -284,7 +352,7 @@ class AdminClubDetails extends React.Component {
               </Col>
             </Row>
             {/** DETAILS PART */}
-            <Row>{dynamicRender}</Row>
+            <Row>{!this.state.isPending ? dynamicRender : dynamicPending}</Row>
             <Row
               id="pagination"
               style={{
@@ -296,7 +364,13 @@ class AdminClubDetails extends React.Component {
               <Pagination
                 defaultActivePage={1}
                 totalPages={this.state.totalPosts}
-                onPageChange={this.handlePageClick}
+                onPageChange={
+                  !this.state.isSearch
+                    ? this.handlePageClick
+                    : this.searchHandlePageClick
+                }
+                pointing
+                secondary
               />
             </Row>
           </Col>

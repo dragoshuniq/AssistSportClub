@@ -7,6 +7,8 @@ import serverUrl from "../url";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import AlertMessage from "../AlertMessage";
+
 import {
   Input,
   Checkbox,
@@ -167,6 +169,7 @@ class AdminCoaches extends React.Component {
           selectedElements: myMap,
           selectAllElements: false,
           deleteMultiple: false,
+          isLoaded: true,
         });
         // console.log(this.state.data);
       });
@@ -189,6 +192,9 @@ class AdminCoaches extends React.Component {
         })
         .then((res) => {
           console.log(res);
+        })
+        .then(() => {
+          window.location.reload(false);
         });
     } catch (error) {
       console.log(error);
@@ -286,19 +292,6 @@ class AdminCoaches extends React.Component {
     this.setState({ useArray: items });
   };
   deleteCoach(id) {
-    try {
-      var arr = [];
-      arr.push(id);
-      axios
-        .post(serverUrl + "api/user/delete/all", {
-          user_id: arr,
-        })
-        .then((res) => {
-          console.log(res);
-        });
-    } catch (error) {
-      console.log(error);
-    }
     const filteredData = this.state.useArray.filter((item) => item.id !== id);
     this.setState({ useArray: filteredData });
   }
@@ -584,6 +577,7 @@ class AdminCoaches extends React.Component {
             />
           )}
         </Row>
+      
         <Row>
           {this.state.deleteModalShow && (
             <DeleteCoachModal

@@ -261,16 +261,12 @@ class Athletes extends Component {
                 arr.push(atl);
             } else arr.push(res);
         });
-
         this.setState({ listaAtleti: arr });
 
 
 
 
-
-
-        // console.log('edit atleti 1 ... :' + atlet.id);
-
+        console.log('edit atleti 1 ... :' + atlet.id);
 
         // const sendData = this.state.listaAtleti;
         // sendData.age = parseInt(sendData.age);
@@ -290,7 +286,7 @@ class Athletes extends Component {
 
         // this.setState({ listaAtleti: sendData });
 
-        // console.log(' dsafdsaf edit ', this.state.listaAtleti);
+        console.log(' dsafdsaf edit ', this.state.listaAtleti);
 
 
         axios

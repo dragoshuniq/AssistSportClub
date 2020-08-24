@@ -3,17 +3,21 @@ import { Modal, Button as RButton } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-dropzone-uploader/dist/styles.css";
 import Dropzone from "react-dropzone-uploader";
+import moment from "moment";
 import {
   Form,
   Button,
   Divider,
   Label,
   TextArea,
+  Select,
   Icon,
 } from "semantic-ui-react";
 import { Row, Col } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import MapModal from "./MapModal";
+import axios from "axios";
+import serverUrl from "../../url";
 
 class EventsEdit extends React.Component {
   constructor(props) {
@@ -32,19 +36,49 @@ class EventsEdit extends React.Component {
       location: { lat: 47.667138, lng: 26.27439 },
     };
   }
+  receivedData() {
+    axios
+      .get(serverUrl + "api/club/owner/null", {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      });
+  }
+  componentDidMount() {
+    this.receivedData();
+  }
+  handleChangeStatus(img) {
+    const aux = this.state.event;
+    aux.event_cover = {
+      type: img.file.type,
+      link: img.meta.previewUrl,
+    };
+
+    let file = img.file;
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      this.setState({
+        base64: reader.result,
+      });
+    };
+    this.setState({ event: aux });
+  }
+
   onClickCoord(coord) {
     const aux = this.state.event;
     aux.location = coord;
     this.setState({ location: coord, event: aux });
-    console.log(this.state.location);
+    // console.log(this.state.location);
   }
 
-  componentWillMount() {
-    console.log(this.state.date);
-  }
   onChangeEventName(value) {
     const train = this.state.event;
     train.name = value;
+
     this.setState({ event: train });
   }
   onChangeTime(time) {
@@ -57,10 +91,31 @@ class EventsEdit extends React.Component {
     train.date = date;
     this.setState({ event: train });
   }
+  postData() {
+    const loc = this.state.event;
+    loc.sportType = "Football";
+    loc.date = loc.date.toString();
+
+    loc.time = moment(loc.time).format("h:mm:ss");
+    loc.invite_emails = [];
+    loc.clubId = 13;
+    loc.location =
+      loc.location.lat.toString() + "," + loc.location.lng.toString();
+    this.setState({ event: loc });
+    axios
+      .post(serverUrl + "api/event/create", this.state.event, {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      });
+  }
 
   onChangeDescription(value) {
     const ax = this.state.event;
-    ax.description = value;
+    ax.description = value.target.value;
     this.setState({ event: ax });
   }
 
@@ -74,7 +129,7 @@ class EventsEdit extends React.Component {
   addChild() {
     this.setState({
       members: [
-        ...this.state.members,
+        ...this.state.invite_emails,
         { id: Math.random(), email: "Another mail".concat(Math.random()) },
       ],
     });
@@ -102,12 +157,18 @@ class EventsEdit extends React.Component {
       </Form.Field>
     );
   };
+  onChangeClub(e, val) {
+    const train = this.state.event;
+    train.club = val;
+    this.setState({ event: train });
+  }
   onSubmit() {
     //console.log(this.state.mailMap);
     //console.log(this.state.club);
     //this.setState{}
     this.props.addEventHandler(this.state.event);
     this.props.onHide();
+    this.postData();
   }
   render() {
     return (
@@ -133,7 +194,26 @@ class EventsEdit extends React.Component {
                 onChange={(event) => this.onChangeEventName(event.target.value)}
               />
             </Form.Field>
-            <Divider hidden />
+            <Form.Field>
+              <label id="assignACoach">Assign Event to a Club</label>
+              <Select
+                fluid
+                id="field"
+                placeholder="Club Assign"
+                options={this.state.clubOptions}
+                onChange={(e, { value }) => this.onChangeClub(e, value)}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label id="assignACoach">Choose a Sport</label>
+              <Select
+                fluid
+                id="field"
+                placeholder="Sport"
+                options={this.state.clubOptions}
+                onChange={(e, { value }) => this.onChangeClub(e, value)}
+              />
+            </Form.Field>
 
             <Row>
               <Col>
@@ -144,6 +224,7 @@ class EventsEdit extends React.Component {
                     dateFormat="MM/dd/yyyy"
                     selected={this.state.event.date}
                     onChange={(date) => this.onChangeDate(date)}
+                    minDate={new Date()}
                   />
                 </Form.Field>
               </Col>
@@ -192,7 +273,11 @@ class EventsEdit extends React.Component {
 
             <Form.Field>
               <label id="assignACoach">Details</label>
-              <TextArea placeholder="Details" id="field" />
+              <TextArea
+                placeholder="Details"
+                id="field"
+                onChange={(val) => this.onChangeDescription(val)}
+              />
             </Form.Field>
 
             <div style={{ flexDirection: "row" }}>
@@ -214,11 +299,10 @@ class EventsEdit extends React.Component {
             <Form.Field>
               <label id="assignACoach">Event Cover</label>
               <Dropzone
-                //  getUploadParams={getUploadParams}
-                //onChangeStatus={handleChangeStatus}
-                //  onSubmit={handleSubmit}
+                onChangeStatus={(val) => {
+                  this.handleChangeStatus(val);
+                }}
                 multiple={false}
-                //inputContent="or drag&drop here"
                 accept="image/*"
                 maxFiles="1"
                 styles={{
@@ -229,22 +313,12 @@ class EventsEdit extends React.Component {
             <Divider />
             <div className="form-group">
               <Button.Group fluid>
-                <Button
-                  id="deleteModalButton"
-                  onClick={() => {
-                    this.props.delete(this.props.event);
-                    this.props.onHide();
-                  }}
-                >
-                  Delete
-                </Button>
-                <Button.Or />
                 <Button id="canceModalButton" onClick={this.props.onHide}>
                   Cancel
                 </Button>
                 <Button.Or />
                 <Button id="addModalButton" type="submit">
-                  SAVE
+                  ADD NEW
                 </Button>
               </Button.Group>
             </div>

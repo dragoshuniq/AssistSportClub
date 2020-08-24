@@ -22,6 +22,7 @@ class AddCoachModal extends React.Component {
         last_name: "noName",
         email: "",
         clubs: [],
+        txt: "",
       },
       textClubs: [],
       isAllertMessage: false,
@@ -76,6 +77,7 @@ class AddCoachModal extends React.Component {
       })
       .catch((error) => {
         console.log(error);
+
         //this.props.onHide();
         this.setState({ error: error.message, isAllertMessage: true });
       });
@@ -208,7 +210,10 @@ class AddCoachModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           {this.state.isAllertMessage && (
-            <AlertMessage error={this.state.error} />
+            <AlertMessage
+              error={this.state.error}
+              closeAlert={() => this.setState({ isAllertMessage: false })}
+            />
           )}
         </Modal.Footer>
       </Modal>
