@@ -1,36 +1,40 @@
 import React from "react";
 import { Modal, Button as RButton } from "react-bootstrap";
 import "./AdminClubs.css";
+import axios from "axios";
+import serverUrl from "../url";
+
 import { Form, Button, Divider, Select, Label, Icon } from "semantic-ui-react";
 class EditClubModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoaded: false,
       members: [],
       isInvite: false,
       trainOptions: [
-        { key: "Ionel", text: "Ionel", value: "Ionel" },
-        { key: "Denis", text: "Denis", value: "Denis" },
-        { key: "Vasile", text: "Vasile", value: "Vasile" },
+        { key: 1, text: "Vasea", value: 1 },
+        { key: 2, text: "Grisha", value: 2 },
+        { key: 3, text: "Denis", value: 3 },
+        { key: 4, text: "Cristi", value: 4 },
       ],
 
-      club: {
-        id: Math.random(),
-        name: "noName",
-        email: "",
-        clubs: "",
-      },
+      club: { ...this.props.club },
+      coach: { ...this.props.coach },
+      localClubs: [],
     };
   }
   onChangeClubName(value) {
     const train = this.state.club;
     train.name = value;
     this.setState({ club: train });
+    console.log(this.state.club);
   }
-  onChangeClubCoach(value) {
+  onChangeCoach(value) {
     const train = this.state.club;
-    train.owner = value;
+    train.owner_id = value;
     this.setState({ club: train });
+    console.log(this.state.club);
   }
   inviteMembersHandler() {
     this.setState({
@@ -63,12 +67,57 @@ class EditClubModal extends React.Component {
     );
   };
 
-  componentWillMount() {
-    this.setState({ club: this.props.club });
-    this.setState({
-      trainOptions: [this.props.coach, ...this.state.trainOptions],
-    });
+  // componentWillMount() {
+  //   this.setState({ club: this.props.club });
+  //   this.setState({
+  //     trainOptions: [this.props.coach, ...this.state.trainOptions],
+  //   });
+  // }
+  receivedData() {
+    axios
+      .get(serverUrl + "api/user/all/coaches", {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      })
+      // .get("https://next.json-generator.com/api/json/get/VyE9zEcMY")
+      .then((res) => {
+        var arr = [];
+        console.log(res.data);
+        const data = res.data;
+        data.map((value) => {
+          var obj = {
+            key: value.coach_id,
+            text: value.first_name + " " + value.last_name,
+            value: value.coach_id,
+          };
+          arr.push(obj);
+        });
+        this.setState({ trainOptions: arr, isLoaded: true });
+        console.log(this.state.trainOptions);
+      });
+    // console.log(this.state.data);
   }
+  componentDidMount() {
+    this.receivedData();
+  }
+
+  postData() {
+    const data = this.state.club;
+    data.email = this.state.members;
+    axios
+      .put(serverUrl + `api/club/${this.state.club.id}`, data, {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        this.props.onHide();
+        window.location.reload(false);
+      });
+  }
+
   render() {
     return (
       <Modal
@@ -83,14 +132,14 @@ class EditClubModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={() => this.props.onHide()}>
+          <Form onSubmit={() => this.postData()}>
             <Form.Field>
               <label id="assignACoach">Club's Name</label>
               <input
                 id="field"
                 required
-                placeholder="Club"
                 value={this.state.club.name}
+                placeholder="Club"
                 onChange={(event) => this.onChangeClubName(event.target.value)}
               />
             </Form.Field>
@@ -98,14 +147,15 @@ class EditClubModal extends React.Component {
             <Form.Field>
               <label id="assignACoach">Assign a coach</label>
               <Select
-                multiple
+                required
                 id="field"
-                placeholder="Coach Assign"
+                // placeholder="Coach Assign"
                 options={this.state.trainOptions}
-                defaultValue={this.state.trainOptions[0].value}
-                onChange={(e, { value }) => this.onChangeClubCoach(value)}
+                defaultValue={this.state.coach}
+                onChange={(e, { value }) => this.onChangeCoach(value)}
               />
             </Form.Field>
+
             <div style={{ flexDirection: "row" }}>
               <label
                 id="inviteMembers"
@@ -117,7 +167,7 @@ class EditClubModal extends React.Component {
             </div>
 
             {this.state.isInvite &&
-              this.state.members.map((item) => <this.InviteInput />)}
+              this.state.members.map((item) => <this.InviteInput id={item} />)}
 
             {this.state.isInvite && <this.AddAnother />}
 
@@ -139,7 +189,7 @@ class EditClubModal extends React.Component {
                 </Button>
                 <Button.Or />
                 <Button id="addModalButton" type="submit">
-                  ADD NEW
+                  Save
                 </Button>
               </Button.Group>
             </div>
