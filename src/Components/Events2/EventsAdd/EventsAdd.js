@@ -24,6 +24,7 @@ class EventAdd extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      mailMap: new Map(),
       event: {
         name: "",
         date: new Date(),
@@ -32,23 +33,52 @@ class EventAdd extends React.Component {
         description: "",
         location: { lat: 47.667138, lng: 26.27439 },
         event_cover: {},
-        club: "",
+        clubId: "",
+        sportType: "",
       },
+      clubOptions: [
+        { key: 1, text: "Running", value: "Running" },
+        { key: 2, text: "Cycling", value: "Cycling" },
+        { key: 3, text: "Tennis", value: "Tennis" },
+        { key: 4, text: "Football", value: "Football" },
+      ],
+      members: [],
       mapModalShow: false,
       isInvite: false,
       location: { lat: 47.667138, lng: 26.27439 },
+      sportsOptions: [
+        { key: 1, text: "Running", value: "Running" },
+        { key: 2, text: "Cycling", value: "Cycling" },
+        { key: 3, text: "Tennis", value: "Tennis" },
+        { key: 4, text: "Football", value: "Football" },
+      ],
     };
   }
 
   receivedData() {
+    const obj = {
+      role_id: parseInt(localStorage.getItem("role")),
+      user_id: parseInt(localStorage.getItem("user_id")),
+    };
+    console.log(obj);
     axios
-      .get(serverUrl + "api/club/owner/null", {
+      .post(serverUrl + "api/club/list", obj, {
         headers: {
           Authorization: localStorage.getItem("user"),
         },
       })
       .then((res) => {
         console.log(res);
+        const arr = [];
+        res.data.map((value) => {
+          const obj = {
+            key: value.id,
+            text: value.name,
+            value: value.id,
+          };
+          arr.push(obj);
+        });
+        this.setState({ clubOptions: arr });
       });
   }
   componentDidMount() {
@@ -56,10 +86,6 @@ class EventAdd extends React.Component {
   }
   handleChangeStatus(img) {
     const aux = this.state.event;
-    aux.event_cover = {
-      type: img.file.type,
-      link: img.meta.previewUrl,
-    };
 
     let file = img.file;
     let reader = new FileReader();
@@ -69,6 +95,13 @@ class EventAdd extends React.Component {
         base64: reader.result,
       });
     };
+    //console.log(this.state.base64);
+
+    aux.event_cover = {
+      type: img.file.type,
+      link: this.state.base64,
+    };
+
     this.setState({ event: aux });
   }
 
@@ -97,14 +130,19 @@ class EventAdd extends React.Component {
   }
   postData() {
     const loc = this.state.event;
-    loc.sportType = "Football";
     loc.date = loc.date.toString();
-
     loc.time = moment(loc.time).format("h:mm:ss");
-    loc.invite_emails = [];
-    loc.clubId = 13;
+
+    const arr = [];
+    for (let [key, value] of this.state.mailMap) {
+      arr.push(value);
+    }
+    loc.invite_members = arr;
+
+    loc.invite_emails = this.state.members;
     loc.location =
       loc.location.lat.toString() + "," + loc.location.lng.toString();
+    console.log(this.state.event);
     this.setState({ event: loc });
     axios
       .post(serverUrl + "api/event/create", this.state.event, {
@@ -161,9 +199,25 @@ class EventAdd extends React.Component {
       </Form.Field>
     );
   };
+  onChangeEmail(id, value) {
+    const aux = this.state.mailMap;
+
+    if (value.length !== 0) {
+      aux.set(id, value);
+    } else {
+      aux.delete(id);
+    }
+    this.setState({ state: aux });
+    //    console.log(this.state.mailMap);
+  }
   onChangeClub(e, val) {
     const train = this.state.event;
-    train.club = val;
+    train.clubId = val;
+    this.setState({ event: train });
+  }
+  onChangeSport(e, val) {
+    const train = this.state.event;
+    train.sportType = val;
     this.setState({ event: train });
   }
   onSubmit() {
@@ -184,7 +238,7 @@ class EventAdd extends React.Component {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            <h1 id="coachesText"> Add Event </h1>
+            <h1 id="coachesText"> Add Event</h1>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -203,7 +257,7 @@ class EventAdd extends React.Component {
               <Select
                 fluid
                 id="field"
-                placeholder="Club Assign"
+                defaultValue={this.state.clubOptions[0].value}
                 options={this.state.clubOptions}
                 onChange={(e, { value }) => this.onChangeClub(e, value)}
               />
@@ -214,8 +268,9 @@ class EventAdd extends React.Component {
                 fluid
                 id="field"
                 placeholder="Sport"
-                options={this.state.clubOptions}
-                onChange={(e, { value }) => this.onChangeClub(e, value)}
+                defaultValue={this.state.sportsOptions[0].value}
+                options={this.state.sportsOptions}
+                onChange={(e, { value }) => this.onChangeSport(e, value)}
               />
             </Form.Field>
 
