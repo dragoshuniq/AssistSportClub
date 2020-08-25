@@ -31,9 +31,9 @@ class DeleteCoachModal extends React.Component {
         this.props.onHide();
       })
       .catch((error) => {
-        // this.setState({ error: error.message, isAllertMessage: true });
+       this.setState({ error: error.message, isAllertMessage: true });
         console.log(error);
-        window.location.reload(false);
+       // window.location.reload(false);
       });
   }
   render() {

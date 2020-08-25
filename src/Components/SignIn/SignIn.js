@@ -17,6 +17,7 @@ import AuthApi from "../AuthApi";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import logo from "./login.jpg";
 import "./SignIn.css";
+import AlertMessage from "../AlertMessage";
 import serverUrl from "../url";
 class SignIn extends React.Component {
   constructor(props) {
@@ -27,6 +28,8 @@ class SignIn extends React.Component {
         password: "",
       },
       isPassword: true,
+      isAllertMessage: false,
+      error: "",
     };
   }
 
@@ -104,13 +107,17 @@ class SignIn extends React.Component {
                               "img",
                               response.data.profile_photo
                             );
+                          console.log(localStorage.getItem("img"));
                           window.location.reload(false);
                         } else {
                           myStorage.removeItem("role");
                         }
                       })
-                      .catch(function (error) {
-                        console.log(error);
+                      .catch((error) => {
+                        this.setState({
+                          error: error.response.data.message,
+                          isAllertMessage: true,
+                        });
                       });
                   }}
                   render={({ errors, status, touched }) => (
@@ -180,6 +187,12 @@ class SignIn extends React.Component {
                     </Form>
                   )}
                 />
+                {this.state.isAllertMessage && (
+                  <AlertMessage
+                    error={this.state.error}
+                    closeAlert={() => this.setState({ isAllertMessage: false })}
+                  />
+                )}
               </div>
             </div>
           </Col>
