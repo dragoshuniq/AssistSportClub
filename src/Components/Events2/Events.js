@@ -264,6 +264,7 @@ class Events extends React.Component {
               <NavLink
                 className="navLinkCart"
                 to={`/Navigation/EventsDetails/${value.id}`}
+                style={{ textDecoration: 'none' }}
               >
                 <Col className="cartCol" xl={3} lg={3} md={6} sm={12} xs={12}>
                   <Row className="rowCart">
