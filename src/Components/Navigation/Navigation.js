@@ -140,6 +140,7 @@ class Navigation extends Component {
                       className={classes.NavBotLogout}
                       onClick={() => {
                         localStorage.removeItem("user");
+                        localStorage.removeItem("img");
                         window.location.reload(false);
                       }}
                     >
