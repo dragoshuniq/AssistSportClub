@@ -153,6 +153,7 @@ class EventAdd extends React.Component {
       })
       .then((res) => {
         console.log(res);
+        this.props.onHide();
         window.location.reload(false);
       });
   }
@@ -182,9 +183,8 @@ class EventAdd extends React.Component {
   AddAnother = () => {
     return (
       <Label id="labelAddAnother" onClick={() => this.addChild()}>
-      {/* <Icon name="add" /> */}
-      
-         Add another
+        {/* <Icon name="add" /> */}
+        Add another
       </Label>
     );
   };
@@ -197,7 +197,7 @@ class EventAdd extends React.Component {
           placeholder="Email Adress"
           id="field"
           type="email"
-          required
+          //required
           onChange={(e) => this.onChangeEmail(id, e.target.value)}
         />
       </Form.Field>
@@ -377,9 +377,7 @@ class EventAdd extends React.Component {
             <Divider />
             <div className="form-group">
               <Button.Group fluid>
-                <Button id="canceModalButton" onClick={this.props.onHide}>
-                  Cancel
-                </Button>
+                <Button id="canceModalButton">Cancel</Button>
                 <Button.Or />
                 <Button id="addModalButton" type="submit">
                   ADD NEW

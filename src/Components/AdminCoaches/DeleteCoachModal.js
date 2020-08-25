@@ -29,11 +29,11 @@ class DeleteCoachModal extends React.Component {
         console.log(res);
         this.props.delete(this.props.coach.id);
         this.props.onHide();
-        setTimeout(window.location.reload(false), 1000);
       })
       .catch((error) => {
-        this.setState({ error: error.message, isAllertMessage: true });
+        // this.setState({ error: error.message, isAllertMessage: true });
         console.log(error);
+        window.location.reload(false);
       });
   }
   render() {

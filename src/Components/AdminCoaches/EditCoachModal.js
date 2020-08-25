@@ -55,7 +55,6 @@ class EditCoachModal extends React.Component {
     coach.clubs = IDcl;
     coach.user_id = this.props.coach.id;
 
-   
     axios
       .put(serverUrl + "api/user/update/coach/up", coach, {
         headers: {
@@ -66,11 +65,11 @@ class EditCoachModal extends React.Component {
         console.log(res);
         this.props.edit(coach);
         this.props.onHide();
+        window.location.reload(false);
       })
       .catch((error) => {
         console.log(error);
         this.setState({ error: error.message, isAllertMessage: true });
-
       });
   }
 
@@ -264,8 +263,9 @@ class EditCoachModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           {this.state.isAllertMessage && (
-            <AlertMessage error={this.state.error} 
-            closeAlert={() => this.setState({ isAllertMessage: false })}
+            <AlertMessage
+              error={this.state.error}
+              closeAlert={() => this.setState({ isAllertMessage: false })}
             />
           )}
         </Modal.Footer>
