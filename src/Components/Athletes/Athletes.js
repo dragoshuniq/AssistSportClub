@@ -200,7 +200,7 @@ class Athletes extends Component {
                     selectAllElements: false,
                     deleteMultiple: false,
                 });
-                console.log(res.data);
+                // console.log(res.data);
             });
 
 
@@ -266,7 +266,7 @@ class Athletes extends Component {
 
 
 
-        console.log('edit atleti 1 ... :' + atlet.id);
+        // console.log('edit atleti 1 ... :' + atlet.id);
 
         // const sendData = this.state.listaAtleti;
         // sendData.age = parseInt(sendData.age);
@@ -286,7 +286,7 @@ class Athletes extends Component {
 
         // this.setState({ listaAtleti: sendData });
 
-        console.log(' dsafdsaf edit ', this.state.listaAtleti);
+        // console.log(' dsafdsaf edit ', this.state.listaAtleti);
 
 
         axios
@@ -420,11 +420,7 @@ class Athletes extends Component {
     render() {
         const numarAtleti = this.state.listaAtleti2.length;
 
-        var mystring = 'merge rau totul o sa fie rau rau rau';
-        var b64 = btoa(mystring);
-        console.log('mmm: ',b64);
-        var unicode = atob(b64);
-        console.log('kkk: ',unicode);
+      
 
       
 
@@ -472,6 +468,7 @@ class Athletes extends Component {
                     </Col>
                 </Row>
                 {/* END Header */}
+                {console.log('lista: ',this.state.listaAtleti)}
 
                 {/* map the variable filtered  */}
                 <Row className={classes.pointerAtlet}>
@@ -511,6 +508,7 @@ class Athletes extends Component {
                                             {el.secondarySport === 3 ? "tennis" : null}
                                             {el.secondarySport === 4 ? "football" : null} */}
                                             {el.secondarySport}
+                                            {/* {console.log(el)} */}
                                         </p>
                                     </Col>
                                 </Row>
