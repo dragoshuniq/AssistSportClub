@@ -325,6 +325,7 @@ class AdminClubDetails extends React.Component {
                     this.setState({
                       data: this.state.pending,
                       isPending: true,
+                      
                     });
                   }}
                 >
