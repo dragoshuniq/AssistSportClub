@@ -1,2 +1,2 @@
-const serverUrl = "http://5963bc197e06.ngrok.io/";
+const serverUrl = "http://a2611900d9fb.ngrok.io/";
 export default serverUrl;
