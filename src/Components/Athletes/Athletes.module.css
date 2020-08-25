@@ -178,11 +178,13 @@
     }
 }
 
+
 @media only screen and (min-width: 1500px) {
     .paginationTop {
         position: absolute;
-        right: 40%;
+        right: 30%;
         bottom: 50px;
+        
     }
 }
 

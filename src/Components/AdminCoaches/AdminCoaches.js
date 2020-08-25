@@ -8,6 +8,7 @@ import axios from "axios";
 import ReactPaginate from "react-paginate";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import AlertMessage from "../AlertMessage";
+ 
 
 import {
   Input,
@@ -535,7 +536,8 @@ class AdminCoaches extends React.Component {
               {/* <Col> {this.state.postData} </Col> */}
             </Row>
             <Row
-              id="pagination"
+            id='paginationCoachesTop'
+              // id="pagination"
               style={{
                 justifyContent: "center",
                 alignItems: "center",
@@ -543,6 +545,7 @@ class AdminCoaches extends React.Component {
               }}
             >
               <Pagination
+                id='pagination'
                 pointing
                 secondary
                 defaultActivePage={1}

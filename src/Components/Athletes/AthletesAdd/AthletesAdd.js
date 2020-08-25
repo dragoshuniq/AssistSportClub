@@ -4,8 +4,11 @@ import classes from './AthletesAdd.module.css';
 import axios from "axios";
 import serverUrl from "../../url";
 import Dropzone from "react-dropzone-uploader";
+import "react-dropzone-uploader/dist/styles.css";
+import {
 
-
+    Select,
+} from "semantic-ui-react";
 // import * as Yup from "yup";
 // import { Formik, Field, ErrorMessage, Form } from "formik";
 
@@ -40,7 +43,7 @@ class AthletesAdd extends Component {
             clubs: [],
             password: '',
             confirm_password: '',
-            profile_photo: ''
+            profile_photo: {}
         },
         mailMap: new Map(),
         event: {
@@ -53,6 +56,36 @@ class AthletesAdd extends Component {
             profile_photo: {},
             club: "",
         },
+        clubOptions: [{key: 1, text: "dada", value: 1}]
+    }
+    receivedData() {
+        const obj = {
+            role_id: parseInt(localStorage.getItem("role")),
+            user_id: parseInt(localStorage.getItem("user_id")),
+        };
+        console.log(obj);
+        axios
+            .post(serverUrl + "api/club/list", obj, {
+                headers: {
+                    Authorization: localStorage.getItem("user"),
+                },
+            })
+            .then((res) => {
+                console.log(res);
+                const arr = [];
+                res.data.map((value) => {
+                    const obj = {
+                        key: value.id,
+                        text: value.name,
+                        value: value.id,
+                    };
+                    arr.push(obj);
+                });
+                this.setState({ clubOptions: arr });
+            });
+    }
+    componentDidMount() {
+        this.receivedData();
     }
 
     postData() {
@@ -62,7 +95,7 @@ class AthletesAdd extends Component {
         sendData.secondary_sport_id = parseInt(sendData.secondary_sport_id);
         sendData.weight = parseInt(sendData.weight);
         sendData.height = parseInt(sendData.height);
-        sendData.profile_photo = { type: "Buffer", data: [] };
+
         // sendData.id = parseInt(sendData.id);
         // const arr = [];
         // for (let [key, value] of this.state.mailMap) {
@@ -102,9 +135,15 @@ class AthletesAdd extends Component {
         })
 
     }
+    onChangeClub(e, val) {
+        const train = this.state.atletUser;
+        train.clubId = val;
+        this.setState({ atletUser: train });
+        console.log(val);
+      }
 
     HandlerEventADD_FILE = (event) => {
-
+        console.log(event)
         // const value = event.target.value;
         const name = event.target.name;
 
@@ -137,11 +176,8 @@ class AthletesAdd extends Component {
     }
 
     handleChangeStatus(img) {
-        const aux = this.state.event;
-        aux.profile_photo = {
-            type: img.file.type,
-            link: img.meta.previewUrl,
-        };
+        const aux = this.state.atletUser;
+
 
         let file = img.file;
         let reader = new FileReader();
@@ -152,7 +188,15 @@ class AthletesAdd extends Component {
             });
         };
 
-        this.setState({ event: aux });
+        aux.profile_photo = {
+            type: img.file.type,
+            link: this.state.base64,
+        };
+        this.setState({
+            atletUser: aux,
+        });
+
+        console.log(this.state.atletUser.profile_photo)
     }
 
     changeFile(value) {
@@ -350,11 +394,20 @@ class AthletesAdd extends Component {
 
                         <Form.Group as={Col} controlId="formGridAssignToClub">
                             <Form.Label>Assign To a Club</Form.Label>
-                            <Form.Control id="field" required name="club_name" as="select" defaultValue="club 1" onChange={this.HandlerEventADD}>
-                                <option value="club 1">Club 1</option>
-                                <option value="club 2">Club 2</option>
-                                <option value="club 3">Club 3</option>
+                            <Form.Control id="field" required name="club_name" as="select"
+
+                                options={this.state.clubOptions}
+                                onChange={this.HandlerEventADD}>
+
                             </Form.Control>
+                            <Select
+                                fluid
+                                id="field"
+                                defaultValue={this.state.clubOptions[0].value}
+                                options={this.state.clubOptions}
+                                onChange={(e, { value }) => this.onChangeClub(e, value)}
+
+                            />
                         </Form.Group>
 
 
@@ -371,13 +424,13 @@ class AthletesAdd extends Component {
 
                                     onChange={this.HandlerEventADD_FILE}
                                 />
-                                <Form.File.Label data-browse="Button text" id="field">
+                                <Form.File.Label data-browse="Button text" id="field" >
                                     Custom file input
                                 </Form.File.Label>
 
                                 {/* <Form.Control.Feedback type="valid">You did it!</Form.Control.Feedback> */}
 
-                                {/* <Dropzone
+                                <Dropzone
                                     onChangeStatus={(val) => {
                                         this.handleChangeStatus(val);
                                     }}
@@ -387,7 +440,7 @@ class AthletesAdd extends Component {
                                     styles={{
                                         dropzone: { minHeight: 50, maxHeight: 50 },
                                     }}
-                                /> */}
+                                />
                             </Form.File>
                         </Form.Group>
 
