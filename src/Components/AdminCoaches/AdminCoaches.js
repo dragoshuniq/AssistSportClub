@@ -442,7 +442,7 @@ class AdminCoaches extends React.Component {
                 md={4}
                 sm={12}
                 xs={12}
-                style={{ right: "16px" }}
+                style={{ right: "6px" }}
               >
                 <Popup
                   trigger={
@@ -473,7 +473,7 @@ class AdminCoaches extends React.Component {
               </Col>
               <Col md={2}>
                 <Button
-                  id="addNewButtonClub"
+                  id="addNewButtonClub2"
                   onClick={() => this.setState({ addModalShow: true })}
                 >
                   ADD NEW
@@ -482,7 +482,7 @@ class AdminCoaches extends React.Component {
             </Row>
             {/** DETAILS PART */}
             <Row style={{ marginTop: "3vh" }}>
-              <Col>
+              <Col >
                 <Row
                   style={{
                     backgroundColor: " #1A1A1A",
@@ -530,7 +530,7 @@ class AdminCoaches extends React.Component {
             </Row>
 
             {/** DETAILS INFO  DYNAMIC*/}
-            <Row>
+            <Row >
               <Col>{dynamicRender}</Col>
               {/* <Col> {this.state.postData} </Col> */}
             </Row>

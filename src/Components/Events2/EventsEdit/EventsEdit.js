@@ -47,7 +47,6 @@ class EventsEdit extends React.Component {
       role_id: parseInt(localStorage.getItem("role")),
       user_id: parseInt(localStorage.getItem("user_id")),
     };
-    console.log(obj);
     axios
       .post(serverUrl + "api/club/list", obj, {
         headers: {
@@ -216,7 +215,6 @@ class EventsEdit extends React.Component {
   }
   render() {
     console.log(this.props.event);
-
     return (
       <Modal
         {...this.props}

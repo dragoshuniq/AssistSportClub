@@ -184,7 +184,10 @@
         right: 40%;
         bottom: 50px;
     }
+ 
 }
+ 
+
 
 @media only screen and (max-height: 680px) {
     .paginationTop {

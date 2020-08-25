@@ -201,6 +201,8 @@ class EventsDetails extends React.Component {
         this.setState({
           data: result.data,
           useArray: result.data,
+          event: result.data,
+
         });
 
         console.log('events details !!!!!! ..... ', result.data);

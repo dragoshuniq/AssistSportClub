@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Modal, Button as RButton } from "react-bootstrap";
 import "./AdminClubs.css";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import {
   InputGroup,
   FormControl,
@@ -30,7 +31,8 @@ function AddedConfirmModal(props) {
         }}
       >
         <div id="iconDone">
-          <Icon size="huge" name="check circle" color="black" />
+        <FontAwesomeIcon icon={faCheckCircle} size="5x" />
+
         </div>
         <h1 id="coachAddedText"> Club Added </h1>
         <p id="confirmText">
