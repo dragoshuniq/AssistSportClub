@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Modal, Button as RButton } from "react-bootstrap";
 import { Formik, Field, ErrorMessage, Form } from "formik";
 import * as Yup from "yup";
+import 'semantic-ui-css/semantic.min.css'
 import { Row, Col } from "react-bootstrap";
 import axios from "axios";
 import serverUrl from "../url";

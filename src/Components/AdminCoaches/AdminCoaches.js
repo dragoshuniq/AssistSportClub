@@ -8,7 +8,6 @@ import axios from "axios";
 import ReactPaginate from "react-paginate";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import AlertMessage from "../AlertMessage";
- 
 
 import {
   Input,
@@ -75,8 +74,6 @@ class AdminCoaches extends React.Component {
     this.receivedData();
   }
 
-  
-  
   HandlePageClick = (e, { activePage }) => {
     const selectedPage = activePage;
 
@@ -123,7 +120,6 @@ class AdminCoaches extends React.Component {
       useArray: slice,
       selectedElements: myMap,
     });
-   
   }
 
   changeSearchPage(thisArr) {
@@ -483,7 +479,7 @@ class AdminCoaches extends React.Component {
             </Row>
             {/** DETAILS PART */}
             <Row style={{ marginTop: "3vh" }}>
-              <Col >
+              <Col>
                 <Row
                   style={{
                     backgroundColor: " #1A1A1A",
@@ -531,12 +527,12 @@ class AdminCoaches extends React.Component {
             </Row>
 
             {/** DETAILS INFO  DYNAMIC*/}
-            <Row >
+            <Row>
               <Col>{dynamicRender}</Col>
               {/* <Col> {this.state.postData} </Col> */}
             </Row>
             <Row
-            id='paginationCoachesTop'
+              id="paginationCoachesTop"
               // id="pagination"
               style={{
                 justifyContent: "center",
@@ -545,7 +541,7 @@ class AdminCoaches extends React.Component {
               }}
             >
               <Pagination
-                id='pagination'
+                id="pagination"
                 pointing
                 secondary
                 defaultActivePage={1}
@@ -580,12 +576,15 @@ class AdminCoaches extends React.Component {
             />
           )}
         </Row>
-      
+
         <Row>
           {this.state.deleteModalShow && (
             <DeleteCoachModal
               show={this.state.deleteModalShow}
-              onHide={() => this.setState({ deleteModalShow: false })}
+              onHide={() => {
+                this.setState({ deleteModalShow: false });
+                window.location.reload(false);
+              }}
               delete={(id) => this.deleteCoach(id)}
               coach={this.state.coachToDelete}
             />
@@ -595,7 +594,10 @@ class AdminCoaches extends React.Component {
           {this.state.deleteMultipleShow && (
             <DeleteMultipleModal
               show={this.state.deleteMultipleShow}
-              onHide={() => this.setState({ deleteMultipleShow: false })}
+              onHide={() => {
+                this.setState({ deleteMultipleShow: false });
+                window.location.reload(false);
+              }}
               delete={this.deleteMultipleHandler}
             />
           )}

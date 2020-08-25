@@ -13,6 +13,7 @@ function DeleteModal(props) {
       })
       .then((res) => {
         props.onHide();
+        
       })
       .catch((error) => {
         console.log(error);

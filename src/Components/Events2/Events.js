@@ -8,7 +8,7 @@ import {
   Divider,
   Pagination,
   Image,
-  Popup
+  Popup,
 } from "semantic-ui-react";
 import { Route, NavLink, Switch } from "react-router-dom";
 import "./AdminClubs.css";
@@ -17,15 +17,14 @@ import EventsAddedMessage from "./EventsAddedMessage/EventsAddedMessage";
 import EventsDetails from "./EventsDetails/EventsDetails";
 import axios from "axios";
 import serverUrl from "../url";
-import moment from 'moment';
-
+import moment from "moment";
 
 class Events extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      imagine: require('../../poze/img1.png'),
+      imagine: require("../../poze/img1.png"),
 
       data: [],
       useArray: [],
@@ -117,7 +116,6 @@ class Events extends React.Component {
   }
 
   receivedData() {
-
     axios
       .get(serverUrl + "api/event", {
         headers: {
@@ -125,25 +123,22 @@ class Events extends React.Component {
         },
       })
       .then((result) => {
-
         var arrOnGoing = [];
         var arrPast = [];
         var arrFuture = [];
         (result.data || []).map((el) => {
-
-          if (moment(el.date).format('YYYY') === '2020') {
+          if (moment(el.date).format("YYYY") === "2020") {
             arrOnGoing.push(el);
           }
 
-          if (moment(el.date).format('YYYY') < '2020') {
+          if (moment(el.date).format("YYYY") < "2020") {
             arrPast.push(el);
           }
 
-          if (moment(el.date).format('YYYY') > '2020') {
+          if (moment(el.date).format("YYYY") > "2020") {
             arrFuture.push(el);
           }
-
-        })
+        });
 
         this.setState({
           data: result.data,
@@ -153,10 +148,8 @@ class Events extends React.Component {
           arrayFutureEvent: arrFuture,
         });
 
-        console.log('lll:', result.data)
-
+        console.log("lll:", result.data);
       });
-
   }
 
   componentDidMount() {
@@ -199,17 +192,15 @@ class Events extends React.Component {
   render() {
     return (
       <Container fluid id="containerAdminCoaches">
-
-
-        <Row id='rowLTitle'>
+        <Row id="rowLTitle">
           <Col>
             <h1 id="coachesText">Events</h1>
           </Col>
         </Row>
 
         {/* Search */}
-        <Row id='searchEventRow'>
-          <div className='inputDiv'>
+        <Row id="searchEventRow">
+          <div className="inputDiv">
             <Popup
               trigger={
                 <Input
@@ -229,100 +220,118 @@ class Events extends React.Component {
           {/* Add button */}
           <Button
             onClick={() => this.setState({ addModalShow: true })}
-            id='addNewButtonEvent'>
+            id="addNewButtonEvent"
+          >
             ADD NEW
-                </Button>
+          </Button>
         </Row>
 
-
         {/* btn ongoing future past */}
-        <Row id="rowBtnGroup" >
+        <Row id="rowBtnGroup">
           <Col>
-            <Button id="onGoingBtn"
-              onClick={() => { this.setState({ useArray: this.state.onGoingEvent }) }} >
+            <Button
+              id="onGoingBtn"
+              onClick={() => {
+                this.setState({ useArray: this.state.onGoingEvent });
+              }}
+            >
               Ongoing ({this.state.onGoingEvent.length})
-                </Button>
-            <Button id="futureBtn" onClick={() => { this.setState({ useArray: this.state.arrayFutureEvent }) }} >Future</Button>
-            <Button id="pastBtn" onClick={() => { this.setState({ useArray: this.state.arrayPatEvent }) }} >Past</Button>
+            </Button>
+            <Button
+              id="futureBtn"
+              onClick={() => {
+                this.setState({ useArray: this.state.arrayFutureEvent });
+              }}
+            >
+              Future
+            </Button>
+            <Button
+              id="pastBtn"
+              onClick={() => {
+                this.setState({ useArray: this.state.arrayPatEvent });
+              }}
+            >
+              Past
+            </Button>
           </Col>
         </Row>
 
         {/** DETAILS PART */}
         <Row id="rowRightEvent">
-          {
+          {(this.state.useArray || []).map((value, index) => {
+            var str = value.location.split(",");
+            return (
+              <NavLink
+                className="navLinkCart"
+                to={`/Navigation/EventsDetails/${value.id}`}
+              >
+                <Col className="cartCol" xl={3} lg={3} md={6} sm={12} xs={12}>
+                  <Row className="rowCart">
+                    <Col id="cartLeftEvent" md={5}>
+                      <Image
+                        src={
+                          value.event_cover !== null
+                            ? this.state.imagine
+                            : value.event_cover
+                        }
+                        id="imgLeftCartEvent"
+                      />
+                    </Col>
 
+                    <Col className="cartRight">
+                      <Row id="rowRightCart">
+                        <h3 className="marginLeft1">{value.name}</h3>
 
-            (this.state.useArray || [] ).map((value, index) => {
-              var str = value.location.split(",");
-              return (
+                        <p>{value.description}</p>
 
-                <NavLink className='navLinkCart' to={`/Navigation/EventsDetails/${value.id}`}>
-                  <Col className='cartCol' xl={3} lg={3} md={6} sm={12} xs={12} >
+                        <p className="participants">PARTICIPANTS</p>
 
+                        <small className="marginLeft">
+                          {moment(value.date).format("MM.DD.YYYY")}
+                        </small>
+                        <small>{moment(value.date).format("h:mm a")}</small>
 
-                    <Row className='rowCart'>
+                        <p className="width">
+                          {"Lat: " + str[0]} {"Lat: " + str[1]}
+                        </p>
 
-                      <Col id='cartLeftEvent' md={5} >
-                        <Image src={value.event_cover !== null ? this.state.imagine : value.event_cover} id='imgLeftCartEvent' />
-                      </Col>
+                        {(value.members || [])
+                          .map((el, index) => {
+                            return (
+                              <>
+                                <img
+                                  src={
+                                    el.profile_photo === null
+                                      ? this.state.imagine
+                                      : el.profile_photo
+                                  }
+                                  size="mini"
+                                  circular
+                                  id="imageCircIcons"
+                                />
+                              </>
+                            );
+                          })
+                          .slice(0, 4)}
 
-                      <Col className='cartRight'>
-
-                        <Row id='rowRightCart'>
-
-                          <h3 className='marginLeft1' >{value.name}</h3>
-
-                          <p>
-                            {value.description}
-                          </p>
-
-                          <p className='participants'>
-                            PARTICIPANTS
-                              </p>
-
-                          <small className='marginLeft'>{moment(value.date).format('MM.DD.YYYY')}</small>
-                          <small>{moment(value.date).format('h:mm a')}</small>
-
-                          <p className='width'>{"Lat: " + str[0]} {"Lat: " + str[1]}</p>
-
-                          {
-                            (value.members || []).map((el, index) => {
-                              return (
-                                <>
-                                  <img
-                                    src={el.profile_photo === null ? this.state.imagine : el.profile_photo}
-                                    size="mini"
-                                    circular
-                                    id="imageCircIcons" />
-                                </>
-                              )
-                            }).slice(0, 4)
-                          }
-
-                          <p> {(value.members || []).length - 4 > 0
+                        <p>
+                          {" "}
+                          {(value.members || []).length - 4 > 0
                             ? " +  " + (value.members.length - 4).toString()
-                            : null}</p>
-
-                        </Row>
-
-                      </Col>
-
-                    </Row>
-
-                  </Col>
-                </NavLink>
-
-              )
-            }
-            )
-
-          }
+                            : null}
+                        </p>
+                      </Row>
+                    </Col>
+                  </Row>
+                </Col>
+              </NavLink>
+            );
+          })}
         </Row>
 
-        {console.log('fsdafsdasdasaa: ', this.props.id)}
+        {console.log("fsdafsdasdasaa: ", this.props.id)}
         {this.state.addModalShow && (
           <EventsAdd
-
             addEventHandler={(e) => this.addEventHandler(e)}
             show={this.state.addModalShow}
             onHide={() => this.setState({ addModalShow: false })}
@@ -331,11 +340,13 @@ class Events extends React.Component {
         {this.state.confirmModalShow && (
           <EventsAddedMessage
             show={this.state.confirmModalShow}
-            onHide={() => this.setState({ confirmModalShow: false })}
+            onHide={() => {
+              this.setState({ confirmModalShow: false });
+              //window.location.reload(false);
+            }}
             event={this.state.addedEvent}
           />
         )}
-
       </Container>
     );
   }

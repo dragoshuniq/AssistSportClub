@@ -12,7 +12,8 @@ function DeleteClubModal(props) {
         },
       })
       .then((res) => {
-        console.log(res).then(props.onHide());
+        console.log(res);
+        props.onHide();
       })
       .catch((error) => {
         console.log(error);
