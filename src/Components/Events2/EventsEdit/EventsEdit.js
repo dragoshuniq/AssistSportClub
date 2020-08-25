@@ -40,6 +40,8 @@ class EventsEdit extends React.Component {
         { key: 4, text: "Football", value: "Football" },
       ],
       event: { ...this.props.event },
+      vasile: false,
+      invite_emails:[]
     };
   }
   receivedData() {
@@ -101,7 +103,7 @@ class EventsEdit extends React.Component {
   onChangeTime(time) {
     const train = this.state.event;
     train.time = time;
-    this.setState({ event: train });
+    this.setState({ event: train, vasile: true });
   }
   onChangeDate(date) {
     const train = this.state.event;
@@ -116,12 +118,14 @@ class EventsEdit extends React.Component {
     } else {
       aux.delete(id);
     }
-    this.setState({ state: aux });
+    this.setState({ mailMap: aux });
   }
   postData() {
     const loc = this.state.event;
     loc.date = loc.date.toString();
-    loc.time = moment(loc.time).format("h:mm:ss");
+    if (this.state.vasile) {
+      loc.time = moment(loc.time).format("h:mm:ss");
+    }
 
     const arr = [];
     for (let [key, value] of this.state.mailMap) {
@@ -163,7 +167,7 @@ class EventsEdit extends React.Component {
   addChild() {
     this.setState({
       members: [
-        ...this.state.invite_emails,
+        ...this.state.members,
         { id: Math.random(), email: "Another mail".concat(Math.random()) },
       ],
     });
@@ -172,12 +176,13 @@ class EventsEdit extends React.Component {
   AddAnother = () => {
     return (
       <Label id="labelAddAnother" onClick={() => this.addChild()}>
-        <Icon name="add" /> Add another
+        {/* <Icon name="add" />  */}
+        
+        Add another
       </Label>
     );
   };
-  InviteInput = () => {
-    var id = Math.random();
+  InviteInput = (props) => {
     return (
       <Form.Field>
         <label id="assignACoach">Email Adress</label>
@@ -185,8 +190,8 @@ class EventsEdit extends React.Component {
           placeholder="Email Adress"
           id="field"
           type="email"
-          required
-          onChange={(e) => this.onChangeEmail(id, e.target.value)}
+       //   required
+          onChange={(e) => this.onChangeEmail(props.id, e.target.value)}
         />
       </Form.Field>
     );
@@ -279,7 +284,7 @@ class EventsEdit extends React.Component {
                 <Form.Field>
                   <label id="assignACoach">Time</label>
                   <DatePicker
-                    selected={new Date(this.state.event.date)}
+                    selected={new Date()}
                     onChange={(time) => this.onChangeTime(time)}
                     showTimeSelect
                     showTimeSelectOnly
@@ -339,7 +344,7 @@ class EventsEdit extends React.Component {
             </div>
 
             {this.state.isInvite &&
-              this.state.members.map((item) => <this.InviteInput />)}
+              this.state.members.map((item) => <this.InviteInput  id={item}/>)}
 
             {this.state.isInvite && <this.AddAnother />}
             <Divider hidden />

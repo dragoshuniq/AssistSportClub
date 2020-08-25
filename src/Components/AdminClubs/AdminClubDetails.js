@@ -9,6 +9,8 @@ import {
   Pagination,
   Image,
 } from "semantic-ui-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserCheck, faUserTimes } from "@fortawesome/free-solid-svg-icons";
 import serverUrl from "../url";
 import AthletProfile from "./AthletProfile";
 import AthletesAdd from "../Athletes/AthletesAdd/AthletesAdd";
@@ -54,7 +56,7 @@ class AdminClubDetails extends React.Component {
         this.state.offset + this.state.postsPerPage
       );
 
-      const pending = data.pending.slice(
+      const pending = data.request.slice(
         this.state.offset,
         this.state.offset + this.state.postsPerPage
       );
@@ -62,10 +64,10 @@ class AdminClubDetails extends React.Component {
 
       this.setState({
         totalMembers: data.members.length,
-        requestMembers: data.pending.length,
+        requestMembers: data.request.length,
         totalPosts: Math.ceil(data.length / this.state.postsPerPage),
         useArray: slice,
-        usePending: pending,
+        usePending: data.request,
         members: slice,
         pending: pending,
         data: data.members,
@@ -141,20 +143,61 @@ class AdminClubDetails extends React.Component {
     );
   };
 
+  acceptData(id) {
+    axios
+      .post(serverUrl + `api/club/request/accept/${id}`, {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      })
+      .then((res) => {
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  declineData(id) {
+    axios
+      .delete(serverUrl + `api/club/request/decline/${id}`, {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      })
+      .then((res) => {
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   searchHandler = (event) => {
     let value = event.target.value;
     this.setState({ searchValue: value });
     if (value.length !== 0) {
       const ath = value.toUpperCase();
       const searchArray = [];
-      this.state.data.map((res) => {
-        if (
-          res.first_name.toUpperCase().includes(ath) ||
-          res.last_name.toUpperCase().includes(ath)
-        ) {
-          searchArray.push(res);
-        }
-      });
+      if (this.state.isPending) {
+        this.state.pending.map((res) => {
+          if (
+            res.first_name.toUpperCase().includes(ath) ||
+            res.last_name.toUpperCase().includes(ath)
+          ) {
+            searchArray.push(res);
+          }
+        });
+      } else {
+        this.state.data.map((res) => {
+          if (
+            res.first_name.toUpperCase().includes(ath) ||
+            res.last_name.toUpperCase().includes(ath)
+          ) {
+            searchArray.push(res);
+          }
+        });
+      }
       this.setState({ isSearch: true, searchArray: searchArray });
       this.changeSearchPage(searchArray);
     } else {
@@ -164,86 +207,101 @@ class AdminClubDetails extends React.Component {
   };
   PostMembers = (member) => {
     return (
-      <Col xl={4} lg={4} md={6} sm={6} xs={6} style={{ marginTop: "5vh" }}>
-        <div id="memberClubCard">
-          <Row
-            className="cursorPointer"
-            onClick={() =>
-              this.setState({ profile: member, athletProfieShow: true })
-            }
-          >
-            <Col xl={3} lg={3} md={3} sm={3} xs={3}>
-              <Image
-                src="https://react.semantic-ui.com/images/wireframe/square-image.png"
-                size="medium"
-                circular
-              />
-            </Col>
-            <Col>
-              <Row>
-                <h2 id="memberName">
-                  {member.first_name} {member.last_name}
-                  {/* {this.props.id} */}
-                </h2>
-              </Row>
-              <Row>
-                <h4 id="memberAgeGender">
-                  {member.gender}•{member.age}
-                </h4>
-              </Row>
-            </Col>
-          </Row>
-
-          <Row style={{ marginTop: "4vh" }}>
-            <Col>
-              <Row>
-                <Col>
-                  <h1 id="primarySport"> primary sport </h1>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col>
-                  <h1 id="primarySport" style={{ color: "black" }}>
-                    Sport
-                  </h1>
-                </Col>
-              </Row>
-            </Col>
-            <Col>
-              <Row>
-                <h1 id="primarySport">secondary sport</h1>
-              </Row>
-              <Row>
-                <h1 id="primarySport" style={{ color: "black" }}>
-                  Sport2
-                </h1>
-              </Row>
-            </Col>
-          </Row>
-          {this.state.request && (
-            <Row>
-              <Col>
-                <Icon
-                  className="cursorPointer"
-                  onClick={() => console.log("dada")}
-                  color="green"
-                  size="large"
-                  name="plus"
+      <div>
+        <Col xl={4} lg={4} md={6} sm={6} xs={6} style={{ marginTop: "5vh" }}>
+          <div id="memberClubCard">
+            <Row
+              className="cursorPointer"
+              onClick={() =>
+                this.setState({ profile: member, athletProfieShow: true })
+              }
+            >
+              <Col xl={3} lg={3} md={3} sm={3} xs={3}>
+                <Image
+                  src="https://react.semantic-ui.com/images/wireframe/square-image.png"
+                  size="medium"
+                  circular
                 />
               </Col>
               <Col>
-                <Icon
-                  className="cursorPointer"
-                  color="red"
-                  size="large"
-                  name="close"
-                />
+                <Row>
+                  <h2 id="memberName">
+                    {member.first_name} {member.last_name}
+                    {/* {this.props.id} */}
+                  </h2>
+                </Row>
+                <Row>
+                  <h4 id="memberAgeGender">
+                    {member.gender}•{member.age}
+                  </h4>
+                </Row>
               </Col>
             </Row>
-          )}
-        </div>
-      </Col>
+
+            <Row style={{ marginTop: "4vh" }}>
+              <Col>
+                <Row>
+                  <Col>
+                    <h1 id="primarySport"> primary sport </h1>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col>
+                    <h1 id="primarySport" style={{ color: "black" }}>
+                      Sport
+                    </h1>
+                  </Col>
+                </Row>
+              </Col>
+              <Col>
+                <Row>
+                  <h1 id="primarySport">secondary sport</h1>
+                </Row>
+                <Row>
+                  <h1 id="primarySport" style={{ color: "black" }}>
+                    Sport2
+                  </h1>
+                </Row>
+              </Col>
+            </Row>
+          </div>
+        </Col>
+        {this.state.isPending && (
+          <Row style={{ margin: "10px" }}>
+            <Col
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                display: "flex",
+              }}
+            >
+              <FontAwesomeIcon
+                id="cursorIconI"
+                icon={faUserCheck}
+                size="2x"
+                color="green"
+                onClick={() => this.acceptData(member.request_id)}
+              />
+            </Col>
+            <Col
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                display: "flex",
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faUserTimes}
+                size="2x"
+                id="cursorIconI"
+                color="red"
+                onClick={() => this.declineData(member.request_id)}
+              />
+            </Col>
+          </Row>
+        )}
+      </div>
     );
   };
   addClubHandler = (member) => {
@@ -277,7 +335,7 @@ class AdminClubDetails extends React.Component {
           <Col>
             <Row>
               <Col>
-                <Row id='test'>
+                <Row id="test">
                   <Col xl={2} lg={2} md={2} sm={2} xs={2}>
                     <h1 style={{ fontSize: "2vw" }} id="coachesText">
                       {this.state.club.name}
@@ -285,7 +343,7 @@ class AdminClubDetails extends React.Component {
                   </Col>
                   <Col md={1} id="alignPencil">
                     <Icon
-                      id='iconClubT'
+                      id="iconClubT"
                       name="pencil alternate"
                       size="large"
                       onClick={() => this.setState({ editModalShow: true })}
@@ -325,7 +383,6 @@ class AdminClubDetails extends React.Component {
                     this.setState({
                       data: this.state.pending,
                       isPending: true,
-                      
                     });
                   }}
                 >
@@ -363,17 +420,19 @@ class AdminClubDetails extends React.Component {
                 marginTop: "5vh",
               }}
             >
-              <Pagination
-                defaultActivePage={1}
-                totalPages={this.state.totalPosts}
-                onPageChange={
-                  !this.state.isSearch
-                    ? this.handlePageClick
-                    : this.searchHandlePageClick
-                }
-                pointing
-                secondary
-              />
+              {!this.state.isPending && (
+                <Pagination
+                  defaultActivePage={1}
+                  totalPages={this.state.totalPosts}
+                  onPageChange={
+                    !this.state.isSearch
+                      ? this.handlePageClick
+                      : this.searchHandlePageClick
+                  }
+                  pointing
+                  secondary
+                />
+              )}
             </Row>
           </Col>
 

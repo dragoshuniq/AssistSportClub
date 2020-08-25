@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 function DeleteModal(props) {
   function deleteData() {
     axios
-      .delete(serverUrl + `api/club/${props.event.id}`, {
+      .delete(serverUrl + `api/event/${props.event.id}`, {
         headers: {
           Authorization: localStorage.getItem("user"),
         },

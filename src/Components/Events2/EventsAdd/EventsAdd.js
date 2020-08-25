@@ -173,7 +173,7 @@ class EventAdd extends React.Component {
   addChild() {
     this.setState({
       members: [
-        ...this.state.invite_emails,
+        ...this.state.members,
         { id: Math.random(), email: "Another mail".concat(Math.random()) },
       ],
     });
@@ -182,7 +182,9 @@ class EventAdd extends React.Component {
   AddAnother = () => {
     return (
       <Label id="labelAddAnother" onClick={() => this.addChild()}>
-        <Icon name="add" /> Add another
+      {/* <Icon name="add" /> */}
+      
+         Add another
       </Label>
     );
   };
@@ -221,7 +223,7 @@ class EventAdd extends React.Component {
     const train = this.state.event;
     train.sportType = val;
     this.setState({ event: train });
-    console.log(this.state.event.sportType)
+    console.log(this.state.event.sportType);
   }
   onSubmit() {
     //console.log(this.state.mailMap);

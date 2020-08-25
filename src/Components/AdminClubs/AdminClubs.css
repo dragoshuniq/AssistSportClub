@@ -124,6 +124,12 @@
   align-self: center;
 
 }
+
+
+#cursorIconI
+{
+  cursor: pointer;
+}
 #membersButton {
   width: 170px;
   height: 46px;
