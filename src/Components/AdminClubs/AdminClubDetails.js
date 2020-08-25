@@ -266,46 +266,41 @@ class AdminClubDetails extends React.Component {
               </Col>
             </Row>
             {this.state.isPending && (
-          <Row
-       
-        >
-            <Col
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                display: "flex",
-              }}
-            >
-              <FontAwesomeIcon
-                id="cursorIconI"
-                icon={faUserCheck}
-                size="2x"
-                //color="green"
-                onClick={() => this.acceptData(member.request_id)}
-              />
-            </Col>
-            <Col
-            
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                display: "flex",
-              }}
-            >
-              <FontAwesomeIcon
-                icon={faUserTimes}
-                size="2x"
-                id="cursorIconI"
-               // color="red"
-                onClick={() => this.declineData(member.request_id)}
-              />
-            </Col>
-          </Row>
-        )}
+              <Row>
+                <Col
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
+                  <FontAwesomeIcon
+                    id="cursorIconI"
+                    icon={faUserCheck}
+                    size="2x"
+                    //color="green"
+                    onClick={() => this.acceptData(member.request_id)}
+                  />
+                </Col>
+                <Col
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={faUserTimes}
+                    size="2x"
+                    id="cursorIconI"
+                    // color="red"
+                    onClick={() => this.declineData(member.request_id)}
+                  />
+                </Col>
+              </Row>
+            )}
           </div>
         </Col>
-        
- 
       </div>
     );
   };
@@ -469,7 +464,11 @@ class AdminClubDetails extends React.Component {
             <DeleteClubModal
               club={this.state.club}
               show={this.state.deleteClubModalShow}
-              onHide={() => this.setState({ deleteClubModalShow: false })}
+              onHide={() => {
+                this.setState({ deleteClubModalShow: false });
+                //window.location.reload(false);
+                
+              }}
             />
           )}
 
