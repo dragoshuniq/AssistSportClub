@@ -265,10 +265,10 @@ class AdminClubDetails extends React.Component {
                 </Row>
               </Col>
             </Row>
-          </div>
-        </Col>
-        {this.state.isPending && (
-          <Row style={{ margin: "10px" }}>
+            {this.state.isPending && (
+          <Row
+       
+        >
             <Col
               style={{
                 justifyContent: "center",
@@ -280,11 +280,12 @@ class AdminClubDetails extends React.Component {
                 id="cursorIconI"
                 icon={faUserCheck}
                 size="2x"
-                color="green"
+                //color="green"
                 onClick={() => this.acceptData(member.request_id)}
               />
             </Col>
             <Col
+            
               style={{
                 justifyContent: "center",
                 alignItems: "center",
@@ -295,12 +296,16 @@ class AdminClubDetails extends React.Component {
                 icon={faUserTimes}
                 size="2x"
                 id="cursorIconI"
-                color="red"
+               // color="red"
                 onClick={() => this.declineData(member.request_id)}
               />
             </Col>
           </Row>
         )}
+          </div>
+        </Col>
+        
+ 
       </div>
     );
   };
@@ -342,12 +347,14 @@ class AdminClubDetails extends React.Component {
                     </h1>
                   </Col>
                   <Col md={1} id="alignPencil">
-                    <Icon
-                      id="iconClubT"
-                      name="pencil alternate"
-                      size="large"
-                      onClick={() => this.setState({ editModalShow: true })}
-                    />
+                    {localStorage.getItem("role") === "1" ? (
+                      <Icon
+                        id="iconClubT"
+                        name="pencil alternate"
+                        size="large"
+                        onClick={() => this.setState({ editModalShow: true })}
+                      />
+                    ) : null}
                   </Col>
                 </Row>
 
