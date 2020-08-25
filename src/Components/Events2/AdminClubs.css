@@ -167,6 +167,7 @@ label {
   margin-top: 5vh;
   /* margin-right: 5vh; */
   padding-left: 5vh;
+  /* background-color: red; */
 }
 
 .navLinkCart {
@@ -178,7 +179,7 @@ label {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   text-decoration: none;
   color: black;
-  background-color: white;
+  /* background-color: red;  */
 }
 
 .navLinkCart:hover {
@@ -228,6 +229,8 @@ label {
 
 .cartCol {
   border-radius: 10px;
+  /* background-color: red; */
+  height: 100%;
 }
 
 .width {
