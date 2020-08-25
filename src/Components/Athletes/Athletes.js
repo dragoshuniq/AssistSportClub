@@ -20,7 +20,7 @@ class Athletes extends Component {
         super(props);
 
         this.state = {
-            imagine: require('../../poze/img1.jpg'),
+            // imagine: require('../../poze/img1.jpg'),
             listaAtleti: [],
             listaAtleti2: [],
             isSearch: false,
@@ -39,6 +39,10 @@ class Athletes extends Component {
             selectedElements: [],
             selectAllElements: false,
             searchValue: "",
+            imagine:
+                localStorage.getItem("img") !== null
+                    ? "https://react.semantic-ui.com/images/wireframe/square-image.png"
+                    : localStorage.getItem("img"),
 
         }
         this.handlePageClick = this.handlePageClick.bind(this);
@@ -47,7 +51,6 @@ class Athletes extends Component {
     // paginare
     handlePageClick = (e, { activePage }) => {
         const selectedPage = activePage;
-        // console.log("e.target.value", activePage);
 
         const offset = (selectedPage - 1) * this.state.postsPerPage;
 
@@ -122,28 +125,28 @@ class Athletes extends Component {
     searchHandler = (event) => {
         let value = event.target.value;
         this.setState({ searchValue: value });
-            
-    
+
+
         if (value.length !== 0) {
-          const Upper = value.toUpperCase();
-    
-          const searchArray = [];
-          this.state.listaAtleti.map((res) => {
-            if (
-              res.first_name.toUpperCase().includes(Upper) ||
-              res.last_name.toUpperCase().includes(Upper) ||
-              res.email.toUpperCase().includes(Upper)
-            ) {
-              searchArray.push(res);
-            }
-          });
-          this.setState({ isSearch: true, searchArray: searchArray });
-          this.changeSearchPage(searchArray);
+            const Upper = value.toUpperCase();
+
+            const searchArray = [];
+            this.state.listaAtleti.map((res) => {
+                if (
+                    res.first_name.toUpperCase().includes(Upper) ||
+                    res.last_name.toUpperCase().includes(Upper) ||
+                    res.email.toUpperCase().includes(Upper)
+                ) {
+                    searchArray.push(res);
+                }
+            });
+            this.setState({ isSearch: true, searchArray: searchArray });
+            this.changeSearchPage(searchArray);
         } else {
-          this.changePage();
-          this.setState({ isSearch: false });
+            this.changePage();
+            this.setState({ isSearch: false });
         }
-      };
+    };
 
     // preluare date
     componentDidMount() {
@@ -158,30 +161,8 @@ class Athletes extends Component {
                     Authorization: localStorage.getItem("user"),
                 },
             })
-            // .then(
-            //     (result) => {
-
-
-            //         this.setState({
-            //             listaAtleti: result.data,
-            //             listaAtleti2: result.data
-            //         });
-
-            //         // this.setState({ totalPosts: Math.ceil(result.length / 6) });
-
-            //         // const slice = result.data.slice(
-            //         //     this.state.offset,
-            //         //     this.state.offset + this.state.postsPerPage
-            //         // );
-
-            //         // this.setState({ listaAtleti: slice });
-            //         // this.setState({ result: slice });
-
-            //         console.log('data athlets: ', result.data);
-            //     }
-            // );
+        
             .then((res) => {
-                // console.log('date primite de la server atlet: ', res.data);
 
                 const data = res.data;
                 const slice = data.slice(
@@ -200,36 +181,12 @@ class Athletes extends Component {
                     selectAllElements: false,
                     deleteMultiple: false,
                 });
-                // console.log(res.data);
             });
 
 
 
 
-        // fetch("https://next.json-generator.com/api/json/get/N1L44d3WK")
-        //     // fetch("https://next.json-generator.com/api/json/get/Nklk-DiWY")https://next.json-generator.com/api/json/get/N1L44d3WK
-        //     .then((res) => res.json())
-        //     .then(
-        //         (result) => {
-
-        //             this.setState({
-        //                 listaAtleti: result,
-        //                 listaAtleti2: result
-        //             });
-
-        //             this.setState({ totalPosts: Math.ceil(result.length / 6) });
-
-        //             const slice = result.slice(
-        //                 this.state.offset,
-        //                 this.state.offset + this.state.postsPerPage
-        //             );
-
-        //             this.setState({ listaAtleti: slice });
-        //             this.setState({ result: slice });
-
-        //             // console.log(result);
-        //         }
-        //     );
+      
     }
 
     nameChangeHandlerName = (event) => {
@@ -266,28 +223,7 @@ class Athletes extends Component {
 
 
 
-        // console.log('edit atleti 1 ... :' + atlet.id);
-
-        // const sendData = this.state.listaAtleti;
-        // sendData.age = parseInt(sendData.age);
-        // sendData.primary_sport_id = parseInt(sendData.primary_sport_id);
-        // sendData.secondary_sport_id = parseInt(sendData.secondary_sport_id);
-        // sendData.weight = parseInt(sendData.weight);
-        // sendData.height = parseInt(sendData.height);
-
-        // sendData.id = parseInt(sendData.id);
-        // const arr = [];
-        // for (let [key, value] of this.state.mailMap) {
-        //     arr.push(value);
-        // }
-        // sendData.clubs = arr;
-
-        // console.log('send data edit : ',sendData);
-
-        // this.setState({ listaAtleti: sendData });
-
-        // console.log(' dsafdsaf edit ', this.state.listaAtleti);
-
+      
 
         axios
             .put(serverUrl + `api/user/update/`, this.state.listaAtleti, {
@@ -300,22 +236,7 @@ class Athletes extends Component {
             })
             .then(
                 (result) => {
-                    // this.setState({
-                    //     listaAtleti: result.data,
-                    //     listaAtleti2: result.data
-                    // });
-
-                    // this.setState({ totalPosts: Math.ceil(result.length / 6) });
-
-                    // const slice = result.data.slice(
-                    //     this.state.offset,
-                    //     this.state.offset + this.state.postsPerPage
-                    // );
-
-                    // this.setState({ listaAtleti: slice });
-                    // this.setState({ result: slice });
-
-                    // console.log('data athlets edit acumaaa: ', result);
+                  
                 }
             );
 
@@ -324,32 +245,13 @@ class Athletes extends Component {
         axios
             .put(serverUrl + `api/user/update/`, this.state.listaAtleti, {
 
-                // id: idAtlet
-
                 headers: {
                     Authorization: localStorage.getItem("user"),
                 },
             })
             .then(
                 (result) => {
-                    // this.setState({
-                    //     listaAtleti: result.data,
-                    //     listaAtleti2: result.data
-                    // });
-
-                    // this.setState({ totalPosts: Math.ceil(result.length / 6) });
-
-                    // const slice = result.data.slice(
-                    //     this.state.offset,
-                    //     this.state.offset + this.state.postsPerPage
-                    // );
-
-                    // this.setState({ listaAtleti: slice });
-                    // this.setState({ result: slice });
-
-
-
-                    // console.log('data athlets edit acumaaa: ', result);
+                   
                 }
             );
 
@@ -370,23 +272,11 @@ class Athletes extends Component {
 
     // delete
     onDeleteAtleti = (idAtlet) => {
-        // const listaAtletiStersi = this.state.listaAtleti.filter((el, index) => {
-        //     return (
-        //         el.id !== idAtlet
-        //     );
-        // })
-        // // { console.log('lista alteti', listaAtletiStersi) }
-
-        // this.setState({
-        //     ...this.state,
-        //     listaAtleti: listaAtletiStersi
-        // })
-        // console.log('delete id: ', idAtlet);
-
+      
         axios
             .delete(serverUrl + `api/user/${idAtlet}`, {
 
-               
+
 
                 headers: {
                     Authorization: localStorage.getItem("user"),
@@ -395,22 +285,7 @@ class Athletes extends Component {
             .then(
                 (result) => {
 
-                    // this.setState({
-                    //     listaAtleti: result.data,
-                    //     listaAtleti2: result.data
-                    // });
-
-                    // this.setState({ totalPosts: Math.ceil(result.length / 6) });
-
-                    // const slice = result.data.slice(
-                    //     this.state.offset,
-                    //     this.state.offset + this.state.postsPerPage
-                    // );
-
-                    // this.setState({ listaAtleti: slice });
-                    // this.setState({ result: slice });
-
-                    // console.log('data athlets delete: ', result);
+                   
                 }
             );
 
@@ -420,14 +295,14 @@ class Athletes extends Component {
     render() {
         const numarAtleti = this.state.listaAtleti2.length;
 
-      
 
-      
+
+
 
         return (
 
             <Container fluid className={classes.back} >
-             
+
 
                 {/* Header */}
                 <Row id={classes.rowLTitle}>
@@ -448,7 +323,7 @@ class Athletes extends Component {
                                             iconPosition="left"
                                             placeholder="Search atlet..."
                                             id={classes.searchAtlet}
-                                           
+
                                             onChange={this.searchHandler}
                                         />
                                     }
@@ -468,20 +343,24 @@ class Athletes extends Component {
                     </Col>
                 </Row>
                 {/* END Header */}
-                {console.log('lista: ',this.state.listaAtleti)}
+                {console.log('lista: ', this.state.listaAtleti)}
 
                 {/* map the variable filtered  */}
                 <Row className={classes.pointerAtlet}>
                     {this.state.listaAtleti2.map((el, index) => {
                         return (
-                            <div  
+                            <div
                                 key={index}
                                 className={classes.cart}
                                 onClick={() => this.setState({ editModalShow: true, searchAthletsIndexOnClick: el })}
                             >
                                 <Row className={classes.marginBotRow}>
                                     <Col md='3'>
-                                        <Image className={classes.cartImg} src={el.profile_photo !== null ? this.state.imagine : el.profile_photo} roundedCircle />
+                                        <Image
+                                            className={classes.cartImg}
+                                            // src={el.profile_photo !== null ? this.state.imagine : el.profile_photo}
+                                            src={this.state.imagine}
+                                            roundedCircle />
                                     </Col>
                                     <Col>
                                         <p className={classes.Name}>{el.first_name} {el.last_name}</p>

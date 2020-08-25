@@ -9,8 +9,7 @@ import {
 
     Select,
 } from "semantic-ui-react";
-// import * as Yup from "yup";
-// import { Formik, Field, ErrorMessage, Form } from "formik";
+
 
 class AthletesAdd extends Component {
 
@@ -63,7 +62,6 @@ class AthletesAdd extends Component {
             role_id: parseInt(localStorage.getItem("role")),
             user_id: parseInt(localStorage.getItem("user_id")),
         };
-        // console.log(obj);
         axios
             .post(serverUrl + "api/club/list", obj, {
                 headers: {
@@ -71,7 +69,6 @@ class AthletesAdd extends Component {
                 },
             })
             .then((res) => {
-                // console.log(res);
                 const arr = [];
                 res.data.map((value) => {
                     const obj = {
@@ -96,17 +93,7 @@ class AthletesAdd extends Component {
         sendData.weight = parseInt(sendData.weight);
         sendData.height = parseInt(sendData.height);
 
-        // sendData.id = parseInt(sendData.id);
-        // const arr = [];
-        // for (let [key, value] of this.state.mailMap) {
-        //     arr.push(value);
-        // }
-        // sendData.clubs = arr;
-        // console.log('send data add : ', sendData);
-
         this.setState({ atletUser: sendData });
-
-        // console.log(' dsafdsaf add ', this.state.atletUser);
 
         axios
             .post(serverUrl + "api/user/create", this.state.atletUser, {
@@ -115,7 +102,6 @@ class AthletesAdd extends Component {
                 },
             })
             .then((res) => {
-                // console.log('data add: ', res);
             });
     }
 
@@ -139,13 +125,11 @@ class AthletesAdd extends Component {
         const train = this.state.atletUser;
         train._clubs = val;
         this.setState({ atletUser: train });
-        
-        console.log(this.state. atletUser);
+
+        console.log(this.state.atletUser);
     }
 
     HandlerEventADD_FILE = (event) => {
-        // console.log(event)
-        // const value = event.target.value;
         const name = event.target.name;
 
         this.setState({
@@ -197,7 +181,6 @@ class AthletesAdd extends Component {
             atletUser: aux,
         });
 
-        // console.log(this.state.atletUser.profile_photo)
     }
 
     changeFile(value) {
@@ -382,14 +365,11 @@ class AthletesAdd extends Component {
 
                         </Form.Row>
 
-
-
-
                         <Form.Group as={Col} controlId="formGridAssignToClub">
                             <Form.Label>Assign To a Club</Form.Label>
 
                             <Select
-                            multiple
+                                multiple
                                 fluid
                                 id="field"
                                 defaultValue={this.state.clubOptions[0].value}
@@ -403,21 +383,6 @@ class AthletesAdd extends Component {
                         <Form.Group as={Col} controlId="formGridAvatarImage">
                             <Form.Label>Avatar Image</Form.Label>
                             <Form.File id="formcheck-api-custom" custom>
-
-                                {/* <Form.File.Input
-                                    id="field"
-                                    // isValid 
-                                    required
-                                    name="profile_photo"
-                                    type="file"
-
-                                    onChange={this.HandlerEventADD_FILE}
-                                />
-                                <Form.File.Label data-browse="Button text" id="field" >
-                                    Custom file input
-                                </Form.File.Label> */}
-
-                                {/* <Form.Control.Feedback type="valid">You did it!</Form.Control.Feedback> */}
 
                                 <Dropzone
                                     onChangeStatus={(val) => {
@@ -453,25 +418,11 @@ class AthletesAdd extends Component {
                         </div>
 
                     </Form>
-                    {/* )}
-                    /> */}
+           
 
                 </Modal.Body>
                 <Modal.Footer>
-                    {/* <Button onClick={this.props.onHide} id={classes.BtnClose}>
-                        Close
-                    </Button>
-                    <Button
-                        onClick={() => {
-                            // this.props.onHideAdded();
-                            this.props.onAdd(this.state.details);
-                            this.incrementID();
-                            this.props.onHide();
-                        }
-                        }
-                        id={classes.BtnSave}>
-                        Save
-                        </Button> */}
+
                 </Modal.Footer>
             </Modal>
         );

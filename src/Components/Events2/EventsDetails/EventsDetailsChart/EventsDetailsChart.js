@@ -66,8 +66,6 @@ class ApexChart extends Component {
             },
 
 
-
-
         };
     }
 

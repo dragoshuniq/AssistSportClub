@@ -102,11 +102,6 @@ class AthletesEdit extends Component {
         this.setState({ atlet: train })
     }
 
-
-    // onChangeClub(val) {
-
-    //     this.setState({ primarySports: val });
-    // }
     onChangeClub(e, val) {
         const train = this.state.atlet;
         train._clubs = val;
@@ -114,13 +109,7 @@ class AthletesEdit extends Component {
         console.log('val: ', val);
     }
 
-    // onChangeClub(e, val) {
-    //     const train = this.state.atletUser;
-    //     train._clubs = val;
-    //     this.setState({ atletUser: train });
-        
-    //     console.log(this.state. atletUser);
-    // }
+
 
 
 
@@ -163,16 +152,11 @@ class AthletesEdit extends Component {
         sendData.weight = parseInt(sendData.weight);
         sendData.height = parseInt(sendData.height);
 
-        // this.setState({ atlet: sendData });
 
-        // console.log('aaaaaaaaaaaaaa!!!!!!!!!!: ', this.state.atlet);
-
-
-        // console.log('modificari edit 14:50 : ', this.state.atlet.id)
         axios
             .put(serverUrl + `api/user/update/athlete/${this.state.atlet.id}`, this.state.atlet, {
 
-                // id: idAtlet
+
 
                 headers: {
                     Authorization: localStorage.getItem("user"),
@@ -180,22 +164,7 @@ class AthletesEdit extends Component {
             })
             .then(
                 (result) => {
-                    // this.setState({
-                    //     listaAtleti: result.data,
-                    //     listaAtleti2: result.data
-                    // });
 
-                    // this.setState({ totalPosts: Math.ceil(result.length / 6) });
-
-                    // const slice = result.data.slice(
-                    //     this.state.offset,
-                    //     this.state.offset + this.state.postsPerPage
-                    // );
-
-                    // this.setState({ listaAtleti: slice });
-                    // this.setState({ result: slice });
-
-                    // console.log('data athlets edit acumaaa: ', result);
                 }
             );
     }
@@ -229,10 +198,10 @@ class AthletesEdit extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-   
-            this.props.onHide();
-            this.editAtlet();
- 
+
+        this.props.onHide();
+        this.editAtlet();
+
     }
 
     render() {
@@ -329,20 +298,6 @@ class AthletesEdit extends Component {
                                 />
                             </Form.Group>
 
-
-                            {/* <Select
-                                // multiple
-                                // fluid
-                                id="field"
-                                placeholder="Sport Assign"
-                                options={this.state.primaryOptions}
-                                // onChange={(e) => this.changeSecondarySport(e)}
-                                onChange={(e, { value }) => this.onChangeClub(value)}
-                            // defaultValue={selected}
-                            /> */}
-
-
-
                         </Form.Row>
 
                         <Form.Row>
@@ -418,22 +373,11 @@ class AthletesEdit extends Component {
                         </Form.Row>
 
 
-                        {/* <Form.Group controlId="formGridAddress1">
-                        <Form.Label>Address</Form.Label>
-                        <Form.Control placeholder="1234 Main St" />
-                    </Form.Group> */}
-
                         <Form.Group as={Col} controlId="formGridAssignToClub">
                             <Form.Label>Assign To a Club</Form.Label>
 
-                            {/* <Form.Control name="select" as="select" defaultValue="Choose..." id="field">                            
-                                <option value="club 1">Club 1</option>
-                                <option value="club 2">Club 2</option>
-                                <option value="club 3">Club 3</option>
-                            </Form.Control> */}
-
-                                    <Select
-                            multiple
+                            <Select
+                                multiple
                                 fluid
                                 id="field"
                                 defaultValue={this.state.clubOptions[0].value}
@@ -446,17 +390,7 @@ class AthletesEdit extends Component {
                         <Form.Group as={Col} controlId="formGridAvatarImage">
                             <Form.Label>Avatar Image</Form.Label>
                             <Form.File id="formcheck-api-custom" custom >
-                                {/* <Form.File.Input
-                                    id="field"
-                                    // isValid
-                                    name="file"
-                                    type="file"
-                                    onChange={(e) => this.changeFile(e)}
-                                />
-                                <Form.File.Label data-browse="Button text" id="field">
-                                    Custom file input
-                                </Form.File.Label> */}
-                                {/* <Form.Control.Feedback type="valid">You did it!</Form.Control.Feedback> */}
+
                                 <Dropzone
                                     onChangeStatus={(val) => {
                                         this.handleChangeStatus(val);
@@ -473,7 +407,7 @@ class AthletesEdit extends Component {
 
                         <div>
                             <Button
-                                // idAtletDeStergere={this.state.atlet.id}
+
                                 onClick={() => {
                                     this.props.onHideDelete();
                                     this.props.changeAtlet(this.state.atlet);
@@ -484,7 +418,7 @@ class AthletesEdit extends Component {
                             </Button>
                             <Button onClick={this.props.onHide} id={classes.BtnClose}>Close</Button>
                             <Button
-                             type='submit'
+                                type='submit'
                                 // onClick={() => {
                                 //     this.props.onHide();
                                 //     this.editAtlet();
@@ -499,26 +433,7 @@ class AthletesEdit extends Component {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    {/* <Button
-                        // idAtletDeStergere={this.state.atlet.id}
-                        onClick={() => {
-                            this.props.onHideDelete();
-                            this.props.changeAtlet(this.state.atlet);
-                        }}
-                        id={classes.BtnDelete}
-                    >
-                        Delete
-                    </Button>
-                    <Button onClick={this.props.onHide} id={classes.BtnClose}>Close</Button>
-                    <Button
-                        onClick={() => {
-                            this.props.onHide();
-                            this.editAtlet();
 
-                        }}
-                        id={classes.BtnSave}>
-                        Save
-                    </Button> */}
                 </Modal.Footer>
             </Modal>
         );

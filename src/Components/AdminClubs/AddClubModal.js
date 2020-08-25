@@ -146,7 +146,9 @@ class AddClubModal extends React.Component {
   AddAnother = () => {
     return (
       <Label id="labelAddAnother" onClick={() => this.addChild()}>
-        <Icon name="add" /> Add another
+        {/* <Icon name="add" /> */}
+        
+         Add another
       </Label>
     );
   };
