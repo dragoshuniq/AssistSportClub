@@ -41,7 +41,7 @@ class EventsEdit extends React.Component {
       ],
       event: { ...this.props.event },
       vasile: false,
-      invite_emails:[]
+      invite_emails: [],
     };
   }
   receivedData() {
@@ -71,10 +71,6 @@ class EventsEdit extends React.Component {
   }
   handleChangeStatus(img) {
     const aux = this.state.event;
-    aux.event_cover = {
-      type: img.file.type,
-      link: img.meta.previewUrl,
-    };
 
     let file = img.file;
     let reader = new FileReader();
@@ -84,6 +80,13 @@ class EventsEdit extends React.Component {
         base64: reader.result,
       });
     };
+    //console.log(this.state.base64);
+
+    aux.event_cover = {
+      type: img.file.type,
+      link: this.state.base64,
+    };
+    console.log(this.state.base64);
     this.setState({ event: aux });
   }
 
@@ -177,7 +180,6 @@ class EventsEdit extends React.Component {
     return (
       <Label id="labelAddAnother" onClick={() => this.addChild()}>
         {/* <Icon name="add" />  */}
-        
         Add another
       </Label>
     );
@@ -190,7 +192,7 @@ class EventsEdit extends React.Component {
           placeholder="Email Adress"
           id="field"
           type="email"
-       //   required
+          //   required
           onChange={(e) => this.onChangeEmail(props.id, e.target.value)}
         />
       </Form.Field>
@@ -344,7 +346,7 @@ class EventsEdit extends React.Component {
             </div>
 
             {this.state.isInvite &&
-              this.state.members.map((item) => <this.InviteInput  id={item}/>)}
+              this.state.members.map((item) => <this.InviteInput id={item} />)}
 
             {this.state.isInvite && <this.AddAnother />}
             <Divider hidden />

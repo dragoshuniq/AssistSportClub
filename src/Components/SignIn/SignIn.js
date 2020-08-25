@@ -116,9 +116,9 @@ class SignIn extends React.Component {
                   render={({ errors, status, touched }) => (
                     <Form>
                       <div className="form-group">
-                        <label htmlFor="email">Email Adress</label>
+                        <label htmlFor="email">Email Address</label>
                         <Field
-                          placeholder="Email Adress"
+                          placeholder="Email Address"
                           id="loginInputField"
                           name="email"
                           type="text"

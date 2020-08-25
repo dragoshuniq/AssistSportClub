@@ -64,7 +64,9 @@ class Navigation extends Component {
                     <div className={classes.NavTop}>
                       <Image
                         className={classes.NavTopImg}
-                        src={this.state.imagine}
+                        src={`data:image/jpeg;base64,${localStorage.getItem(
+                          "img"
+                        )}`}
                         roundedCircle
                       />
                       <div>
@@ -73,7 +75,9 @@ class Navigation extends Component {
                           {localStorage.getItem("lastName")}
                         </p>
                         <p className={classes.NavTopP2}>
-                          {localStorage.getItem("role")==="1"? "ADMINISTRATOR":"COACH"}
+                          {localStorage.getItem("role") === "1"
+                            ? "ADMINISTRATOR"
+                            : "COACH"}
                         </p>
                       </div>
                     </div>
