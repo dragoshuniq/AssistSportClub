@@ -198,7 +198,7 @@ class Events extends React.Component {
           arrayFutureEvent: arrFuture,
         });
 
-        console.log('lll:', this.state.useArray)
+        console.log('lll:', result.data)
 
       });
 
@@ -211,7 +211,7 @@ class Events extends React.Component {
   // searchHandler = (event) => {
   //   let value = event.target.value;
   //   this.setState({ searchValue: value });
-        
+
 
   //   if (value.length !== 0) {
   //     const Upper = value.toUpperCase();
@@ -274,93 +274,85 @@ class Events extends React.Component {
   render() {
     return (
       <Container fluid id="containerAdminCoaches">
-        <Row>
-          <Col xl={12} lg={12} md={12} sm={12} xs={12}>
+        {/* <Row>
+          <Col   xl={12} lg={12} md={12} sm={12} xs={12}> */}
 
-            <Row style={{ marginRight: "5vh", marginLeft: "5vh" }}>
-              <Col>
-                <h1 id="coachesText">Events</h1>
-              </Col>
-            </Row>
+        <Row id='rowLTitle'>
+          <Col>
+            <h1 id="coachesText">Events</h1>
+          </Col>
+        </Row>
 
-            {/* Search */}
-            <Row id='searchEventRow'>
-              <div className='inputDiv'>
-                <Popup
-                  trigger={
-                    <Input
-                      fluid
-                      icon="search"
-                      iconPosition="left"
-                      placeholder="Search atlet..."
-                      id="searchEvents"
-                      onChange={this.searchHandler}
-                    />
-                  }
-                  header="Event Search"
-                  content="You can search event by First/Last Name or Email Adress"
-                  on="hover"
+        {/* Search */}
+        <Row id='searchEventRow'>
+          <div className='inputDiv'>
+            <Popup
+              trigger={
+                <Input
+                  fluid
+                  icon="search"
+                  iconPosition="left"
+                  placeholder="Search atlet..."
+                  id="searchEvents"
+                  onChange={this.searchHandler}
                 />
-              </div>
-              {/* Add button */}
-              <Button
-                onClick={() => this.setState({ addModalShow: true })}
-                id='addNewButtonEvent'>
-                ADD NEW
+              }
+              header="Event Search"
+              content="You can search event by First/Last Name or Email Adress"
+              on="hover"
+            />
+          </div>
+          {/* Add button */}
+          <Button
+            onClick={() => this.setState({ addModalShow: true })}
+            id='addNewButtonEvent'>
+            ADD NEW
                 </Button>
-            </Row>
+        </Row>
 
 
-            {/* btn ongoing future past */}
-            <Row id="rowBtnGroup" >
-              <Col>
-                <Button id="onGoingBtn"
-                  onClick={() => { this.setState({ useArray: this.state.onGoingEvent }) }} >
-                  Ongoing ({this.state.onGoingEvent.length})
+        {/* btn ongoing future past */}
+        <Row id="rowBtnGroup" >
+          <Col>
+            <Button id="onGoingBtn"
+              onClick={() => { this.setState({ useArray: this.state.onGoingEvent }) }} >
+              Ongoing ({this.state.onGoingEvent.length})
                 </Button>
-                <Button id="futureBtn" onClick={() => { this.setState({ useArray: this.state.arrayFutureEvent }) }} >Future</Button>
-                <Button id="pastBtn" onClick={() => { this.setState({ useArray: this.state.arrayPatEvent }) }} >Past</Button>
-              </Col>
-            </Row>
+            <Button id="futureBtn" onClick={() => { this.setState({ useArray: this.state.arrayFutureEvent }) }} >Future</Button>
+            <Button id="pastBtn" onClick={() => { this.setState({ useArray: this.state.arrayPatEvent }) }} >Past</Button>
+          </Col>
+        </Row>
 
-            {/** DETAILS PART */}
-            <Row
-              className="rowRightEvent"
-              id="rowDynamic"
-              style={{
-                marginTop: "5vh",
-                marginRight: "8vh",
-                paddingLeft: "7vh",
-              }}
-            >
-              {
+        {/** DETAILS PART */}
+        <Row id="rowRightEvent">
+          {
 
 
-                this.state.useArray.map((value, index) => {
-                  return (
+            this.state.useArray.map((value, index) => {
+              return (
 
-                    <NavLink className='navLinkCart' to={`/Navigation/EventsDetails/${value.id}`}>
-                      <Col className='cartCol' xl={3} lg={3} md={6} sm={12} xs={12} >
+                <NavLink className='navLinkCart' to={`/Navigation/EventsDetails/${value.id}`}>
+                  <Col className='cartCol' xl={3} lg={3} md={6} sm={12} xs={12} >
 
 
-                        <Row className='rowCart'>
+                    <Row className='rowCart'>
 
-                          <Col id='cartLeftEvent' md={5} >
-                            <Image src={value.event_cover !== null ? this.state.imagine : value.event_cover} id='imgLeftCartEvent' />
-                          </Col>
+                      <Col id='cartLeftEvent' md={5} >
+                        <Image src={value.event_cover !== null ? this.state.imagine : value.event_cover} id='imgLeftCartEvent' />
+                      </Col>
 
-                          <Col className='cartRight'>
+                      <Col className='cartRight'>
 
-                            <Row id='rowRightCart'>
+                        <Row id='rowRightCart'>
 
-                              <h3 className='marginLeft1' >{value.name}</h3>
+                          <h3 className='marginLeft1' >{value.name}</h3>
 
-                              <p>
-                                {value.description}
-                              </p>
+                          <p>
+                            {value.description}
+                          </p>
 
-                              <p className='participants'>
-                                PARTICIPANTS
+                          <p className='participants'>
+                            PARTICIPANTS
                               </p>
 
                               <small className='marginLeft'>{moment(value.date).format('MM.DD.YYYY')}</small>
@@ -372,56 +364,71 @@ class Events extends React.Component {
                                 value.members.map((el, index) => {
                                   return (
                                     <>
+                          <small className='marginLeft'>{moment(value.date).format('MM.DD.YYYY')}</small>
+                          <small>{moment(value.date).format('h:mm a')}</small>
 
-                                      <img src={el.profile_photo === null ? this.state.imagine : el.profile_photo} size="mini" circular id="imageCircIcons" />
+                          <p className='width'>{value.location}</p>
 
-                                    </>
-                                  )
-                                })
+                          {
+                            value.members.map((el, index) => {
+                              return (
+                                <>
+                                  <img
+                                    src={el.profile_photo === null ? this.state.imagine : el.profile_photo}
+                                    size="mini"
+                                    circular
+                                    id="imageCircIcons" />
+                                </>
+                              )
+                            })
+                          }
 
                               } */}
 
-                              {/* <img src={value.src} size="mini" circular id="imageCircIcons" />
+                          {/* <img src={value.src} size="mini" circular id="imageCircIcons" />
                               <img src={value.src} size="mini" circular id="imageCircIcons" />
                               <img src={value.src} size="mini" circular id="imageCircIcons" />
                               <img src={value.src} size="mini" circular id="imageCircIcons" /> */}
-                              <p>+20</p>
-
-                            </Row>
-
-                          </Col>
+                          <p> {value.members.length - 4 > 0
+                            ? " +  " + (value.members.length - 4).toString()
+                            : null}</p>
 
                         </Row>
 
                       </Col>
-                    </NavLink>
+
+                    </Row>
+
+                  </Col>
+                </NavLink>
 
 
-                  )
-                }
-                )
+              )
+            }
+            )
 
-              }
-            </Row>
-
-            {/* <Row style={{ marginTop: "3vh" }}></Row> */}
-          </Col>
-
-          {this.state.addModalShow && (
-            <EventsAdd
-              addEventHandler={(e) => this.addEventHandler(e)}
-              show={this.state.addModalShow}
-              onHide={() => this.setState({ addModalShow: false })}
-            />
-          )}
-          {this.state.confirmModalShow && (
-            <EventsAddedMessage
-              show={this.state.confirmModalShow}
-              onHide={() => this.setState({ confirmModalShow: false })}
-              event={this.state.addedEvent}
-            />
-          )}
+          }
         </Row>
+
+        {/* <Row style={{ marginTop: "3vh" }}></Row> */}
+        {/* </Col> */}
+        {console.log('fsdafsdasdasaa: ', this.props.id)}
+        {this.state.addModalShow && (
+          <EventsAdd
+
+            addEventHandler={(e) => this.addEventHandler(e)}
+            show={this.state.addModalShow}
+            onHide={() => this.setState({ addModalShow: false })}
+          />
+        )}
+        {this.state.confirmModalShow && (
+          <EventsAddedMessage
+            show={this.state.confirmModalShow}
+            onHide={() => this.setState({ confirmModalShow: false })}
+            event={this.state.addedEvent}
+          />
+        )}
+        {/* </Row> */}
 
         <Row>
           <Col className='centerPagination'>

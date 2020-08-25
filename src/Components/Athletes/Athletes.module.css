@@ -47,47 +47,35 @@
 
 /* cart */
 
+.pointerAtlet {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
 .cart {
     background-color: white;
-    margin: 20px 50px;
+    margin-top: 20px;
+    margin-left: 15px;
+    width: 360px;
     padding: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     cursor: pointer;
-    /* width: 500px; */
-    /* display: flex; */
-    /* flex-wrap: wrap; */
-    /* flex-direction: column; */
 }
 
 .cartImg {
     height: 60px;
     width: 60px;
-    /* border-radius: 50%; */
 }
 
 .test {
-    /* display: flex;
-    justify-content: flex-end;*/
     background-color: red;
-    /* margin-top: 0px; */
-    /* margin-bottom: 0px; */
-    /* height: 100%; */
-    /* display: block; */
-    /* position: fixed; */
-    /* bottom: 30px; */
-    /* left: 10px;  */
-    /* margin-top: auto; */
-    /* display: grid; */
-    /* grid-gap: 10px; */
-    /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
 }
 
 .noMargin {
     margin-bottom: 0px;
 }
-
-
 
 .Name {
     font-size: 23px;
@@ -114,18 +102,6 @@
     justify-content: center;
 }
 
-.test1 {
-    /* background-color: blue; */
-    /* height: 100%; */
-    /* position: absolute;
-    right: 40%;
-    bottom: 50px; */
-}
-
-.test2 {
-    /* position: absolute; */
-    /* bottom:  1px; */
-}
 
 .textTopAthlets {
     font-family: Inter;
@@ -142,10 +118,11 @@
 
 #searchAtletRow {
     margin-top: 5vh;
-    margin-left: 5vh;
+    margin-left: 1.5vh;
     margin-right: 5vh;
     display: flex;
     justify-content: space-between;
+    width: 100%;
 }
 
 #searchAtlet {
@@ -156,9 +133,9 @@
     height: 100%;
     align-items: center;
     justify-content: center;
- 
 }
-.inputDiv{
+
+.inputDiv {
     width: 400px;
     display: inline-block;
     margin-left: 20px;
@@ -167,7 +144,7 @@
 #addNewButtonAtlet {
     width: 177px;
     height: 46px;
-    /* top: 298px; */
+    top: 298px;
     background: #1a1a1a;
     border-radius: 8px;
     font-family: Inter;
@@ -177,25 +154,32 @@
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: #44dabd;
-    /* float: right; */
+    margin-right: 3vh;
 }
 
+#rowLTitle {
+    margin-left: 1vh;
+}
 
 @media only screen and (max-width: 992px) {
     #addNewButtonAtlet {
         width: 100%;
         margin-top: 10px;
+        margin-right: 1vh;
         /* background-color: red; */
     }
-    .inputDiv{
+    .inputDiv {
         width: 100%;
         display: inline-block;
         margin-left: 10px;
     }
+    .centerPaginationAtlet {
+        /* background-color: red; */
+    }
 }
 
-@media only screen and (min-width: 992px) {
-    .test1 {
+@media only screen and (min-width: 1500px) {
+    .paginationTop {
         position: absolute;
         right: 40%;
         bottom: 50px;
@@ -203,3 +187,10 @@
  
 }
  
+
+
+@media only screen and (max-height: 680px) {
+    .paginationTop {
+        position: initial;
+    }
+}

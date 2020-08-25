@@ -25,6 +25,8 @@ import ApexChart from './EventsDetailsChart/EventsDetailsChart';
 import EventsDetailsFusioncharts from './EventsDetailsFusioncharts/EventsDetailsFusioncharts';
 import ApexChart2 from './EventsDetailsApexChart/EventsDetailsApexChart';
 import moment from 'moment';
+import ReactApexChart from "react-apexcharts";
+
 
 
 class EventsDetails extends React.Component {
@@ -59,6 +61,71 @@ class EventsDetails extends React.Component {
       HartRateCheck: false,
       CaloriesCheck: false,
       SpeedCheck: false,
+      DistanceCheck: false,
+
+      selectedElements: [],
+      selectedElementsID: [],
+      selectedElementsName: [],
+      detrimischart: [],
+
+      series: [
+        {
+          name: 'Heart Rate',
+          data: [0,0,0,0],
+        },
+        {
+          name: 'Calories',
+          data: [0,0,0,0],
+        },
+        {
+          name: 'Av. Speed',
+          data: [0,0,0,0],
+        },
+        {
+          name: 'Distance',
+          data: [0,0,0,0],
+        }
+      ],
+      options: {
+        chart: {
+          height: 350,
+          type: 'bar',
+          events: {
+            click: function (chart, w, e) {
+              // console.log(chart, w, e)
+            }
+          }
+        },
+        colors: ['#000'],
+        plotOptions: {
+          bar: {
+            columnWidth: '45%',
+            distributed: true
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        legend: {
+          show: false
+        },
+        xaxis: {
+          categories: [
+            ['John', 'Doe'],
+            ['Joe', 'Smith'],
+            ['Jake', 'Williams'],
+            ['test', 'test']
+          ],
+          labels: {
+            style: {
+              // colors: colors,
+              fontSize: '12px'
+            }
+          }
+        }
+      },
+
+
       DistanceCheck: false
     };
 
@@ -66,6 +133,35 @@ class EventsDetails extends React.Component {
     this.checkBoxUser = this.checkBoxUser.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
+
+  modifica = () => {
+
+    const max = 90;
+    const min = 30;
+    const newSeries = [];
+
+    this.state.series.forEach(s => {
+      const data = s.data.map(() => {
+        return 33;
+       
+      });
+      newSeries.push({ data: data });
+    });
+    // console.log('viteza: ', Math.floor(Math.random() * (max - min + 1)) + min)
+
+    this.setState({
+      series: newSeries,
+      options: {
+        xaxis: {
+          categories: this.state.detrimischart,
+
+        }
+      },
+    })
+  }
+
+
+
 
   receivedData() {
     // axios.get(serverUrl + `api/event/11`, {
@@ -89,6 +185,18 @@ class EventsDetails extends React.Component {
         },
       })
       .then((result) => {
+
+        const myMapID = new Map();
+        result.data.members.map((el_member) => {
+          myMapID.set(el_member.id, false);
+        });
+
+        const myMapName = new Map();
+        result.data.members.map((el_member) => {
+          myMapName.set(el_member.id, el_member.first_name);
+        });
+
+
 
         this.setState({
           data: result.data,
@@ -181,10 +289,71 @@ class EventsDetails extends React.Component {
     // const value = target.name === 'isGoing' ? target.checked : target.value;
     const value = target.checked;
     const name = target.name;
-
+    // console.log('name: ', name)
     this.setState({
       [name]: value
     });
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////////////////// checkbox
+  onCheckedHandler(id) {
+
+    // const myMapName = new Map();
+    // this.state.data.members.map((el_member) => {
+    //   myMapName.set(el_member.id, el_member.first_name);
+    // });
+    // selectedElementsName: myMapName,
+    // console.log('dsaffasafs', myMapName)
+
+    const aux = this.state.selectedElements;
+    const auxName = this.state.selectedElementsName;
+    // console.log('aux id : ', aux)
+    var arr1 = [];
+    if (!aux.get(id)) {
+
+      aux.set(id, !aux.get(id));
+      // console.log('ce i asta ma? (fare true) ', auxName.get(id))
+      this.state.detrimischart.push(auxName.get(id))
+      this.setState({
+        selectedElements: aux,
+        // detrimischart: arr1
+      });
+
+      // this.state.detrimischart.pop()
+
+    } else if (aux.get(id)) {
+
+      aux.set(id, !aux.get(id));
+      // console.log('ce i asta ma2? (fare false) ', auxName.get(id))
+      this.state.detrimischart.pop(auxName.get(id))
+      this.setState({
+        selectedElements: aux,
+        // detrimischart: auxName.get(id)
+      });
+
+    }
+    // this.state.detrimischart.push(auxName.get(id))
+
+    // console.log('da: ', this.state.selectedElements)
+    // this.verifySelectedAll();
+  }
+
+  verifySelectedAll() {
+    const aux = this.state.selectedElements;
+    let count = 0;
+    for (let [key, value] of aux) {
+      if (value) {
+        count++;
+      }
+    }
+    // if (count === this.state.selectedElements.size) {
+    //   this.setState({ selectAllElements: true });
+    // }
+    // if (count > 1) {
+    //   this.setState({ deleteMultiple: true });
+    // } else {
+    //   this.setState({ deleteMultiple: false });
+    // }
   }
 
 
@@ -201,7 +370,7 @@ class EventsDetails extends React.Component {
         <Row>
           <Col md={12} className="topEvents">
             <p>
-              {" "}
+
               <b>
                 <span className="spanEvent">Events &#62;</span> {this.state.useArray.name}
               </b>
@@ -283,8 +452,7 @@ class EventsDetails extends React.Component {
               <Col className="listUsers">
 
 
-                {console.log('dsafjjagsf', this.state.data.member_event)}
-
+                {/* {console.log('dsafjjagsf', this.state.data)} */}
 
                 {
                   (this.state.useArray.members || []).map((el_member) => {
@@ -308,6 +476,11 @@ class EventsDetails extends React.Component {
                                   type="checkbox"
                                   checked={this.state.userCheckBox}
                                   onChange={this.handleInputChange}
+                                /> 
+                                {/* {console.log('arata tot-----: ', el_member)} */}
+                                <Checkbox
+                                  onChange={() => this.onCheckedHandler(el_member.id)}
+                                  checked={this.state.selectedElements.get(el_member.id)}
                                 />
                               </Col>
                               : null
@@ -330,7 +503,7 @@ class EventsDetails extends React.Component {
 
 
 
-
+                {/* {console.log('miracol ', this.state.detrimischart)} */}
 
 
                 {/* <Row className="user">
@@ -441,7 +614,18 @@ class EventsDetails extends React.Component {
                 </Col>
 
                 <Col md={12}>
-                  <ApexChart />
+                  {/* <ApexChart name={this.state.detrimischart} data={33} /> */}
+                  <div id="chart">
+
+                    {/* {console.log('data: ', this.props.data)} */}
+
+                    <button onClick={() => this.modifica()}>update</button>
+
+                    {/* {console.log('props: ', this.state.detrimischart)} */}
+
+                    <ReactApexChart options={this.state.options} series={this.state.series} type="bar" height={350} />
+
+                  </div>
                 </Col>
               </>
               : null
