@@ -4,8 +4,11 @@ import classes from './AthletesAdd.module.css';
 import axios from "axios";
 import serverUrl from "../../url";
 import Dropzone from "react-dropzone-uploader";
+import "react-dropzone-uploader/dist/styles.css";
+import {
 
-
+    Select,
+} from "semantic-ui-react";
 // import * as Yup from "yup";
 // import { Formik, Field, ErrorMessage, Form } from "formik";
 
@@ -16,8 +19,8 @@ class AthletesAdd extends Component {
             id: '',
             name: '',
             email: '',
-            primary_sports: '',
-            secondary_sports: '',
+            primarySport: '',
+            secondarySport: '',
             gender: '',
             age: '',
             height: '',
@@ -33,14 +36,14 @@ class AthletesAdd extends Component {
             email: '',
             gender: '',
             age: null,
-            primary_sport_id: null,
-            secondary_sport_id: null,
+            primarySport: '',
+            secondarySport: '',
             weight: null,
             height: null,
             clubs: [],
             password: '',
             confirm_password: '',
-            profile_photo: ''
+            profile_photo: {}
         },
         mailMap: new Map(),
         event: {
@@ -53,27 +56,57 @@ class AthletesAdd extends Component {
             profile_photo: {},
             club: "",
         },
+        clubOptions: [{ key: 1, text: "dada", value: 1 }]
+    }
+    receivedData() {
+        const obj = {
+            role_id: parseInt(localStorage.getItem("role")),
+            user_id: parseInt(localStorage.getItem("user_id")),
+        };
+        // console.log(obj);
+        axios
+            .post(serverUrl + "api/club/list", obj, {
+                headers: {
+                    Authorization: localStorage.getItem("user"),
+                },
+            })
+            .then((res) => {
+                // console.log(res);
+                const arr = [];
+                res.data.map((value) => {
+                    const obj = {
+                        key: value.id,
+                        text: value.name,
+                        value: value.id,
+                    };
+                    arr.push(obj);
+                });
+                this.setState({ clubOptions: arr });
+            });
+    }
+    componentDidMount() {
+        this.receivedData();
     }
 
     postData() {
         const sendData = this.state.atletUser;
         sendData.age = parseInt(sendData.age);
-        sendData.primary_sport_id = parseInt(sendData.primary_sport_id);
-        sendData.secondary_sport_id = parseInt(sendData.secondary_sport_id);
+        // sendData.primarySport = parseInt(sendData.primarySport);
+        // sendData.secondarySport = parseInt(sendData.secondarySport);
         sendData.weight = parseInt(sendData.weight);
         sendData.height = parseInt(sendData.height);
-        sendData.profile_photo = { type: "Buffer", data: [] };
+
         // sendData.id = parseInt(sendData.id);
         // const arr = [];
         // for (let [key, value] of this.state.mailMap) {
         //     arr.push(value);
         // }
         // sendData.clubs = arr;
-        console.log('send data add : ', sendData);
+        // console.log('send data add : ', sendData);
 
         this.setState({ atletUser: sendData });
 
-        console.log(' dsafdsaf add ', this.state.atletUser);
+        // console.log(' dsafdsaf add ', this.state.atletUser);
 
         axios
             .post(serverUrl + "api/user/create", this.state.atletUser, {
@@ -82,7 +115,7 @@ class AthletesAdd extends Component {
                 },
             })
             .then((res) => {
-                console.log('data add: ', res);
+                // console.log('data add: ', res);
             });
     }
 
@@ -102,9 +135,16 @@ class AthletesAdd extends Component {
         })
 
     }
+    onChangeClub(e, val) {
+        const train = this.state.atletUser;
+        train._clubs = val;
+        this.setState({ atletUser: train });
+        
+        console.log(this.state. atletUser);
+    }
 
     HandlerEventADD_FILE = (event) => {
-
+        // console.log(event)
         // const value = event.target.value;
         const name = event.target.name;
 
@@ -137,11 +177,8 @@ class AthletesAdd extends Component {
     }
 
     handleChangeStatus(img) {
-        const aux = this.state.event;
-        aux.profile_photo = {
-            type: img.file.type,
-            link: img.meta.previewUrl,
-        };
+        const aux = this.state.atletUser;
+
 
         let file = img.file;
         let reader = new FileReader();
@@ -152,7 +189,15 @@ class AthletesAdd extends Component {
             });
         };
 
-        this.setState({ event: aux });
+        aux.profile_photo = {
+            type: img.file.type,
+            link: this.state.base64,
+        };
+        this.setState({
+            atletUser: aux,
+        });
+
+        // console.log(this.state.atletUser.profile_photo)
     }
 
     changeFile(value) {
@@ -172,9 +217,7 @@ class AthletesAdd extends Component {
                 </Modal.Header>
                 <Modal.Body className="show-grid">
 
-                    {/* <Formik
 
-                        render={({ errors, status, touched }) => ( */}
 
                     <Form onSubmit={(e) => this.onSubmit(e)}>
 
@@ -189,7 +232,6 @@ class AthletesAdd extends Component {
                                 <Form.Label>first name</Form.Label>
                                 <Form.Control
                                     id="field"
-                                    // isValid
                                     required
                                     name="first_name"
                                     type="text"
@@ -202,7 +244,6 @@ class AthletesAdd extends Component {
                                 <Form.Label>last name</Form.Label>
                                 <Form.Control
                                     id="field"
-                                    // isValid
                                     required
                                     name="last_name"
                                     type="text"
@@ -217,7 +258,6 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridEmailAdress">
                                 <Form.Label>Email Adress</Form.Label>
                                 <Form.Control
-                                    // isValid
                                     id="field"
                                     required
                                     name="email"
@@ -232,7 +272,7 @@ class AthletesAdd extends Component {
                             <Form.Group as={Col} controlId="formGridPrimarySports">
                                 <Form.Label>Primary Sports</Form.Label>
                                 <Form.Control
-                                    // required
+                                    required
                                     id="field"
                                     name="primarySport"
                                     type="text"
@@ -245,7 +285,7 @@ class AthletesAdd extends Component {
                                 <Form.Label>Secondary Sports</Form.Label>
                                 <Form.Control
                                     id="field"
-                                    // required
+                                    required
                                     name="secondarySport"
                                     type="text"
                                     value={this.state.atletUser.secondarySport}
@@ -265,7 +305,7 @@ class AthletesAdd extends Component {
                                 <Form.Label>Gender</Form.Label>
                                 <Form.Control
                                     id="field"
-                                    // required
+                                    required
                                     name="gender"
                                     type="text"
                                     value={this.state.atletUser.gender}
@@ -277,7 +317,7 @@ class AthletesAdd extends Component {
                                 <Form.Label>Age</Form.Label>
                                 <Form.Control
                                     id="field"
-                                    // required
+                                    required
                                     name="age"
                                     type="number"
                                     value={this.state.atletUser.age}
@@ -291,7 +331,7 @@ class AthletesAdd extends Component {
                                 <Form.Label>Height</Form.Label>
                                 <Form.Control
                                     id="field"
-                                    // required
+
                                     name="height"
                                     type="number"
                                     value={this.state.atletUser.height}
@@ -318,7 +358,7 @@ class AthletesAdd extends Component {
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control
                                     id="field"
-                                    // isInvalid
+
                                     required
                                     name="password"
                                     type="text"
@@ -331,7 +371,7 @@ class AthletesAdd extends Component {
                                 <Form.Label>Confirm Password</Form.Label>
                                 <Form.Control
                                     id="field"
-                                    // isInvalid
+
                                     required
                                     name="confirm_password"
                                     type="text"
@@ -343,18 +383,20 @@ class AthletesAdd extends Component {
                         </Form.Row>
 
 
-                        {/* <Form.Group controlId="formGridAddress1">
-                                <Form.Label>Address</Form.Label>
-                                <Form.Control placeholder="1234 Main St" />
-                                </Form.Group> */}
+
 
                         <Form.Group as={Col} controlId="formGridAssignToClub">
                             <Form.Label>Assign To a Club</Form.Label>
-                            <Form.Control id="field" required name="club_name" as="select" defaultValue="club 1" onChange={this.HandlerEventADD}>
-                                <option value="club 1">Club 1</option>
-                                <option value="club 2">Club 2</option>
-                                <option value="club 3">Club 3</option>
-                            </Form.Control>
+
+                            <Select
+                            multiple
+                                fluid
+                                id="field"
+                                defaultValue={this.state.clubOptions[0].value}
+                                options={this.state.clubOptions}
+                                onChange={(e, { value }) => this.onChangeClub(e, value)}
+
+                            />
                         </Form.Group>
 
 
@@ -362,7 +404,7 @@ class AthletesAdd extends Component {
                             <Form.Label>Avatar Image</Form.Label>
                             <Form.File id="formcheck-api-custom" custom>
 
-                                <Form.File.Input
+                                {/* <Form.File.Input
                                     id="field"
                                     // isValid 
                                     required
@@ -371,13 +413,13 @@ class AthletesAdd extends Component {
 
                                     onChange={this.HandlerEventADD_FILE}
                                 />
-                                <Form.File.Label data-browse="Button text" id="field">
+                                <Form.File.Label data-browse="Button text" id="field" >
                                     Custom file input
-                                </Form.File.Label>
+                                </Form.File.Label> */}
 
                                 {/* <Form.Control.Feedback type="valid">You did it!</Form.Control.Feedback> */}
 
-                                {/* <Dropzone
+                                <Dropzone
                                     onChangeStatus={(val) => {
                                         this.handleChangeStatus(val);
                                     }}
@@ -387,7 +429,7 @@ class AthletesAdd extends Component {
                                     styles={{
                                         dropzone: { minHeight: 50, maxHeight: 50 },
                                     }}
-                                /> */}
+                                />
                             </Form.File>
                         </Form.Group>
 
@@ -407,7 +449,7 @@ class AthletesAdd extends Component {
                                 // }
                                 id={classes.BtnSave}>
                                 Save
-                        </Button>
+                            </Button>
                         </div>
 
                     </Form>

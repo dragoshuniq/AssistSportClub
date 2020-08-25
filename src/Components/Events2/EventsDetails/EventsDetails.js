@@ -8,7 +8,7 @@ import {
   Icon,
   Divider,
   Pagination,
-  Image,
+  Image
 } from "semantic-ui-react";
 import "./EventsDetails.css";
 // import EventsEdit from "../EventsEdit/EventsEdit";
@@ -25,8 +25,6 @@ import ApexChart from './EventsDetailsChart/EventsDetailsChart';
 import EventsDetailsFusioncharts from './EventsDetailsFusioncharts/EventsDetailsFusioncharts';
 import ApexChart2 from './EventsDetailsApexChart/EventsDetailsApexChart';
 import moment from 'moment';
-import ReactApexChart from "react-apexcharts";
-
 
 
 class EventsDetails extends React.Component {
@@ -57,6 +55,7 @@ class EventsDetails extends React.Component {
       deleteModalShow: false,
       showListParticipants: false,
       showChart: false,
+
       userCheckBox: false,
       HartRateCheck: false,
       CaloriesCheck: false,
@@ -66,67 +65,7 @@ class EventsDetails extends React.Component {
       selectedElements: [],
       selectedElementsID: [],
       selectedElementsName: [],
-      detrimischart: [],
-
-      series: [
-        {
-          name: 'Heart Rate',
-          data: [0,0,0,0],
-        },
-        {
-          name: 'Calories',
-          data: [0,0,0,0],
-        },
-        {
-          name: 'Av. Speed',
-          data: [0,0,0,0],
-        },
-        {
-          name: 'Distance',
-          data: [0,0,0,0],
-        }
-      ],
-      options: {
-        chart: {
-          height: 350,
-          type: 'bar',
-          events: {
-            click: function (chart, w, e) {
-              // console.log(chart, w, e)
-            }
-          }
-        },
-        colors: ['#000'],
-        plotOptions: {
-          bar: {
-            columnWidth: '45%',
-            distributed: true
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        legend: {
-          show: false
-        },
-        xaxis: {
-          categories: [
-            ['John', 'Doe'],
-            ['Joe', 'Smith'],
-            ['Jake', 'Williams'],
-            ['test', 'test']
-          ],
-          labels: {
-            style: {
-              // colors: colors,
-              fontSize: '12px'
-            }
-          }
-        }
-      },
-
-
-      DistanceCheck: false
+      detrimischart: []
     };
 
     this.handlePageClick = this.handlePageClick.bind(this);
@@ -134,49 +73,10 @@ class EventsDetails extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  modifica = () => {
-
-    const max = 90;
-    const min = 30;
-    const newSeries = [];
-
-    this.state.series.forEach(s => {
-      const data = s.data.map(() => {
-        return 33;
-       
-      });
-      newSeries.push({ data: data });
-    });
-    // console.log('viteza: ', Math.floor(Math.random() * (max - min + 1)) + min)
-
-    this.setState({
-      series: newSeries,
-      options: {
-        xaxis: {
-          categories: this.state.detrimischart,
-
-        }
-      },
-    })
-  }
-
-
 
 
   receivedData() {
-    // axios.get(serverUrl + `api/event/11`, {
-    //   headers: {
-    //     Authorization: localStorage.getItem("user"),
-    //   },
-    // })
-    //   .then((res) => {
-    //     this.setState({ data: res.data });
-    //     console.log('fdsafsadjkblhjs: ', res)
-    //     console.log('fdsafsadjkblhjs: ', this.state.data)
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+
 
     axios
       .get(serverUrl + `api/event/${this.props.id}`, {
@@ -196,47 +96,72 @@ class EventsDetails extends React.Component {
           myMapName.set(el_member.id, el_member.first_name);
         });
 
-
+     
 
         this.setState({
           data: result.data,
           useArray: result.data,
+          selectedElements: myMapID,
+          selectedElementsID: myMapID,
+          selectedElementsName: myMapName,
           event: result.data,
 
         });
 
-        console.log('events details !!!!!! ..... ', result.data);
-        // console.log('data=',this.state.data);
-        // this.setState({ totalPosts: Math.ceil(result.data.length / 4) });
+        // console.log('myMapID: ',this.state.selectedElementsID)
+        // console.log('myMapName: ',this.state.selectedElementsName)
+        // console.log('ia id: ',this.state.selectedElementsID.get(20) )
+        // console.log('ia nume: ',this.state.selectedElementsName.get(21) )
 
-        // const slice = result.data.slice(
-        //   this.state.offset,
-        //   this.state.offset + this.state.postsPerPage
-        // );
+        // this.state.selectedElementsName.map( (el) => {
+        //   return(console.log(el));
+        // } )
 
-        // this.setState({ useArray: slice });
-        // this.setState({ result: slice });
+        // for (let [key, value] of this.state.selectedElementsName) {
+        //   console.log(value);
+        // }
 
-        // console.log(result);
+        // console.log('events details !!!!!! ..... ', result.data);
+        // console.log('events details !!!!!! ..... ', this.state.selectedElementsName);
       });
+    //https://next.json-generator.com/api/json/get/4JmB44DzY
+
+    // axios
+    //   .get(`https://next.json-generator.com/api/json/get/4JmB44DzY`)
+    //   .then((result) => {
+
+    //     const myMap = new Map();
+    //     (result.data.members || []).map((el_member) => {
+    //       myMap.set(el_member.id_member, false);
+    //     });
+
+
+
+
+
+    //     this.setState({
+    //       data: result.data,
+    //       useArray: result.data,
+    //       selectedElements: myMap
+    //     });
+
+    //     // console.log('events details !!!!!! ..... ', this.state.selectedElements);
+    //     // console.log('events details !!!!!! ..... ', result.data);
+
+    //   });
 
   }
 
 
-  // componentWillReceiveProps(newprops){
-  //   if(this.props !== newprops){
-  //     console.log(this.props, newprops);
-  //   }
-  // }
   componentDidMount() {
-    // console.log("props: ", this.props);
+
     this.receivedData();
   }
 
 
   handlePageClick = (e, { activePage }) => {
     const selectedPage = activePage;
-    //console.log("e.target.value", activePage);
+
 
     const offset = (selectedPage - 1) * this.state.postsPerPage;
 
@@ -289,7 +214,7 @@ class EventsDetails extends React.Component {
     // const value = target.name === 'isGoing' ? target.checked : target.value;
     const value = target.checked;
     const name = target.name;
-    // console.log('name: ', name)
+console.log('name: ', name)
     this.setState({
       [name]: value
     });
@@ -307,12 +232,12 @@ class EventsDetails extends React.Component {
 
     const aux = this.state.selectedElements;
     const auxName = this.state.selectedElementsName;
-    // console.log('aux id : ', aux)
+    console.log('aux id : ', aux)
     var arr1 = [];
     if (!aux.get(id)) {
 
       aux.set(id, !aux.get(id));
-      // console.log('ce i asta ma? (fare true) ', auxName.get(id))
+      console.log('ce i asta ma? (fare true) ', auxName.get(id))
       this.state.detrimischart.push(auxName.get(id))
       this.setState({
         selectedElements: aux,
@@ -320,17 +245,16 @@ class EventsDetails extends React.Component {
       });
 
       // this.state.detrimischart.pop()
-
+      
     } else if (aux.get(id)) {
-
+      
       aux.set(id, !aux.get(id));
-      // console.log('ce i asta ma2? (fare false) ', auxName.get(id))
+      console.log('ce i asta ma2? (fare false) ', auxName.get(id))
       this.state.detrimischart.pop(auxName.get(id))
       this.setState({
         selectedElements: aux,
         // detrimischart: auxName.get(id)
       });
-
     }
     // this.state.detrimischart.push(auxName.get(id))
 
@@ -370,7 +294,7 @@ class EventsDetails extends React.Component {
         <Row>
           <Col md={12} className="topEvents">
             <p>
-
+              {" "}
               <b>
                 <span className="spanEvent">Events &#62;</span> {this.state.useArray.name}
               </b>
@@ -442,6 +366,7 @@ class EventsDetails extends React.Component {
                     <Button
                       id="addNewButtonEventDetail"
                       onClick={() => this.setState({ showChart: true })}
+
                     >
                       Done
                   </Button>
@@ -452,7 +377,8 @@ class EventsDetails extends React.Component {
               <Col className="listUsers">
 
 
-                {/* {console.log('dsafjjagsf', this.state.data)} */}
+                {/* {console.log('dsafjjagsf', this.state.data.member_event)} */}
+
 
                 {
                   (this.state.useArray.members || []).map((el_member) => {
@@ -461,23 +387,24 @@ class EventsDetails extends React.Component {
                         <Row className="user">
                           <Col className="imgColEventSt">
                             <img className="cartImgEvent2" src={this.state.poza} />
-                            <p className="pEvents">{el_member.name_member}</p>
+                            <p className="pEvents">{el_member.first_name}</p>
                           </Col>
 
                           {
                             this.state.showListParticipants === true ?
-                              <Col className="imgColEventDr">
-                                <input
+                              <Col md={1} className="imgColEventDr">
+                                {/* <input
                                   // type="checkbox"
                                   // checked={this.state.userCheckBox}
                                   // onChange={this.checkBoxUser}
                                   // name={el_member.name_member}
-                                  name={el_member.id_member}
+                                  name={el_member.name_member}
                                   type="checkbox"
-                                  checked={this.state.userCheckBox}
+                                  // checked={this.state.userCheckBox}
+                                  checked={el_member.isChecked}
                                   onChange={this.handleInputChange}
-                                /> 
-                                {/* {console.log('arata tot-----: ', el_member)} */}
+                                /> */}
+                                {console.log('arata tot-----: ',el_member)}
                                 <Checkbox
                                   onChange={() => this.onCheckedHandler(el_member.id)}
                                   checked={this.state.selectedElements.get(el_member.id)}
@@ -485,13 +412,13 @@ class EventsDetails extends React.Component {
                               </Col>
                               : null
                           }
+                          {/* {console.log(el_member)} */}
+                          {/* {console.log(this.state.selectedElements)} */}
 
-                          {this.state.userCheckBox.toString()
-                          }
 
 
                           <Col className="p2Events" md={12}>
-                            {el_member.gender_member}
+                            {el_member.gender} - {el_member.age}
                           </Col>
                         </Row>
                       </>
@@ -500,10 +427,11 @@ class EventsDetails extends React.Component {
                 }
 
 
+                {/* {console.log('events details !!!!!! ..... ', this.state.data)} */}
 
 
 
-                {/* {console.log('miracol ', this.state.detrimischart)} */}
+                {console.log('miracol ', this.state.detrimischart)}
 
 
                 {/* <Row className="user">
@@ -511,7 +439,6 @@ class EventsDetails extends React.Component {
                     <img className="cartImgEvent2" src={this.state.poza} />
                     <p className="pEvents">Harold Howard</p>
                   </Col>
-
                   {
                     this.state.showListParticipants === true ?
                       <Col className="imgColEventDr">
@@ -519,7 +446,6 @@ class EventsDetails extends React.Component {
                       </Col>
                       : null
                   }
-
                   <Col className="p2Events" md={12}>
                     Male • 26 years
                   </Col>
@@ -603,7 +529,7 @@ class EventsDetails extends React.Component {
                           <p>Distance</p>
                         </Col>
                       </Row>
-
+                      {this.state.selectedElements}
                     </Col>
 
                   </Row>
@@ -614,18 +540,7 @@ class EventsDetails extends React.Component {
                 </Col>
 
                 <Col md={12}>
-                  {/* <ApexChart name={this.state.detrimischart} data={33} /> */}
-                  <div id="chart">
-
-                    {/* {console.log('data: ', this.props.data)} */}
-
-                    <button onClick={() => this.modifica()}>update</button>
-
-                    {/* {console.log('props: ', this.state.detrimischart)} */}
-
-                    <ReactApexChart options={this.state.options} series={this.state.series} type="bar" height={350} />
-
-                  </div>
+                  <ApexChart name={this.state.detrimischart} data={33} />
                 </Col>
               </>
               : null
@@ -638,7 +553,6 @@ class EventsDetails extends React.Component {
               onHide={() => this.setState({ addModalShow: false })}
             />
           )}
-
           {this.state.confirmModalShow && (
             <EventsAddedMessage
               show={this.state.confirmModalShow}
@@ -646,9 +560,7 @@ class EventsDetails extends React.Component {
               club={this.state.addedClub}
             />
           )}
-
         
-
           {this.state.addAthletesShow && (
             <AthletesAdd
               show={this.state.addAthletesShow}

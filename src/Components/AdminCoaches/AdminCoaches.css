@@ -173,6 +173,8 @@ left: 46%; */
   border-radius: 8px;
 }
 
+
+
 @media only screen and (min-width: 992px) {
   .test1 {
       position: absolute;
