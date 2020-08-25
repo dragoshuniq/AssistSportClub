@@ -72,7 +72,7 @@ class Events extends React.Component {
       this.state.offset + this.state.postsPerPage
     );
     const myMap = new Map();
-    slice.map((res) => {
+    (slice || []).map((res) => {
       myMap.set(res.id, false);
     });
 
@@ -105,7 +105,7 @@ class Events extends React.Component {
       this.state.offset + this.state.postsPerPage
     );
     const myMap = new Map();
-    slice.map((res) => {
+    (slice || []).map((res) => {
       myMap.set(res.id, false);
     });
 
@@ -129,7 +129,7 @@ class Events extends React.Component {
         var arrOnGoing = [];
         var arrPast = [];
         var arrFuture = [];
-        result.data.map((el) => {
+        (result.data || []).map((el) => {
 
           if (moment(el.date).format('YYYY') === '2020') {
             arrOnGoing.push(el);
@@ -169,7 +169,7 @@ class Events extends React.Component {
     if (value.length !== 0) {
       const clubUpper = value.toUpperCase();
       const searchArray = [];
-      this.state.data.map((res) => {
+      (this.state.data || []).map((res) => {
         if (res.name.toUpperCase().includes(clubUpper)) {
           searchArray.push(res);
         }
@@ -252,7 +252,7 @@ class Events extends React.Component {
           {
 
 
-            this.state.useArray.map((value, index) => {
+            (this.state.useArray || [] ).map((value, index) => {
               var str = value.location.split(",");
               return (
 

@@ -73,19 +73,19 @@ class EventsDetails extends React.Component {
       series: [
         {
           name: 'Heart Rate',
-          data: [10, 22, 10, 16],
+          data: [11, 11, 11, 11],
         },
         {
           name: 'Calories',
-          data: [14, 44, 34, 22],
+          data: [22, 22, 22, 22],
         },
         {
           name: 'Av. Speed',
-          data: [42, 21, 52, 59],
+          data: [44, 44, 44, 44],
         },
         {
           name: 'Distance',
-          data: [9, 16, 33, 4],
+          data: [33, 33, 33, 33],
         }
       ],
       options: {
@@ -146,12 +146,14 @@ class EventsDetails extends React.Component {
       .then((result) => {
 
         const myMapID = new Map();
-        result.data.members.map((el_member) => {
+        (result.data.members || []).map((el_member) => {
           myMapID.set(el_member.id, false);
         });
 
+        console.log('aaaaaaaaaaaaa', result.data.members)
+
         const myMapName = new Map();
-        result.data.members.map((el_member) => {
+        (result.data.members || []).map((el_member) => {
           myMapName.set(el_member.id, el_member.first_name);
         });
 
@@ -164,6 +166,7 @@ class EventsDetails extends React.Component {
           event: result.data,
 
         });
+        this.modifica();
 
       });
 
@@ -196,7 +199,7 @@ class EventsDetails extends React.Component {
     if (value.length !== 0) {
       const clubUpper = value.toUpperCase();
       const searchArray = [];
-      this.state.data.map((res) => {
+      (this.state.data || []).map((res) => {
         if (res.name.toUpperCase().includes(clubUpper)) {
           searchArray.push(res);
         }
@@ -228,7 +231,7 @@ class EventsDetails extends React.Component {
     // const value = target.name === 'isGoing' ? target.checked : target.value;
     const value = target.checked;
     const name = target.name;
-    console.log('name: ', name)
+    // console.log('name: ', name)
     this.setState({
       [name]: value
     });
@@ -239,12 +242,12 @@ class EventsDetails extends React.Component {
 
     const aux = this.state.selectedElements;
     const auxName = this.state.selectedElementsName;
-    console.log('aux id : ', aux)
+    // console.log('aux id : ', aux)
     var arr1 = [];
     if (!aux.get(id)) {
 
       aux.set(id, !aux.get(id));
-      console.log('ce i asta ma? (fare true) ', auxName.get(id))
+      // console.log('ce i asta ma? (fare true) ', auxName.get(id))
       this.state.detrimischart.push(auxName.get(id))
       this.setState({
         selectedElements: aux,
@@ -253,7 +256,7 @@ class EventsDetails extends React.Component {
     } else if (aux.get(id)) {
 
       aux.set(id, !aux.get(id));
-      console.log('ce i asta ma2? (fare false) ', auxName.get(id))
+      // console.log('ce i asta ma2? (fare false) ', auxName.get(id))
       this.state.detrimischart.pop(auxName.get(id))
       this.setState({
         selectedElements: aux,
@@ -280,24 +283,52 @@ class EventsDetails extends React.Component {
     const min = 30;
     const newSeries = [];
 
-    this.state.series.forEach(s => {
-      const data = s.data.map(() => {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-      });
-      newSeries.push({ data: data });
-    });
+    // var i =0;
+    // for (i=0; i<= ){
+    //   return  console()
+    // }
+    var heart = [];
+    var cal = [];
+    var speed = [];
+    var dist = [];
+    var first = [];
+    (this.state.data.members || []).map((el) => {
+      heart.push(el.workout[0]);
+      cal.push(el.workout[1]);
+      speed.push(el.workout[2]);
+      dist.push(el.workout[3]);
+      first.push([el.first_name, el.last_name]);
 
-    console.log('viteza: ', Math.floor(Math.random() * (max - min + 1)) + min)
+    }
+    )
+    const css = this.state.series;
+    css[0].data = heart;
+    css[1].data = cal;
+    css[2].data = speed;
+    css[3].data = dist;
+    const opt = this.state.options;
+    opt.xaxis.categories = first;
+    this.setState({ series: css, options: opt })
+    console.log(this.state.series);
 
-    this.setState({
-      series: newSeries,
-      options: {
-        xaxis: {
-          categories: this.state.detrimischart,
+    // this.state.series.forEach(s => {
+    //   const data = s.data.map(() => {
+    //     return Math.floor(Math.random() * (max - min + 1)) + min;
+    //   });
+    //   newSeries.push({ data: data });
+    // });
 
-        }
-      },
-    })
+    // // console.log('viteza: ', Math.floor(Math.random() * (max - min + 1)) + min)
+
+    // this.setState({
+    //   series: newSeries,
+    //   options: {
+    //     xaxis: {
+    //       categories: this.state.detrimischart,
+
+    //     }
+    //   },
+    // })
   }
 
 
@@ -371,7 +402,7 @@ class EventsDetails extends React.Component {
                   this.state.showListParticipants === false ?
                     <Button
                       id="addNewButtonEventDetail"
-                      onClick={() => this.setState({ showListParticipants: !this.state.showListParticipants, showChart: true })}
+                      onClick={() => this.setState({ showListParticipants: !this.state.showListParticipants/*, showChart: true*/ })}
                     >
                       Compare performanc
                   </Button>
@@ -409,11 +440,11 @@ class EventsDetails extends React.Component {
                             this.state.showListParticipants === true ?
                               <Col md={1} className="imgColEventDr">
 
-                                {console.log('arata tot-----: ', el_member)}
-                                <Checkbox
+                                {/* {console.log('arata tot-----: ', el_member)} */}
+                                {/* <Checkbox
                                   onChange={() => this.onCheckedHandler(el_member.id)}
                                   checked={this.state.selectedElements.get(el_member.id)}
-                                />
+                                /> */}
                               </Col>
                               : null
                           }
@@ -434,79 +465,82 @@ class EventsDetails extends React.Component {
             </Row>
           </Col>
 
-          {
-            this.state.showChart === true ?
-              <>
-                <Col md={12}>
-                  <p className="particip2">Select metrics you want to be compared</p>
-                </Col>
+          {/* {
+            this.state.showChart === true ? */}
 
-                <Col md={12}>
-                  <Row>
+          <Col md={12}>
+            <p className="particip2">Select metrics you want to be compared</p>
+          </Col>
 
-                    <Col md={12} className="listUsers">
+          <Col md={12}>
+            <Row>
 
-                      <Row className="user">
-                        <Col md={1}>
-                          <input
+              <Col md={12} className="listUsers">
+
+                <Row className="user">
+                  <Col md={1}>
+                    {/* <input
                             name="HartRateCheck"
                             type="checkbox"
                             checked={this.state.HartRateCheck}
                             onChange={this.handleInputChange}
-                          ></input>
-                        </Col>
-                        <Col>
-                          <p>Heart Rate</p>
-                        </Col>
-                      </Row>
+                          ></input> */}
+                  </Col>
+                  <Col>
+                    <p>Heart Rate</p>
+                  </Col>
+                </Row>
 
-                      <Row className="user">
-                        <Col md={1}>
-                          <input
+                <Row className="user">
+                  <Col md={1}>
+                    {/* <input
                             name="CaloriesCheck"
                             type="checkbox"
                             checked={this.state.CaloriesCheck}
                             onChange={this.handleInputChange}
-                          ></input>
-                        </Col>
-                        <Col>
-                          <p>Calories</p>
-                        </Col>
-                      </Row>
+                          ></input> */}
+                  </Col>
+                  <Col>
+                    <p>Calories</p>
+                  </Col>
+                </Row>
 
-                      <Row className="user">
-                        <Col md={1}>
-                          <input
+                <Row className="user">
+                  <Col md={1}>
+                    {/* <input
                             name="SpeedCheck"
                             type="checkbox"
                             checked={this.state.SpeedCheck}
                             onChange={this.handleInputChange}
-                          ></input>
-                        </Col>
-                        <Col>
-                          <p>Av. Speed</p>
-                          {this.state.SpeedCheck}
-                        </Col>
-                      </Row>
+                          ></input> */}
+                  </Col>
+                  <Col>
+                    <p>Av. Speed</p>
+                    {this.state.SpeedCheck}
+                  </Col>
+                </Row>
 
-                      <Row className="user">
-                        <Col md={1}>
-                          <input
+                <Row className="user">
+                  <Col md={1}>
+                    {/* <input
                             name="DistanceCheck"
                             type="checkbox"
                             checked={this.state.DistanceCheck}
                             onChange={this.handleInputChange}
-                          ></input>
-                        </Col>
-                        <Col>
-                          <p>Distance</p>
-                        </Col>
-                      </Row>
-                    </Col>
+                          ></input> */}
+                  </Col>
+                  <Col>
+                    <p>Distance</p>
+                  </Col>
+                </Row>
+              </Col>
 
-                  </Row>
-                </Col>
+            </Row>
+          </Col>
 
+          {
+            this.state.showChart === true ?
+              <>
                 <Col md={12}>
                   <p className="particip2">Graph</p>
                 </Col>
