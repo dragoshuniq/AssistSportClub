@@ -31,7 +31,7 @@ function AddedConfirmModal(props) {
         }}
       >
         <div id="iconDone">
-        <FontAwesomeIcon icon={faCheckCircle} size="5x" />
+        <FontAwesomeIcon icon={faCheckCircle} size="5x"  />
 
         </div>
         <h1 id="coachAddedText"> Club Added </h1>
