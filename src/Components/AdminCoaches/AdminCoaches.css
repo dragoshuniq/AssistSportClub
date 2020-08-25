@@ -8,7 +8,6 @@
 
 #coachesText {
   /* inter/h2 */
-
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
@@ -109,6 +108,7 @@
   color: #44dabd;
 }
 #coachAddedText {
+  margin-top: 50px;
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
@@ -133,12 +133,28 @@
   justify-content: center;
   align-items: center;
 }
+#plutire{
+  /* background-color: red; */
+/* position: absolute;
+top: 0;
+left: 46%; */
+}
+
+#iconDone2 {
+  /* justify-content: center;
+  align-items: center;
+  text-align: center; */
+  background-color: red;
+  width: 100%;
+  display: block;
+}
 #iconDone {
   justify-content: center;
   align-items: center;
   text-align: center;
 }
 #closeButton {
+  background-color: blue;
   font-family: Inter;
   font-style: normal;
   font-weight: bold;
@@ -167,3 +183,27 @@
   }
 
 }
+
+#scrollTable{
+  overflow-x:auto;
+}
+
+#addNewButtonClub2 {
+  width: 177px;
+  height: 46px;
+  left: 1007px;
+  top: 298px;
+  background: #1a1a1a;
+  border-radius: 8px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #44dabd;
+  width: 100%;
+  margin-top: 20px;
+}
+ 

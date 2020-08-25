@@ -104,6 +104,8 @@ class EventsDetails extends React.Component {
           selectedElements: myMapID,
           selectedElementsID: myMapID,
           selectedElementsName: myMapName,
+          event: result.data,
+
         });
 
         // console.log('myMapID: ',this.state.selectedElementsID)

@@ -72,6 +72,7 @@
   flex-wrap: wrap;
   margin: 0px;
   padding: 0px;
+  
 }
 
 #directionRow {
@@ -79,11 +80,21 @@
 }
 
 #alignPencil {
-  justify-content: center;
-  align-content: center;
-  align-items: center;
+ 
+ 
   margin-top: 4vh;
+  /* background: blue; */
+  display: flex;
+  justify-content: flex-start;
+  justify-items: flex-start;
+  justify-self: flex-start;
+  float: left;
 }
+#iconClubT{
+  color: #000000;
+  float: left;
+}
+
 #coachTextDetails {
   font-family: Inter;
   font-style: normal;
@@ -100,6 +111,7 @@
 #memberClubCard {
   /* Auto Layout */
 
+  padding: 10px;
   width: 340px;
   height: 161px;
   background: #ffffff;
@@ -110,6 +122,7 @@
   flex: none;
   order: 0;
   align-self: center;
+
 }
 #membersButton {
   width: 170px;
@@ -161,6 +174,7 @@
   height: 100%;
   align-items: center;
   justify-content: center;
+  margin-left: 1.2vh ;
 }
 #memberName {
   font-family: Inter;
@@ -313,4 +327,19 @@ label {
   justify-content: center;
   display: flex;
   width: 100%;
+}
+
+#test{
+  /* background: red; */
+}
+
+@media only screen and (max-width: 992px) {
+
+  #addNewButtonClub {
+    width: 100%;
+   margin-top: 10px;
+  }
+
+  
+
 }

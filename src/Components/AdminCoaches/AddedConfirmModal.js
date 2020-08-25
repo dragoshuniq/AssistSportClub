@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Modal, Button as RButton } from "react-bootstrap";
+import { Col, Modal, Button as RButton, Row } from "react-bootstrap";
 import "./AdminCoaches.css";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import {
   InputGroup,
   FormControl,
@@ -29,14 +30,12 @@ function AddedConfirmModal(props) {
           justifyContent: "center",
         }}
       >
-        <div id="iconDone">
-          <Icon size="huge" name="check circle" color="black" />
+        <div id="iconDone" >
+          <FontAwesomeIcon icon={faCheckCircle} size="5x" />
         </div>
         <h1 id="coachAddedText"> Coach Added </h1>
         <p id="confirmText">
-          Athlete "{props.coach.name}" was added on Data Base
-      
-          {/* {props.coach.txt.lenght > 0 ? props.coach.txt.lenght : " Data Base"} */}
+          Coach "{props.coach.name}"" was added on "{props.coach.clubs}"
         </p>
         <div
           id="iconDone"
